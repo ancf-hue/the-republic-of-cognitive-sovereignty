@@ -1,0 +1,908 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>РКС — Паспорт гражданина</title>
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Times New Roman', serif;
+            background: linear-gradient(135deg, #0a0a0a 0%, #0a0a2a 40%, #0f0f3a 100%);
+            color: #c9a961;
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .container {
+            max-width: 820px; width: 100%;
+            background: rgba(201, 169, 97, 0.03);
+            border: 2px solid rgba(201, 169, 97, 0.25);
+            border-radius: 24px; padding: 40px 35px 35px;
+            position: relative; backdrop-filter: blur(4px);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
+        }
+        .container::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px;
+            background: linear-gradient(90deg, #c9a961, #f4e4d4, #c9a961);
+            border-radius: 24px 24px 0 0;
+        }
+        
+        /* ===== ОКНО ДЛЯ ФОТО 800x450 ===== */
+        .photo-frame {
+            width: 800px;
+            height: 450px;
+            max-width: 100%;
+            margin: 25px auto 15px;
+            position: relative;
+            border: 3px solid #c9a961;
+            border-radius: 10px;
+            padding: 10px;
+            background: linear-gradient(135deg, rgba(201,169,97,0.1) 0%, rgba(0,0,0,0.6) 100%);
+            box-shadow: 
+                0 0 25px rgba(201,169,97,0.5),
+                inset 0 0 20px rgba(201,169,97,0.2),
+                0 15px 40px rgba(0,0,0,0.8);
+            overflow: hidden;
+        }
+        .photo-frame::before {
+            content: '';
+            position: absolute;
+            top: 5px; left: 5px; right: 5px; bottom: 5px;
+            border: 1px solid rgba(201,169,97,0.4);
+            border-radius: 6px;
+            pointer-events: none;
+        }
+        .photo-frame img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            border-radius: 4px;
+            filter: sepia(0.2) contrast(1.1);
+        }
+        .photo-caption {
+            text-align: center;
+            color: #c9a961;
+            font-size: 0.9em;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            margin-bottom: 25px;
+            text-shadow: 0 0 10px rgba(201,169,97,0.6);
+        }
+        /* ===== /ОКНО ДЛЯ ФОТО ===== */
+
+        .logo-center { text-align: center; margin-bottom: 10px; }
+        .logo-wrapper { display: inline-block; position: relative; width: 90px; height: 90px; }
+        .logo-wrapper img {
+            width: 60px; height: 60px; position: absolute; top: 50%; left: 50%;
+            transform: translate(-50%, -50%); z-index: 2;
+            filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.3));
+        }
+        .logo-frame {
+            position: absolute; width: 90px; height: 90px;
+            border: 3px solid transparent; border-radius: 18px;
+            animation: rotateFrame 8s linear infinite, rainbowGlow 4s ease-in-out infinite;
+        }
+        @keyframes rotateFrame { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        @keyframes rainbowGlow {
+            0%, 100% { border-color: #ff0000; box-shadow: 0 0 25px rgba(255,0,0,0.6), 0 0 50px rgba(255,0,0,0.2); }
+            20% { border-color: #ffff00; box-shadow: 0 0 25px rgba(255,255,0,0.6), 0 0 50px rgba(255,255,0,0.2); }
+            40% { border-color: #00ff00; box-shadow: 0 0 25px rgba(0,255,0,0.6), 0 0 50px rgba(0,255,0,0.2); }
+            60% { border-color: #00ffff; box-shadow: 0 0 25px rgba(0,255,255,0.6), 0 0 50px rgba(0,255,255,0.2); }
+            80% { border-color: #ff00ff; box-shadow: 0 0 25px rgba(255,0,255,0.6), 0 0 50px rgba(255,0,255,0.2); }
+        }
+        .logo-title {
+            font-size: 1.6em; letter-spacing: 8px; text-transform: uppercase;
+            color: #c9a961; text-shadow: 0 0 30px rgba(201,169,97,0.2); margin-top: 12px;
+        }
+        .logo-sub { font-size: 0.7em; color: rgba(201,169,97,0.3); letter-spacing: 6px; margin-top: 3px; }
+        .tabs {
+            display: flex; gap: 4px; margin-bottom: 25px; flex-wrap: wrap;
+            border-bottom: 2px solid rgba(201, 169, 97, 0.08); padding-bottom: 4px;
+        }
+        .tab-btn {
+            padding: 12px 28px; background: transparent; border: none;
+            border-bottom: 3px solid transparent; color: rgba(201, 169, 97, 0.3);
+            font-size: 0.95em; font-family: 'Times New Roman', serif;
+            letter-spacing: 3px; text-transform: uppercase; cursor: pointer; transition: all 0.3s ease;
+        }
+        .tab-btn:hover { color: rgba(201,169,97,0.6); }
+        .tab-btn.active { color: #c9a961; border-bottom-color: #c9a961; }
+        .tab-btn.locked { color: rgba(201,169,97,0.1); cursor: not-allowed; position: relative; }
+        .tab-btn.locked::after { content: '🔒'; font-size: 0.7em; margin-left: 6px; }
+        .tab-btn.locked:hover { color: rgba(201,169,97,0.1); }
+        .tab-content { display: none; animation: fadeIn 0.4s ease; }
+        .tab-content.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+        .info-section {
+            background: rgba(201,169,97,0.02); border: 1px solid rgba(201,169,97,0.1);
+            border-radius: 16px; padding: 25px 25px 20px; max-height: 520px; overflow-y: auto;
+        }
+        .info-section::-webkit-scrollbar { width: 4px; }
+        .info-section::-webkit-scrollbar-track { background: rgba(201,169,97,0.02); border-radius: 4px; }
+        .info-section::-webkit-scrollbar-thumb { background: rgba(201,169,97,0.15); border-radius: 4px; }
+        .info-section h3 {
+            font-size: 1.2em; color: #c9a961; letter-spacing: 3px; margin: 18px 0 12px;
+            border-bottom: 1px solid rgba(201,169,97,0.05); padding-bottom: 8px;
+        }
+        .info-section h3:first-of-type { margin-top: 0; }
+        .info-section p { color: rgba(201,169,97,0.6); line-height: 1.7; font-size: 0.9em; margin-bottom: 10px; }
+        .info-section .highlight { color: #c9a961; font-weight: bold; }
+        .info-section ul { list-style: none; padding-left: 0; }
+        .info-section ul li {
+            color: rgba(201,169,97,0.5); padding: 4px 0 4px 20px;
+            border-bottom: 1px solid rgba(201,169,97,0.03); font-size: 0.85em; position: relative;
+        }
+        .info-section ul li::before { content: '▸'; position: absolute; left: 0; color: #c9a961; opacity: 0.3; }
+        .info-section .badge-demo {
+            display: inline-block; padding: 2px 12px; border-radius: 30px; font-size: 0.7em;
+            letter-spacing: 2px; background: rgba(40,167,69,0.15); border: 1px solid #28a745; color: #28a745;
+        }
+        .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px 20px; margin: 10px 0; }
+        .info-grid .item .label { font-size: 0.55em; text-transform: uppercase; color: rgba(201,169,97,0.2); letter-spacing: 3px; }
+        .info-grid .item .value { font-size: 0.9em; color: #f4e4d4; padding: 3px 0; border-bottom: 1px solid rgba(201,169,97,0.04); }
+        .form-group { margin-bottom: 14px; }
+        .form-group label {
+            display: block; font-size: 0.7em; letter-spacing: 2px; text-transform: uppercase;
+            color: rgba(201,169,97,0.3); margin-bottom: 4px;
+        }
+        .form-group input {
+            width: 100%; padding: 10px 14px; background: rgba(0,0,0,0.4);
+            border: 2px solid rgba(201,169,97,0.1); border-radius: 8px; color: #f4e4d4;
+            font-size: 1em; font-family: 'Times New Roman', serif; transition: all 0.3s;
+        }
+        .form-group input:focus { outline: none; border-color: #c9a961; box-shadow: 0 0 15px rgba(201,169,97,0.05); }
+        .form-group input::placeholder { color: rgba(201,169,97,0.1); }
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+        @media (max-width: 500px) { .form-row { grid-template-columns: 1fr; } }
+        .video-container {
+            background: rgba(0,0,0,0.5); border: 2px solid rgba(201,169,97,0.12);
+            border-radius: 14px; padding: 16px; text-align: center; margin-bottom: 18px;
+            min-height: 200px; display: flex; align-items: center; justify-content: center; position: relative;
+        }
+        .video-container video { width: 100%; max-height: 350px; border-radius: 10px; background: #000; display: none; }
+        .video-container .placeholder { color: rgba(201,169,97,0.1); font-size: 0.9em; letter-spacing: 3px; padding: 30px 20px; }
+        .video-container .placeholder .icon { font-size: 3.5em; display: block; margin-bottom: 10px; opacity: 0.3; }
+        .task-display {
+            text-align: center; padding: 14px 18px; background: rgba(201,169,97,0.03);
+            border: 1px solid rgba(201,169,97,0.06); border-radius: 10px; margin-bottom: 16px;
+        }
+        .task-display .instruction { font-size: 1.3em; color: #f4e4d4; letter-spacing: 2px; }
+        .task-display .instruction .emoji { font-size: 1.8em; display: block; margin-bottom: 6px; }
+        .task-display .sub { font-size: 0.7em; color: rgba(201,169,97,0.15); letter-spacing: 3px; margin-top: 4px; }
+        .analysis-steps {
+            display: none; margin-top: 12px; padding: 12px 16px;
+            background: rgba(0,0,0,0.2); border-radius: 8px; border: 1px solid rgba(201,169,97,0.03);
+        }
+        .analysis-steps.active { display: block; }
+        .analysis-step {
+            padding: 5px 8px; margin-bottom: 2px; font-size: 0.75em; color: rgba(201,169,97,0.12);
+            border-left: 2px solid rgba(201,169,97,0.03); transition: all 0.4s ease; font-family: 'Courier New', monospace;
+        }
+        .analysis-step.done { color: rgba(201,169,97,0.5); border-left-color: #28a745; }
+        .analysis-step.done .check { color: #28a745; }
+        .analysis-step.fail { color: #dc3545; border-left-color: #dc3545; }
+        .analysis-step.fail .check { color: #dc3545; }
+        .status-box {
+            padding: 14px 18px; border-radius: 10px; margin-top: 14px; text-align: center;
+            font-size: 0.9em; letter-spacing: 2px; border: 1px solid rgba(201,169,97,0.06);
+            background: rgba(0,0,0,0.25); color: rgba(201,169,97,0.2); transition: all 0.5s ease;
+            min-height: 60px; display: flex; flex-direction: column; justify-content: center; align-items: center;
+        }
+        .status-box .big { font-size: 2.2em; display: block; margin-bottom: 3px; }
+        .status-box.success { border-color: #28a745; color: #28a745; background: rgba(40,167,69,0.04); }
+        .status-box.error { border-color: #dc3545; color: #dc3545; background: rgba(220,53,69,0.04); }
+        .status-box.loading { border-color: #ffc107; color: #ffc107; background: rgba(255,193,7,0.04); }
+        .passport-card {
+            background: rgba(201,169,97,0.02); border: 1px solid rgba(201,169,97,0.15);
+            border-radius: 16px; padding: 25px 25px 20px; position: relative;
+        }
+        .passport-card .card-top {
+            display: flex; justify-content: space-between; align-items: center;
+            margin-bottom: 18px; padding-bottom: 12px; border-bottom: 1px solid rgba(201,169,97,0.08);
+        }
+        .passport-card .card-top .title { font-size: 1.1em; letter-spacing: 5px; text-transform: uppercase; color: #c9a961; }
+        .passport-card .card-top .chip {
+            width: 42px; height: 30px; background: linear-gradient(145deg, #c9a961, #8a7a4a);
+            border-radius: 6px; box-shadow: 0 0 20px rgba(201,169,97,0.2); position: relative;
+        }
+        .passport-card .card-top .chip::after {
+            content: ''; position: absolute; top: 3px; left: 3px; right: 3px; bottom: 3px;
+            border: 1px solid rgba(255,255,255,0.3); border-radius: 3px;
+        }
+        .passport-photo { display: flex; gap: 18px; align-items: center; margin-bottom: 18px; }
+        .passport-photo .photo {
+            width: 100px; height: 133px; background: rgba(0,0,0,0.5);
+            border: 2px solid rgba(201,169,97,0.2); border-radius: 8px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 2.8em; color: rgba(201,169,97,0.15); flex-shrink: 0; position: relative; overflow: hidden;
+        }
+        .passport-photo .photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+        .passport-photo .photo .badge {
+            position: absolute; bottom: 3px; right: 3px; font-size: 0.3em; color: #28a745;
+            background: rgba(0,0,0,0.7); padding: 2px 8px; border-radius: 4px; letter-spacing: 1px;
+        }
+        .passport-photo .info h2 { font-size: 1.5em; color: #f4e4d4; letter-spacing: 2px; }
+        .passport-photo .info .id { font-size: 0.8em; color: rgba(201,169,97,0.4); font-family: 'Courier New', monospace; letter-spacing: 3px; margin-top: 2px; }
+        .passport-photo .info .status-row { margin-top: 6px; display: flex; gap: 8px; flex-wrap: wrap; }
+        .status-badge {
+            display: inline-block; padding: 3px 14px; border-radius: 30px; font-size: 0.65em;
+            letter-spacing: 2px;
+        }
+        .status-badge.verified { background: rgba(40,167,69,0.2); border: 1px solid #28a745; color: #28a745; }
+        .status-badge.unverified { background: rgba(220,53,69,0.15); border: 1px solid #dc3545; color: #dc3545; }
+        .passport-fields { display: grid; grid-template-columns: 1fr 1fr; gap: 8px 20px; margin: 14px 0 18px; }
+        .passport-fields .field .label { font-size: 0.5em; text-transform: uppercase; color: rgba(201,169,97,0.2); letter-spacing: 3px; }
+        .passport-fields .field .value { font-size: 0.95em; color: #f4e4d4; padding: 3px 0; border-bottom: 1px solid rgba(201,169,97,0.04); }
+        .qr-section {
+            display: flex; align-items: center; gap: 16px; padding-top: 14px;
+            border-top: 1px solid rgba(201,169,97,0.06); flex-wrap: wrap;
+        }
+        .qr-code {
+            width: 72px; height: 72px; background: rgba(0,0,0,0.5);
+            border: 1px solid rgba(201,169,97,0.15); border-radius: 6px;
+            display: grid; grid-template-columns: repeat(9, 1fr); grid-template-rows: repeat(9, 1fr);
+            gap: 1px; padding: 3px; flex-shrink: 0;
+        }
+        .qr-code .dot { background: rgba(201,169,97,0.06); border-radius: 1px; }
+        .qr-code .dot.dark { background: #c9a961; }
+        .qr-text { font-size: 0.55em; color: rgba(201,169,97,0.2); letter-spacing: 2px; }
+        .qr-text .bold { color: rgba(201,169,97,0.4); font-weight: bold; }
+        .passport-actions {
+            display: flex; gap: 10px; flex-wrap: wrap; margin-top: 18px;
+            padding-top: 16px; border-top: 1px solid rgba(201,169,97,0.05);
+        }
+        .btn-3d {
+            position: relative; display: inline-block; padding: 12px 24px; border: none; border-radius: 12px;
+            font-family: 'Times New Roman', serif; font-size: 0.85em; font-weight: bold;
+            letter-spacing: 3px; text-transform: uppercase; color: #0a0a0a; cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            background: linear-gradient(145deg, rgba(201,169,97,0.9), rgba(180,150,70,0.95));
+            box-shadow: 0 6px 28px rgba(201,169,97,0.25), inset 0 1px 0 rgba(255,255,255,0.4), inset 0 -3px 0 rgba(0,0,0,0.15);
+            transform: perspective(800px) rotateX(1.5deg) rotateY(0deg);
+            text-shadow: 0 1px 0 rgba(255,255,255,0.25); width: 100%; text-align: center;
+        }
+        .btn-3d::after {
+            content: ''; position: absolute; top: 0; left: -100%; width: 200%; height: 100%;
+            background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.12) 30%, rgba(255,255,255,0.25) 50%, rgba(255,255,255,0.12) 70%, transparent 100%);
+            transform: skewX(-25deg); transition: all 0.7s ease; pointer-events: none; border-radius: 12px;
+        }
+        .btn-3d:hover::after { left: 100%; }
+        .btn-3d:hover {
+            transform: perspective(800px) rotateX(1.5deg) rotateY(3deg) translateY(-3px);
+            box-shadow: 0 10px 40px rgba(201,169,97,0.4), 0 0 30px rgba(201,169,97,0.1), inset 0 1px 0 rgba(255,255,255,0.5), inset 0 -3px 0 rgba(0,0,0,0.15);
+        }
+        .btn-3d:disabled { opacity: 0.3; cursor: not-allowed; transform: none !important; animation: none !important; }
+        .btn-3d.glow { animation: pulseGlow 2s ease-in-out infinite; }
+        @keyframes pulseGlow {
+            0%, 100% { box-shadow: 0 6px 28px rgba(201,169,97,0.25), 0 0 15px rgba(201,169,97,0.05), inset 0 1px 0 rgba(255,255,255,0.4), inset 0 -3px 0 rgba(0,0,0,0.15); }
+            50% { box-shadow: 0 6px 40px rgba(201,169,97,0.5), 0 0 50px rgba(201,169,97,0.15), inset 0 1px 0 rgba(255,255,255,0.5), inset 0 -3px 0 rgba(0,0,0,0.15); }
+        }
+        .btn-3d-small { padding: 8px 16px; font-size: 0.7em; border-radius: 10px; letter-spacing: 2px; width: auto; }
+        .btn-3d.success {
+            background: linear-gradient(145deg, rgba(40,167,69,0.9), rgba(30,130,50,0.95)); color: white;
+            box-shadow: 0 6px 28px rgba(40,167,69,0.25), inset 0 1px 0 rgba(255,255,255,0.3), inset 0 -3px 0 rgba(0,0,0,0.15);
+        }
+        .btn-3d.success:hover { box-shadow: 0 10px 40px rgba(40,167,69,0.4), 0 0 30px rgba(40,167,69,0.1); }
+        .btn-group { display: flex; gap: 10px; flex-wrap: wrap; }
+        .btn-group .btn-3d { flex: 1; min-width: 110px; }
+        .hidden { display: none !important; }
+        #videoInput { display: none; }
+        .notification {
+            position: fixed; top: 20px; right: 20px; padding: 14px 20px;
+            background: rgba(201,169,97,0.95); color: #0a0a0a; border-radius: 12px;
+            box-shadow: 0 5px 30px rgba(0,0,0,0.6); z-index: 1000; max-width: 380px;
+            animation: slideIn 0.4s cubic-bezier(0.25,0.46,0.45,0.94);
+        }
+        @keyframes slideIn { from { transform: translateX(450px) scale(0.9); opacity: 0; } to { transform: translateX(0) scale(1); opacity: 1; } }
+        .notification h3 { margin-bottom: 3px; font-size: 1em; letter-spacing: 2px; }
+        .notification p { font-size: 0.85em; }
+        .center-text { text-align: center; margin-top: 14px; }
+        @media (max-width: 650px) {
+            .container { padding: 25px 16px 20px; border-radius: 18px; }
+            .logo-title { font-size: 1.2em; letter-spacing: 4px; }
+            .logo-wrapper { width: 70px; height: 70px; }
+            .logo-wrapper img { width: 45px; height: 45px; }
+            .logo-frame { width: 70px; height: 70px; border-radius: 14px; }
+            .tab-btn { padding: 10px 16px; font-size: 0.8em; letter-spacing: 2px; }
+            .info-grid { grid-template-columns: 1fr; }
+            .info-section { max-height: 400px; padding: 18px; }
+            .form-row { grid-template-columns: 1fr; }
+            .btn-group { flex-direction: column; }
+            .btn-group .btn-3d { width: 100%; }
+            .video-container { min-height: 150px; padding: 12px; }
+            .video-container .placeholder .icon { font-size: 2.5em; }
+            .status-box .big { font-size: 1.8em; }
+            .passport-photo { flex-direction: column; align-items: center; text-align: center; }
+            .passport-photo .photo { width: 90px; height: 120px; }
+            .passport-fields { grid-template-columns: 1fr; }
+            .qr-section { flex-direction: column; align-items: center; }
+            .qr-text { text-align: center; }
+            .passport-actions { flex-direction: column; }
+            .passport-actions .btn-3d { width: 100%; }
+            .photo-frame { width: 95vw; height: auto; aspect-ratio: 16 / 9; }
+        }
+        @media (max-width: 400px) {
+            .container { padding: 16px 10px 14px; border-radius: 14px; }
+            .logo-title { font-size: 1em; letter-spacing: 3px; }
+            .tab-btn { padding: 8px 12px; font-size: 0.7em; letter-spacing: 1px; }
+            .info-section { max-height: 350px; padding: 14px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo-center">
+            <div class="logo-wrapper">
+                <div class="logo-frame"></div>
+                <img src="favicon.ico" alt="РКС">
+            </div>
+            <div class="logo-title">РКС</div>
+            <div class="logo-sub">Республика Когнитивного Суверенитета</div>
+        </div>
+
+        <!-- ===== ОКНО ДЛЯ ФОТО 800x450 ===== -->
+        <div class="photo-frame">
+            <img src="rks-portrait.jpg" alt="Эмблема РКС">
+        </div>
+        <div class="photo-caption">Государственная Эмблема РКС</div>
+        <!-- ===== /ОКНО ДЛЯ ФОТО ===== -->
+
+        <div class="tabs">
+            <button class="tab-btn active" data-tab="tab-info">📖 О паспорте</button>
+            <button class="tab-btn" data-tab="tab-verify">🔍 Верификация</button>
+            <button class="tab-btn locked" data-tab="tab-passport" id="passportTabBtn">🪪 Паспорт 🔒</button>
+        </div>
+
+        <div class="tab-content active" id="tab-info">
+            <div class="info-section">
+                <h3>🪪 Что такое паспорт РКС?</h3>
+                <p><span class="highlight">Паспорт Республики Когнитивного Суверенитета</span> — это <span class="highlight">единый цифровой идентификатор</span> гражданина, объединяющий личные данные, биометрию, финансовый баланс и когнитивный рейтинг.</p>
+                <h3>📋 Что содержит паспорт?</h3>
+                <div class="info-grid">
+                    <div class="item"><div class="label">Личные данные</div><div class="value">ФИО, дата рождения, ID</div></div>
+                    <div class="item"><div class="label">Биометрия</div><div class="value">Фото (кадр из видео)</div></div>
+                    <div class="item"><div class="label">Финансы</div><div class="value">Баланс Трудочасов (ТЧ)</div></div>
+                    <div class="item"><div class="label">Когнитивный рейтинг</div><div class="value">Оценка развития (0–1000)</div></div>
+                    <div class="item"><div class="label">QR-код</div><div class="value">Быстрая идентификация</div></div>
+                    <div class="item"><div class="label">Статус</div><div class="value"><span class="badge-demo">✅ ВЕРИФИЦИРОВАН</span></div></div>
+                </div>
+                <h3>🔍 Как создать паспорт?</h3>
+                <p><span class="highlight">Шаг 1:</span> Перейдите на вкладку <span class="highlight">«Верификация»</span>.</p>
+                <p><span class="highlight">Шаг 2:</span> Введите ФИО и дату рождения.</p>
+                <p><span class="highlight">Шаг 3:</span> Загрузите видео с поворотом головы (влево-вправо).</p>
+                <p><span class="highlight">Шаг 4:</span> Нажмите «Анализировать» — AI проверит личность.</p>
+                <p><span class="highlight">Шаг 5:</span> После успеха паспорт разблокируется, государство выдаёт <span class="highlight">1 Трудочас</span>.</p>
+                <div style="text-align:center; margin-top:20px; padding-top:15px; border-top:1px solid rgba(201,169,97,0.05);">
+                    <span style="font-size:0.7em; color:rgba(201,169,97,0.1); letter-spacing:3px;">Паспорт РКС — ваш ключ к государству, где каждый труд имеет цену, а каждый талант — награду.</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="tab-content" id="tab-verify">
+            <div style="margin-bottom: 18px; padding: 16px 18px; background: rgba(201,169,97,0.03); border: 1px solid rgba(201,169,97,0.06); border-radius: 12px;">
+                <div style="font-size: 0.8em; letter-spacing: 3px; color: rgba(201,169,97,0.2); margin-bottom: 12px; text-transform: uppercase; text-align: center;">Введите ваши данные</div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Фамилия Имя Отчество</label>
+                        <input type="text" id="userFullName" placeholder="Иванов Иван Иванович" value="Иванов Иван Иванович" />
+                    </div>
+                    <div class="form-group">
+                        <label>Дата рождения</label>
+                        <input type="text" id="userBirthDate" placeholder="15.05.1990" value="15.05.1990" />
+                    </div>
+                </div>
+            </div>
+            <div class="video-container">
+                <video id="videoPreview" controls preload="auto" playsinline></video>
+                <div id="videoPlaceholder" class="placeholder">
+                    <span class="icon">🎥</span>
+                    Загрузите видео с поворотом головы<br />
+                    <span style="font-size:0.6em; color:rgba(201,169,97,0.05);">MP4, WebM, AVI · до 50 MB</span>
+                </div>
+            </div>
+            <div class="task-display">
+                <div class="instruction"><span class="emoji">🔄</span>Поверните голову влево, затем вправо</div>
+                <div class="sub">Запишите видео (3-5 секунд) и загрузите для проверки</div>
+            </div>
+            <div class="btn-group">
+                <button class="btn-3d glow" onclick="document.getElementById('videoInput').click()">📹 Загрузить видео</button>
+                <button class="btn-3d" id="analyzeBtn" onclick="analyzeVideo()" disabled>🔍 Анализировать</button>
+            </div>
+            <input type="file" id="videoInput" accept="video/*" onchange="loadVideo(event)" />
+            <div class="status-box" id="statusBox"><span class="big">⏳</span>Ожидание загрузки видео...</div>
+            <div class="analysis-steps" id="analysisSteps">
+                <div class="analysis-step" id="step1"><span class="check">○</span> Обнаружение лица в кадре</div>
+                <div class="analysis-step" id="step2"><span class="check">○</span> Анализ движения головы</div>
+                <div class="analysis-step" id="step3"><span class="check">○</span> Проверка на глубину (3D-карта)</div>
+                <div class="analysis-step" id="step4"><span class="check">○</span> Отсутствие артефактов (экран/маска)</div>
+                <div class="analysis-step" id="step5"><span class="check">○</span> Итоговый вердикт AI</div>
+            </div>
+            <div class="center-text">
+                <button class="btn-3d btn-3d-small" onclick="resetVerification()">🔄 Начать заново</button>
+                <button class="btn-3d btn-3d-small success hidden" id="gotoPassportBtn" onclick="unlockPassport()">🪪 Перейти в паспорт</button>
+            </div>
+        </div>
+
+        <div class="tab-content" id="tab-passport">
+            <div class="passport-card">
+                <div class="card-top">
+                    <div class="title">Паспорт РКС</div>
+                    <div class="chip"></div>
+                </div>
+                <div class="passport-photo">
+                    <div class="photo" id="passportPhoto">
+                        <span id="photoPlaceholder">👤</span>
+                        <img id="photoPreview" style="display:none;" alt="Фото" />
+                        <span class="badge" id="photoBadge" style="display:none;">📸</span>
+                    </div>
+                    <div class="info">
+                        <h2 id="pFullName">Иванов Иван Иванович</h2>
+                        <div class="id">ID: <span id="pId">Не выдан</span></div>
+                        <div class="status-row">
+                            <span class="status-badge unverified" id="pVerifyBadge">⏳ НЕ ВЕРИФИЦИРОВАН</span>
+                            <span class="status-badge verified hidden" id="pVerifiedBadge">✅ ВЕРИФИЦИРОВАН</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="passport-fields">
+                    <div class="field"><div class="label">Дата рождения</div><div class="value" id="pBirth">15.05.1990</div></div>
+                    <div class="field"><div class="label">Гражданство</div><div class="value">РКС</div></div>
+                    <div class="field"><div class="label">Дата выдачи</div><div class="value" id="pIssue">—</div></div>
+                    <div class="field"><div class="label">Срок действия</div><div class="value" id="pExpiry">—</div></div>
+                    <div class="field"><div class="label">Место рождения</div><div class="value">Цифровой Город РКС</div></div>
+                    <div class="field"><div class="label">Орган выдачи</div><div class="value">Госбанк РКС</div></div>
+                    <div class="field"><div class="label">Баланс</div><div class="value" id="pBalance">0 ТЧ</div></div>
+                    <div class="field"><div class="label">Когнитивный рейтинг</div><div class="value" id="pCognitive">782 / 1000</div></div>
+                </div>
+                <div class="qr-section">
+                    <div class="qr-code" id="qrCode"></div>
+                    <div class="qr-text">
+                        <div class="bold" id="qrIdText">ID: Не выдан</div>
+                        <div>Паспорт действителен</div>
+                        <div style="font-size:0.5em; margin-top:2px;">AI-шифрование: AES-256</div>
+                    </div>
+                    <div style="margin-left:auto; text-align:right; font-size:0.65em; color:rgba(201,169,97,0.15);">
+                        <div>Когнитивный рейтинг</div>
+                        <div style="font-size:1.8em; color:#c9a961;" id="pCognitiveBig">782</div>
+                        <div style="font-size:0.5em;">из 1000</div>
+                    </div>
+                </div>
+                <div class="passport-actions">
+                    <button class="btn-3d" onclick="printPassport()">🖨️ Печать</button>
+                    <button class="btn-3d" onclick="exportPassport()">📤 Экспорт JSON</button>
+                    <button class="btn-3d" onclick="switchTab('tab-verify')">🔍 Пройти верификацию</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 0. ПЕРЕКЛЮЧЕНИЕ ВКЛАДОК
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(tc => tc.classList.remove('active'));
+            const btn = document.querySelector(`[data-tab="${tabId}"]`);
+            if (btn) btn.classList.add('active');
+            document.getElementById(tabId).classList.add('active');
+        }
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                if (this.classList.contains('locked')) {
+                    showNotification('🔒 Заблокировано', 'Сначала пройдите верификацию личности');
+                    return;
+                }
+                switchTab(this.dataset.tab);
+            });
+        });
+
+        // 1. ДАННЫЕ ГРАЖДАНИНА
+        const defaultCitizen = {
+            id: null, fullName: 'Иванов Иван Иванович', birthDate: '15.05.1990',
+            issueDate: null, expiryDate: null, balance: 0,
+            cognitiveScore: 782, verified: false, photoDataURL: null
+        };
+        let citizen = { ...defaultCitizen };
+        let videoLoaded = false;
+        let videoRealWidth = 0;
+        let videoRealHeight = 0;
+        const verificationTasks = [
+            'Обнаружение лица в кадре',
+            'Анализ движения головы (влево-вправо)',
+            'Проверка на глубину (3D-карта лица)',
+            'Отсутствие артефактов (экран/маска)',
+            'Итоговый вердикт AI'
+        ];
+
+        // 2. ГЕНЕРАЦИЯ ДАННЫХ ПАСПОРТА
+        function generatePassportData() {
+            const now = new Date();
+            const expiry = new Date();
+            expiry.setFullYear(now.getFullYear() + 10);
+            const fmt = (d) => d.toLocaleDateString('ru-RU', { day: '2-digit', month: '2-digit', year: 'numeric' });
+            return {
+                id: `РКС-${Math.floor(100 + Math.random() * 900)}-${now.getFullYear()}`,
+                issueDate: fmt(now),
+                expiryDate: fmt(expiry)
+            };
+        }
+
+        // 3. РЕНДЕРИНГ ПАСПОРТА
+        function renderPassport() {
+            document.getElementById('pFullName').textContent = citizen.fullName;
+            document.getElementById('pId').textContent = citizen.id || 'Не выдан';
+            document.getElementById('qrIdText').textContent = citizen.id ? `ID: ${citizen.id}` : 'ID: Не выдан';
+            document.getElementById('pBirth').textContent = citizen.birthDate;
+            document.getElementById('pIssue').textContent = citizen.issueDate || '—';
+            document.getElementById('pExpiry').textContent = citizen.expiryDate || '—';
+            document.getElementById('pBalance').textContent = citizen.balance.toLocaleString() + ' ТЧ';
+            document.getElementById('pCognitive').textContent = citizen.cognitiveScore + ' / 1000';
+            document.getElementById('pCognitiveBig').textContent = citizen.cognitiveScore;
+            if (citizen.photoDataURL) {
+                const img = document.getElementById('photoPreview');
+                img.src = citizen.photoDataURL;
+                img.style.display = 'block';
+                document.getElementById('photoPlaceholder').style.display = 'none';
+                document.getElementById('photoBadge').style.display = 'block';
+            } else {
+                document.getElementById('photoPreview').style.display = 'none';
+                document.getElementById('photoPlaceholder').style.display = 'block';
+                document.getElementById('photoBadge').style.display = 'none';
+            }
+            if (citizen.verified) {
+                document.getElementById('pVerifyBadge').classList.add('hidden');
+                document.getElementById('pVerifiedBadge').classList.remove('hidden');
+            } else {
+                document.getElementById('pVerifyBadge').classList.remove('hidden');
+                document.getElementById('pVerifiedBadge').classList.add('hidden');
+            }
+            generateQR();
+        }
+
+        // 4. QR-КОД
+        function generateQR() {
+            const c = document.getElementById('qrCode');
+            c.innerHTML = '';
+            const p = [
+                [1,1,1,1,1,1,1,1,1],[1,0,0,0,0,0,0,0,1],[1,0,1,1,1,1,1,0,1],
+                [1,0,1,0,0,0,1,0,1],[1,0,1,0,1,0,1,0,1],[1,0,1,0,0,0,1,0,1],
+                [1,0,1,1,1,1,1,0,1],[1,0,0,0,0,0,0,0,1],[1,1,1,1,1,1,1,1,1]
+            ];
+            const inner = [
+                [0,0,0,0,0,0,0],[0,1,1,1,1,1,0],[0,1,0,0,0,1,0],
+                [0,1,0,1,0,1,0],[0,1,0,0,0,1,0],[0,1,1,1,1,1,0],[0,0,0,0,0,0,0]
+            ];
+            for (let r = 0; r < 9; r++) {
+                for (let col = 0; col < 9; col++) {
+                    const dot = document.createElement('div');
+                    dot.className = 'dot';
+                    let dark = p[r][col] === 1;
+                    if (r >= 1 && r <= 7 && col >= 1 && col <= 7 && inner[r-1][col-1] === 1) dark = true;
+                    if ((r===3&&col===5)||(r===5&&col===3)||(r===2&&col===6)||(r===6&&col===2)) dark = true;
+                    if (r===4&&col===4) dark = !dark;
+                    if (dark) dot.classList.add('dark');
+                    c.appendChild(dot);
+                }
+            }
+        }
+
+        // 5. ПЕЧАТЬ
+        function printPassport() {
+            if (!citizen.verified) { showNotification('🔒 Заблокировано', 'Паспорт доступен только после верификации'); return; }
+            const win = window.open('', '_blank');
+            if (!win) { showNotification('❌ Ошибка', 'Разрешите всплывающие окна'); return; }
+            const ph = citizen.photoDataURL
+                ? `<img src="${citizen.photoDataURL}" style="width:100px;height:133px;object-fit:cover;border:2px solid #8a7a4a;border-radius:4px;"/>`
+                : '<div style="width:100px;height:133px;border:2px solid #8a7a4a;display:flex;align-items:center;justify-content:center;font-size:3em;color:#ccc;background:#f5f0e8;">👤</div>';
+            win.document.write(`<html><head><title>Паспорт РКС</title><style>
+                body{font-family:'Times New Roman',serif;padding:40px;color:#1a1a1a;max-width:700px;margin:auto}
+                .h{text-align:center;border-bottom:3px solid #c9a961;padding-bottom:20px}
+                .h h1{font-size:2em;letter-spacing:6px;color:#8a7a4a}
+                .flex{display:flex;gap:25px;margin:30px 0}
+                .fields{display:grid;grid-template-columns:1fr 1fr;gap:8px 25px;margin:20px 0}
+                .f .l{font-size:.65em;text-transform:uppercase;color:#999;letter-spacing:2px}
+                .f .v{font-size:1.05em;border-bottom:1px solid #eee;padding:3px 0}
+                .ft{text-align:center;margin-top:30px;border-top:2px solid #c9a961;padding-top:20px;color:#999;font-size:.8em}
+                .badge{display:inline-block;padding:3px 14px;border-radius:30px;font-size:.75em;color:#fff;background:#28a745}
+            </style></head><body>
+            <div class="h"><h1>РКС — ПАСПОРТ</h1><div>Республика Когнитивного Суверенитета</div></div>
+            <div class="flex"><div>${ph}</div><div><h2>${citizen.fullName}</h2><div style="color:#666;letter-spacing:2px">ID: ${citizen.id}</div><div style="margin-top:8px"><span class="badge">✅ ВЕРИФИЦИРОВАН</span></div></div></div>
+            <div class="fields">
+                <div class="f"><div class="l">Дата рождения</div><div class="v">${citizen.birthDate}</div></div>
+                <div class="f"><div class="l">Гражданство</div><div class="v">РКС</div></div>
+                <div class="f"><div class="l">Дата выдачи</div><div class="v">${citizen.issueDate}</div></div>
+                <div class="f"><div class="l">Срок действия</div><div class="v">${citizen.expiryDate}</div></div>
+                <div class="f"><div class="l">Место рождения</div><div class="v">Цифровой Город РКС</div></div>
+                <div class="f"><div class="l">Орган выдачи</div><div class="v">Госбанк РКС</div></div>
+                <div class="f"><div class="l">Баланс</div><div class="v">${citizen.balance.toLocaleString()} ТЧ</div></div>
+                <div class="f"><div class="l">Когнитивный рейтинг</div><div class="v">${citizen.cognitiveScore}/1000</div></div>
+            </div>
+            <div class="ft">Паспорт действителен до ${citizen.expiryDate} · Государственный банк РКС</div>
+            </body></html>`);
+            win.document.close();
+            setTimeout(() => win.print(), 500);
+        }
+
+        // 6. ЭКСПОРТ
+        function exportPassport() {
+            if (!citizen.verified) { showNotification('🔒 Заблокировано', 'Паспорт доступен только после верификации'); return; }
+            const blob = new Blob([JSON.stringify({ ...citizen, exportDate: new Date().toISOString() }, null, 2)], { type: 'application/json' });
+            const a = document.createElement('a');
+            a.href = URL.createObjectURL(blob);
+            a.download = `passport_${citizen.id}.json`;
+            a.click();
+            URL.revokeObjectURL(a.href);
+            showNotification('📤 Экспорт выполнен', 'Паспорт сохранён в формате JSON');
+        }
+
+        // 7. РАЗБЛОКИРОВКА
+        function unlockPassport() {
+            if (!citizen.verified) { showNotification('❌ Ошибка', 'Сначала пройдите верификацию'); return; }
+            citizen.balance = 1;
+            localStorage.setItem('rks_citizen', JSON.stringify(citizen));
+            switchTab('tab-passport');
+            renderPassport();
+            showNotification('🪪 Паспорт разблокирован', 'Государство выдало 1 Трудочас!');
+        }
+
+        // 8. ЗАГРУЗКА ВИДЕО
+        function loadVideo(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            if (file.size > 50 * 1024 * 1024) { showNotification('❌ Ошибка', 'Макс 50 MB'); event.target.value = ''; return; }
+            if (!file.type.startsWith('video/')) { showNotification('❌ Ошибка', 'Загрузите видеофайл'); event.target.value = ''; return; }
+
+            const video = document.getElementById('videoPreview');
+            video.src = URL.createObjectURL(file);
+            video.style.display = 'block';
+            document.getElementById('videoPlaceholder').style.display = 'none';
+            videoLoaded = true;
+            document.getElementById('analyzeBtn').disabled = false;
+
+            // КЛЮЧЕВОЕ: ждём загрузки метаданных, чтобы узнать реальные размеры видео
+            videoRealWidth = 0;
+            videoRealHeight = 0;
+            video.onloadedmetadata = function() {
+                videoRealWidth = video.videoWidth;
+                videoRealHeight = video.videoHeight;
+                console.log(`📐 Видео: ${videoRealWidth}x${videoRealHeight} (${(videoRealWidth/videoRealHeight).toFixed(2)})`);
+            };
+            // Принудительно загружаем метаданные
+            video.load();
+
+            document.getElementById('statusBox').className = 'status-box loading';
+            document.getElementById('statusBox').innerHTML = `<span class="big">📤</span>Видео загружено.<br><span style="font-size:0.65em;color:rgba(201,169,97,0.15)">${file.name} (${(file.size/1024/1024).toFixed(2)} MB)</span>`;
+            showNotification('✅ Видео загружено', `Файл: ${file.name}`);
+        }
+
+        // 9. ЗАХВАТ КАДРА — ПОЛНОСТЬЮ АСИНХРОННЫЙ
+        // Ждём: 1) метаданные, 2) перемотку (seeked), 3) кадрируем по центру 3:4
+        async function captureFrameFromVideo() {
+            const video = document.getElementById('videoPreview');
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            const TW = 180, TH = 240; // 3:4 — стандарт паспортного фото
+            canvas.width = TW;
+            canvas.height = TH;
+
+            try {
+                // Ждём метаданные (если ещё не загрузились)
+                if (video.readyState < 2 || video.videoWidth === 0) {
+                    await new Promise((resolve) => {
+                        const t = setTimeout(resolve, 3000);
+                        const handler = () => { clearTimeout(t); resolve(); };
+                        video.addEventListener('loadeddata', handler, { once: true });
+                        video.addEventListener('canplay', handler, { once: true });
+                    });
+                }
+
+                const vw = video.videoWidth || videoRealWidth;
+                const vh = video.videoHeight || videoRealHeight;
+                console.log(`📐 Захват: видео ${vw}x${vh}`);
+
+                if (vw > 0 && vh > 0) {
+                    // Перемотка на 0.5 сек (надёжнее, чем 1 сек для коротких видео)
+                    const seekTo = Math.min(0.5, (video.duration || 1) * 0.3);
+                    video.currentTime = seekTo;
+
+                    // Ждём, пока перемотка реально завершится
+                    await new Promise((resolve) => {
+                        const t = setTimeout(resolve, 2000);
+                        video.addEventListener('seeked', () => { clearTimeout(t); resolve(); }, { once: true });
+                    });
+
+                    // Небольшая пауза, чтобы браузер точно отрисовал кадр
+                    await new Promise(r => setTimeout(r, 100));
+
+                    // УМНОЕ КАДРИРОВАНИЕ: вырезаем центр видео с пропорциями 3:4
+                    const targetRatio = TW / TH; // 0.75
+                    const videoRatio = vw / vh;
+                    let sx, sy, sw, sh;
+
+                    if (videoRatio > targetRatio) {
+                        // Видео шире (16:9 и т.д.) → обрезаем бока
+                        sh = vh;
+                        sw = Math.round(vh * targetRatio);
+                        sx = Math.round((vw - sw) / 2);
+                        sy = 0;
+                    } else {
+                        // Видео уже (9:16 и т.д.) → обрезаем верх/низ
+                        sw = vw;
+                        sh = Math.round(vw / targetRatio);
+                        sx = 0;
+                        sy = Math.round((vh - sh) / 2);
+                    }
+
+                    console.log(`✂️ Кадрирование: вырез (${sx},${sy},${sw}x${sh}) → ${TW}x${TH}`);
+                    ctx.drawImage(video, sx, sy, sw, sh, 0, 0, TW, TH);
+                } else {
+                    // Fallback: если размеры неизвестны, просто рисуем как есть
+                    console.warn('⚠️ Размеры видео неизвестны, fallback');
+                    ctx.drawImage(video, 0, 0, TW, TH);
+                }
+            } catch (e) {
+                console.error('❌ Ошибка захвата:', e);
+                ctx.drawImage(video, 0, 0, TW, TH);
+            }
+
+            return canvas.toDataURL('image/jpeg', 0.85);
+        }
+
+        // 10. АНАЛИЗ ВИДЕО (теперь async)
+        async function analyzeVideo() {
+            if (!videoLoaded) { showNotification('❌ Ошибка', 'Сначала загрузите видео'); return; }
+            const analyzeBtn = document.getElementById('analyzeBtn');
+            analyzeBtn.disabled = true;
+            analyzeBtn.textContent = '⏳ Анализ...';
+            const statusBox = document.getElementById('statusBox');
+            statusBox.className = 'status-box loading';
+            statusBox.innerHTML = `<span class="big">🧠</span> AI анализирует видео...`;
+            const stepsContainer = document.getElementById('analysisSteps');
+            stepsContainer.className = 'analysis-steps active';
+            for (let i = 1; i <= 5; i++) {
+                const step = document.getElementById('step' + i);
+                step.className = 'analysis-step';
+                step.innerHTML = `<span class="check">○</span> ${verificationTasks[i-1]}`;
+            }
+            const steps = [
+                { id: 'step1', delay: 700 }, { id: 'step2', delay: 1300 },
+                { id: 'step3', delay: 1900 }, { id: 'step4', delay: 2500 }, { id: 'step5', delay: 3100 }
+            ];
+            let allSuccess = true;
+
+            for (let index = 0; index < steps.length; index++) {
+                const step = steps[index];
+                await new Promise(r => setTimeout(r, step.delay));
+                const el = document.getElementById(step.id);
+                const success = Math.random() > 0.05;
+                if (success) {
+                    el.className = 'analysis-step done';
+                    el.innerHTML = `<span class="check">✅</span> ${verificationTasks[index]}`;
+                } else {
+                    el.className = 'analysis-step fail';
+                    el.innerHTML = `<span class="check">❌</span> ${verificationTasks[index]} — Ошибка`;
+                    allSuccess = false;
+                }
+            }
+
+            await new Promise(r => setTimeout(r, 400));
+
+            if (allSuccess) {
+                if (!citizen.id) {
+                    const nd = generatePassportData();
+                    citizen.id = nd.id;
+                    citizen.issueDate = nd.issueDate;
+                    citizen.expiryDate = nd.expiryDate;
+                }
+
+                // АСИНХРОННЫЙ захват кадра с правильными пропорциями
+                citizen.photoDataURL = await captureFrameFromVideo();
+
+                const nameVal = document.getElementById('userFullName').value.trim();
+                const birthVal = document.getElementById('userBirthDate').value.trim();
+                if (nameVal) citizen.fullName = nameVal;
+                if (birthVal) citizen.birthDate = birthVal;
+                citizen.verified = true;
+                localStorage.setItem('rks_verified', 'true');
+                localStorage.setItem('rks_citizen', JSON.stringify(citizen));
+
+                statusBox.className = 'status-box success';
+                statusBox.innerHTML = `<span class="big">✅</span>Личность подтверждена!<br><span style="font-size:0.7em;color:rgba(40,167,69,0.5)">AI-верификация пройдена · Кадр сохранён</span>`;
+                document.getElementById('gotoPassportBtn').classList.remove('hidden');
+                const pb = document.getElementById('passportTabBtn');
+                pb.classList.remove('locked');
+                pb.textContent = '🪪 Паспорт';
+                renderPassport();
+                showNotification('✅ Верификация пройдена', 'Личность подтверждена!');
+            } else {
+                citizen.verified = false;
+                localStorage.removeItem('rks_verified');
+                statusBox.className = 'status-box error';
+                statusBox.innerHTML = `<span class="big">❌</span>Верификация не пройдена<br><span style="font-size:0.7em;color:rgba(220,53,69,0.5)">Обнаружены артефакты. Попробуйте снова.</span>`;
+                document.getElementById('gotoPassportBtn').classList.add('hidden');
+                showNotification('❌ Верификация не пройдена', 'Попробуйте записать видео заново.');
+            }
+            analyzeBtn.disabled = false;
+            analyzeBtn.textContent = '🔍 Анализировать';
+        }
+
+        // 11. ПОЛНЫЙ СБРОС
+        function resetVerification() {
+            const video = document.getElementById('videoPreview');
+            video.pause(); video.src = ''; video.style.display = 'none';
+            document.getElementById('videoPlaceholder').style.display = 'block';
+            videoLoaded = false;
+            videoRealWidth = 0;
+            videoRealHeight = 0;
+            document.getElementById('analyzeBtn').disabled = true;
+            document.getElementById('analyzeBtn').textContent = '🔍 Анализировать';
+            document.getElementById('analysisSteps').className = 'analysis-steps';
+            document.getElementById('statusBox').className = 'status-box';
+            document.getElementById('statusBox').innerHTML = `<span class="big">⏳</span> Ожидание загрузки видео...`;
+            document.getElementById('videoInput').value = '';
+            document.getElementById('gotoPassportBtn').classList.add('hidden');
+            citizen = { ...defaultCitizen };
+            localStorage.removeItem('rks_citizen');
+            localStorage.removeItem('rks_verified');
+            document.getElementById('userFullName').value = citizen.fullName;
+            document.getElementById('userBirthDate').value = citizen.birthDate;
+            const pb = document.getElementById('passportTabBtn');
+            pb.classList.add('locked');
+            pb.textContent = '🪪 Паспорт 🔒';
+            renderPassport();
+            showNotification('🔄 Сброшено', 'Данные очищены. Готово к новой проверке.');
+        }
+
+        // 12. УВЕДОМЛЕНИЯ
+        function showNotification(title, message) {
+            const n = document.createElement('div');
+            n.className = 'notification';
+            n.innerHTML = `<h3>${title}</h3><p>${message}</p>`;
+            document.body.appendChild(n);
+            setTimeout(() => { if (n.parentNode) n.remove(); }, 4000);
+        }
+
+        // 13. ЗАПУСК
+        window.addEventListener('load', function() {
+            const saved = localStorage.getItem('rks_citizen');
+            if (saved) {
+                try {
+                    const d = JSON.parse(saved);
+                    citizen.fullName = d.fullName || citizen.fullName;
+                    citizen.birthDate = d.birthDate || citizen.birthDate;
+                    citizen.balance = d.balance || 0;
+                    citizen.photoDataURL = d.photoDataURL || null;
+                    citizen.verified = d.verified || false;
+                    citizen.cognitiveScore = d.cognitiveScore || 782;
+                    citizen.id = d.id || null;
+                    citizen.issueDate = d.issueDate || null;
+                    citizen.expiryDate = d.expiryDate || null;
+                } catch (e) {}
+            }
+            if (localStorage.getItem('rks_verified') === 'true') {
+                citizen.verified = true;
+                const pb = document.getElementById('passportTabBtn');
+                pb.classList.remove('locked');
+                pb.textContent = '🪪 Паспорт';
+                document.getElementById('gotoPassportBtn').classList.remove('hidden');
+                document.getElementById('statusBox').className = 'status-box success';
+                document.getElementById('statusBox').innerHTML = `<span class="big">✅</span>Личность подтверждена!<br><span style="font-size:0.7em;color:rgba(40,167,69,0.5)">Верификация пройдена</span>`;
+                const sc = document.getElementById('analysisSteps');
+                sc.className = 'analysis-steps active';
+                for (let i = 1; i <= 5; i++) {
+                    const s = document.getElementById('step' + i);
+                    s.className = 'analysis-step done';
+                    s.innerHTML = `<span class="check">✅</span> ${verificationTasks[i-1]}`;
+                }
+            }
+            renderPassport();
+        });
+
+        console.log('🪪 РКС — Паспорт v4.0 (Async Frame Capture + Smart Crop) загружен');
+    </script>
+</body>
+</html>
