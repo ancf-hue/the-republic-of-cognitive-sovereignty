@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -302,6 +303,12 @@
         .notification h3 { margin-bottom: 3px; font-size: 1em; letter-spacing: 2px; }
         .notification p { font-size: 0.85em; }
         .center-text { text-align: center; margin-top: 14px; }
+        .back-home {
+            margin-top: 40px;
+            padding-top: 30px;
+            border-top: 2px solid rgba(201,169,97,0.1);
+            text-align: center;
+        }
         @media (max-width: 650px) {
             .container { padding: 25px 16px 20px; border-radius: 18px; }
             .logo-title { font-size: 1.2em; letter-spacing: 4px; }
@@ -479,9 +486,31 @@
                 </div>
             </div>
         </div>
+
+        <!-- ===== КНОПКА ВОЗВРАТА НА ГЛАВНУЮ ===== -->
+        <div class="back-home">
+            <button class="btn-3d btn-3d-small" onclick="goToMainPage()" style="width: auto; padding: 14px 40px;">
+                ← Вернуться к проектам
+            </button>
+        </div>
+
     </div>
 
     <script>
+        // ===== УНИВЕРСАЛЬНАЯ ФУНКЦИЯ ВОЗВРАТА НА ГЛАВНУЮ =====
+        function goToMainPage() {
+            var currentUrl = window.location.href;
+            var pathParts = currentUrl.split('/');
+            pathParts.pop();
+            var lastPart = pathParts[pathParts.length - 1];
+            var subfolders = ['constitution', 'passport', 'bank', 'money', 'projects'];
+            if (subfolders.includes(lastPart)) {
+                pathParts.pop();
+            }
+            pathParts.push('index.html');
+            window.location.href = pathParts.join('/');
+        }
+
         // 0. ПЕРЕКЛЮЧЕНИЕ ВКЛАДОК
         function switchTab(tabId) {
             document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
@@ -663,7 +692,6 @@
             videoLoaded = true;
             document.getElementById('analyzeBtn').disabled = false;
 
-            // КЛЮЧЕВОЕ: ждём загрузки метаданных, чтобы узнать реальные размеры видео
             videoRealWidth = 0;
             videoRealHeight = 0;
             video.onloadedmetadata = function() {
@@ -671,7 +699,6 @@
                 videoRealHeight = video.videoHeight;
                 console.log(`📐 Видео: ${videoRealWidth}x${videoRealHeight} (${(videoRealWidth/videoRealHeight).toFixed(2)})`);
             };
-            // Принудительно загружаем метаданные
             video.load();
 
             document.getElementById('statusBox').className = 'status-box loading';
@@ -679,18 +706,16 @@
             showNotification('✅ Видео загружено', `Файл: ${file.name}`);
         }
 
-        // 9. ЗАХВАТ КАДРА — ПОЛНОСТЬЮ АСИНХРОННЫЙ
-        // Ждём: 1) метаданные, 2) перемотку (seeked), 3) кадрируем по центру 3:4
+        // 9. ЗАХВАТ КАДРА
         async function captureFrameFromVideo() {
             const video = document.getElementById('videoPreview');
             const canvas = document.createElement('canvas');
             const ctx = canvas.getContext('2d');
-            const TW = 180, TH = 240; // 3:4 — стандарт паспортного фото
+            const TW = 180, TH = 240;
             canvas.width = TW;
             canvas.height = TH;
 
             try {
-                // Ждём метаданные (если ещё не загрузились)
                 if (video.readyState < 2 || video.videoWidth === 0) {
                     await new Promise((resolve) => {
                         const t = setTimeout(resolve, 3000);
@@ -705,32 +730,26 @@
                 console.log(`📐 Захват: видео ${vw}x${vh}`);
 
                 if (vw > 0 && vh > 0) {
-                    // Перемотка на 0.5 сек (надёжнее, чем 1 сек для коротких видео)
                     const seekTo = Math.min(0.5, (video.duration || 1) * 0.3);
                     video.currentTime = seekTo;
 
-                    // Ждём, пока перемотка реально завершится
                     await new Promise((resolve) => {
                         const t = setTimeout(resolve, 2000);
                         video.addEventListener('seeked', () => { clearTimeout(t); resolve(); }, { once: true });
                     });
 
-                    // Небольшая пауза, чтобы браузер точно отрисовал кадр
                     await new Promise(r => setTimeout(r, 100));
 
-                    // УМНОЕ КАДРИРОВАНИЕ: вырезаем центр видео с пропорциями 3:4
-                    const targetRatio = TW / TH; // 0.75
+                    const targetRatio = TW / TH;
                     const videoRatio = vw / vh;
                     let sx, sy, sw, sh;
 
                     if (videoRatio > targetRatio) {
-                        // Видео шире (16:9 и т.д.) → обрезаем бока
                         sh = vh;
                         sw = Math.round(vh * targetRatio);
                         sx = Math.round((vw - sw) / 2);
                         sy = 0;
                     } else {
-                        // Видео уже (9:16 и т.д.) → обрезаем верх/низ
                         sw = vw;
                         sh = Math.round(vw / targetRatio);
                         sx = 0;
@@ -740,7 +759,6 @@
                     console.log(`✂️ Кадрирование: вырез (${sx},${sy},${sw}x${sh}) → ${TW}x${TH}`);
                     ctx.drawImage(video, sx, sy, sw, sh, 0, 0, TW, TH);
                 } else {
-                    // Fallback: если размеры неизвестны, просто рисуем как есть
                     console.warn('⚠️ Размеры видео неизвестны, fallback');
                     ctx.drawImage(video, 0, 0, TW, TH);
                 }
@@ -752,7 +770,7 @@
             return canvas.toDataURL('image/jpeg', 0.85);
         }
 
-        // 10. АНАЛИЗ ВИДЕО (теперь async)
+        // 10. АНАЛИЗ ВИДЕО
         async function analyzeVideo() {
             if (!videoLoaded) { showNotification('❌ Ошибка', 'Сначала загрузите видео'); return; }
             const analyzeBtn = document.getElementById('analyzeBtn');
@@ -799,7 +817,6 @@
                     citizen.expiryDate = nd.expiryDate;
                 }
 
-                // АСИНХРОННЫЙ захват кадра с правильными пропорциями
                 citizen.photoDataURL = await captureFrameFromVideo();
 
                 const nameVal = document.getElementById('userFullName').value.trim();
