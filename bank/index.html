@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -790,12 +791,37 @@
             </div>
         </div>
 
+        <!-- ============================================================ -->
+        <!-- ===== КНОПКА ВОЗВРАТА НА ГЛАВНУЮ ===== -->
+        <!-- ============================================================ -->
+        <div style="text-align: center; padding: 30px 0 10px 0; border-top: 2px solid rgba(201,169,97,0.15); margin-top: 20px;">
+            <button class="btn-3d" style="width: auto; padding: 14px 48px; font-size: 1em;" onclick="goToMainPage()">
+                ← Вернуться к проектам
+            </button>
+        </div>
+
     </div>
 
     <!-- ============================================================ -->
     <!-- ===== JAVASCRIPT ===== -->
     <!-- ============================================================ -->
     <script>
+        // ============================================================
+        // 0. УНИВЕРСАЛЬНАЯ ФУНКЦИЯ ВОЗВРАТА НА ГЛАВНУЮ
+        // ============================================================
+        function goToMainPage() {
+            var currentUrl = window.location.href;
+            var pathParts = currentUrl.split('/');
+            pathParts.pop();
+            var lastPart = pathParts[pathParts.length - 1];
+            var subfolders = ['constitution', 'passport', 'bank', 'money', 'projects'];
+            if (subfolders.includes(lastPart)) {
+                pathParts.pop();
+            }
+            pathParts.push('index.html');
+            window.location.href = pathParts.join('/');
+        }
+
         // ============================================================
         // 1. ВКЛАДКИ
         // ============================================================
