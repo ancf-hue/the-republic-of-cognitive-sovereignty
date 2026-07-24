@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -116,6 +117,13 @@
             transform: translateX(10px);
         }
 
+        /* Стиль для активной кнопки */
+        .nav-item.active {
+            background: rgba(201, 169, 97, 0.2);
+            border-color: #c9a961;
+            box-shadow: 0 0 20px rgba(201, 169, 97, 0.1);
+        }
+
         .main-content {
             margin-left: 280px;
             padding: 40px;
@@ -150,6 +158,8 @@
 
     <nav class="nav-sidebar">
         <div class="nav-menu">
+            <!-- ===== КНОПКА "ОБЩЕНИЕ" ВЕДЁТ НА СТРАНИЦУ ЧАТА ===== -->
+            <a href="chat/index.html" class="nav-item">💬 Общение</a>
             <a href="constitution/index.html" class="nav-item">📜 Конституция</a>
             <a href="passport/index.html" class="nav-item">🪪 Паспорт</a>
             <a href="bank/index.html" class="nav-item">🏦 Банк</a>
