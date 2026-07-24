@@ -1,11 +1,12 @@
+
 <!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>РКС — Конституция</title>
-    <link rel="icon" href="../favicon.ico" type="image/x-icon">
-    <link rel="shortcut icon" href="../favicon.ico" type="image/x-icon">
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
     <style>
         /* ===== ГЛОБАЛЬНЫЕ СТИЛИ ===== */
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -37,38 +38,6 @@
             height: 4px;
             background: linear-gradient(90deg, #c9a961, #f4e4d4, #c9a961);
             border-radius: 24px 24px 0 0;
-        }
-
-        /* ===== КНОПКА "ГЛАВНАЯ" СВЕРХУ ===== */
-        .home-top-link {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 10px 20px;
-            margin-bottom: 20px;
-            background: rgba(201, 169, 97, 0.08);
-            border: 1px solid rgba(201, 169, 97, 0.3);
-            border-radius: 30px;
-            color: #c9a961;
-            text-decoration: none;
-            font-size: 0.85em;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            transition: all 0.3s ease;
-            font-weight: bold;
-        }
-        .home-top-link:hover {
-            background: rgba(201, 169, 97, 0.18);
-            border-color: #c9a961;
-            transform: translateX(-5px);
-            box-shadow: 0 4px 20px rgba(201, 169, 97, 0.2);
-        }
-        .home-top-link .arrow {
-            font-size: 1.2em;
-            transition: transform 0.3s;
-        }
-        .home-top-link:hover .arrow {
-            transform: translateX(-4px);
         }
 
         /* ===== ЛОГОТИП И ЗАГОЛОВОК ===== */
@@ -297,14 +266,13 @@
             .article { padding: 15px; }
             .actions { flex-direction: column; }
             .btn-3d { width: 100%; text-align: center; }
-            .home-top-link { font-size: 0.75em; padding: 8px 16px; }
         }
 
         /* ===== ПЕЧАТЬ ===== */
         @media print {
             body { background: white; color: black; padding: 0; }
             .container { box-shadow: none; border: none; max-width: 100%; padding: 0; }
-            .container::before, .logo-frame, .photo-frame, .actions, .home-top-link { display: none; }
+            .container::before, .logo-frame, .photo-frame, .actions { display: none; }
             .logo-wrapper img { filter: none; }
             .chapter { opacity: 1; transform: none; animation: none; }
             .article { border-left: 2px solid #000; background: none; }
@@ -315,18 +283,11 @@
 <body>
 
     <div class="container">
-
-        <!-- ===== КНОПКА "ГЛАВНАЯ" СВЕРХУ ===== -->
-        <a href="../index.html" class="home-top-link">
-            <span class="arrow">←</span>
-            <span>Главная РКС</span>
-        </a>
-
         <!-- ЛОГОТИП И НАЗВАНИЕ -->
         <div class="logo-center">
             <div class="logo-wrapper">
                 <div class="logo-frame"></div>
-                <img src="../favicon.ico" alt="РКС">
+                <img src="favicon.ico" alt="РКС">
             </div>
             <div class="logo-title">РКС</div>
             <div class="logo-sub">Республика Когнитивного Суверенитета</div>
@@ -334,7 +295,7 @@
 
         <!-- ОКНО ДЛЯ ФОТО 800x450 -->
         <div class="photo-frame">
-            <img src="../rks-portrait.jpg" alt="Эмблема РКС">
+            <img src="rks-portrait.jpg" alt="Эмблема РКС">
         </div>
         <div class="photo-caption">Государственная Эмблема РКС</div>
 
@@ -423,13 +384,56 @@
             </div>
         </div>
 
-        <!-- ДЕЙСТВИЯ -->
+        <!-- ===== УНИВЕРСАЛЬНЫЕ КНОПКИ (РАБОТАЮТ ВСЕГДА) ===== -->
         <div class="actions">
             <button class="btn-3d" onclick="window.print()">🖨️ Распечатать Конституцию</button>
-            <a href="../index.html" class="btn-3d secondary">← Вернуться в РКС</a>
+            
+            <!-- УНИВЕРСАЛЬНАЯ КНОПКА ВОЗВРАТА (РАБОТАЕТ ВСЕГДА) -->
+            <button class="btn-3d secondary" onclick="goToMainPage()">
+                ← Вернуться к проектам
+            </button>
         </div>
 
     </div>
+
+    <!-- ===== УНИВЕРСАЛЬНЫЙ JavaScript (РАБОТАЕТ В ЛЮБОЙ ПАПКЕ) ===== -->
+    <script>
+        function goToMainPage() {
+            // Получаем текущий URL
+            var currentUrl = window.location.href;
+            
+            // Вариант 1: Если мы в папке (например, /constitution/index.html)
+            // поднимаемся на один уровень вверх
+            var pathParts = currentUrl.split('/');
+            
+            // Удаляем последнюю часть (имя файла или папку)
+            pathParts.pop();
+            
+            // Проверяем, не является ли последняя часть папкой "constitution", "passport" и т.д.
+            var lastPart = pathParts[pathParts.length - 1];
+            var subfolders = ['constitution', 'passport', 'bank', 'money', 'projects'];
+            
+            // Если мы в одной из подпапок, поднимаемся ещё на уровень выше
+            if (subfolders.includes(lastPart)) {
+                pathParts.pop();
+            }
+            
+            // Добавляем index.html
+            pathParts.push('index.html');
+            
+            // Собираем URL обратно
+            var mainPageUrl = pathParts.join('/');
+            
+            // Переходим на главную страницу
+            window.location.href = mainPageUrl;
+        }
+        
+        // Альтернативный вариант (если первый не сработает)
+        // Просто переходим на ../index.html
+        function goToMainPageSimple() {
+            window.location.href = '../index.html';
+        }
+    </script>
 
 </body>
 </html>
