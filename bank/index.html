@@ -1,14 +1,12 @@
-
 <!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>РКС — Банк + Экономика + Потенциал</title>
+    <title>РКС — Банк</title>
     <link rel="icon" href="favicon.ico" type="image/x-icon" />
     <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
     <style>
-        /* ===== ГЛОБАЛЬНЫЕ ===== */
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: 'Times New Roman', serif;
@@ -19,39 +17,15 @@
         }
         .container { max-width: 1400px; margin: 0 auto; }
 
-        /* ===== ШАПКА ===== */
         .header {
-            text-align: center;
-            margin-bottom: 10px;
-            padding: 30px;
-            background: rgba(201, 169, 97, 0.03);
-            border: 2px solid rgba(201, 169, 97, 0.2);
-            border-radius: 16px;
-            position: relative;
-            backdrop-filter: blur(4px);
+            text-align: center; margin-bottom: 40px; padding: 30px;
+            background: rgba(201, 169, 97, 0.03); border: 2px solid rgba(201, 169, 97, 0.2);
+            border-radius: 16px; position: relative; backdrop-filter: blur(4px);
         }
-        .header-logo {
-            width: 80px;
-            height: 80px;
-            margin: 0 auto 20px;
-            position: relative;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .header-logo img {
-            width: 64px;
-            height: 64px;
-            filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.5));
-            z-index: 2;
-            position: relative;
-        }
+        .header-logo { width: 80px; height: 80px; margin: 0 auto 20px; position: relative; display: flex; align-items: center; justify-content: center; }
+        .header-logo img { width: 64px; height: 64px; filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.5)); z-index: 2; position: relative; }
         .header-logo-frame {
-            position: absolute;
-            width: 80px;
-            height: 80px;
-            border: 3px solid transparent;
-            border-radius: 16px;
+            position: absolute; width: 80px; height: 80px; border: 3px solid transparent; border-radius: 16px;
             animation: rotateFrame 6s linear infinite, rainbowGlow 4s ease-in-out infinite;
         }
         @keyframes rotateFrame { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
@@ -65,70 +39,11 @@
         .header h1 { font-size: 2.5em; letter-spacing: 8px; text-transform: uppercase; margin-bottom: 10px; text-shadow: 0 0 20px rgba(201,169,97,0.5); }
         .header .subtitle { font-size: 1.1em; color: rgba(201,169,97,0.7); letter-spacing: 4px; }
 
-        /* ===== ОКНО ДЛЯ ФОТО 800x450 ===== */
-        .photo-frame {
-            width: 800px;
-            height: 450px;
-            max-width: 100%;
-            margin: 25px auto 15px;
-            position: relative;
-            border: 3px solid #c9a961;
-            border-radius: 10px;
-            padding: 10px;
-            background: linear-gradient(135deg, rgba(201,169,97,0.1) 0%, rgba(0,0,0,0.6) 100%);
-            box-shadow: 
-                0 0 25px rgba(201,169,97,0.5),
-                inset 0 0 20px rgba(201,169,97,0.2),
-                0 15px 40px rgba(0,0,0,0.8);
-            overflow: hidden;
-        }
-        .photo-frame::before {
-            content: '';
-            position: absolute;
-            top: 5px; left: 5px; right: 5px; bottom: 5px;
-            border: 1px solid rgba(201,169,97,0.4);
-            border-radius: 6px;
-            pointer-events: none;
-        }
-        .photo-frame img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: block;
-            border-radius: 4px;
-            filter: sepia(0.2) contrast(1.1);
-        }
-        .photo-caption {
-            text-align: center;
-            color: #c9a961;
-            font-size: 0.9em;
-            letter-spacing: 4px;
-            text-transform: uppercase;
-            margin-bottom: 30px;
-            text-shadow: 0 0 10px rgba(201,169,97,0.6);
-        }
-        /* ===== /ОКНО ДЛЯ ФОТО ===== */
-
-        /* ===== ВКЛАДКИ ===== */
-        .tabs {
-            display: flex;
-            gap: 4px;
-            margin-bottom: 30px;
-            flex-wrap: wrap;
-            border-bottom: 2px solid rgba(201, 169, 97, 0.15);
-        }
+        .tabs { display: flex; gap: 4px; margin-bottom: 30px; flex-wrap: wrap; border-bottom: 2px solid rgba(201, 169, 97, 0.15); }
         .tab-btn {
-            padding: 14px 30px;
-            background: rgba(201, 169, 97, 0.03);
-            border: none;
-            border-bottom: 3px solid transparent;
-            color: rgba(201, 169, 97, 0.4);
-            font-size: 1em;
-            font-family: 'Times New Roman', serif;
-            letter-spacing: 3px;
-            text-transform: uppercase;
-            cursor: pointer;
-            transition: all 0.3s ease;
+            padding: 14px 30px; background: rgba(201, 169, 97, 0.03); border: none; border-bottom: 3px solid transparent;
+            color: rgba(201, 169, 97, 0.4); font-size: 1em; font-family: 'Times New Roman', serif;
+            letter-spacing: 3px; text-transform: uppercase; cursor: pointer; transition: all 0.3s ease;
         }
         .tab-btn:hover { color: #c9a961; background: rgba(201, 169, 97, 0.06); }
         .tab-btn.active { color: #c9a961; border-bottom-color: #c9a961; background: rgba(201, 169, 97, 0.08); }
@@ -136,154 +51,32 @@
         .tab-content.active { display: block; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* ===== СЕКЦИИ ===== */
         .section {
-            background: rgba(201, 169, 97, 0.03);
-            border: 2px solid rgba(201, 169, 97, 0.15);
-            border-radius: 14px;
-            padding: 30px;
-            margin-bottom: 30px;
-            position: relative;
-            overflow: hidden;
-            backdrop-filter: blur(4px);
+            background: rgba(201, 169, 97, 0.03); border: 2px solid rgba(201, 169, 97, 0.15);
+            border-radius: 14px; padding: 30px; margin-bottom: 30px; position: relative; overflow: hidden; backdrop-filter: blur(4px);
         }
-        .section::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 3px;
-            background: linear-gradient(90deg, #c9a961, #f4e4d4, #c9a961);
-        }
+        .section::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, #c9a961, #f4e4d4, #c9a961); }
         .section h2 { font-size: 1.8em; margin-bottom: 25px; letter-spacing: 4px; text-transform: uppercase; color: #c9a961; text-align: center; }
         .section h3 { font-size: 1.3em; margin: 20px 0 15px; color: #c9a961; letter-spacing: 2px; }
 
-        /* ===== СЕТКА ===== */
         .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin-bottom: 30px; }
-        .grid-2 { grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
-        .card {
-            background: rgba(0, 0, 0, 0.3);
-            border: 1px solid rgba(201, 169, 97, 0.2);
-            border-radius: 10px;
-            padding: 20px;
-            transition: all 0.3s;
-        }
+        .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin-bottom: 30px; }
+        .card { background: rgba(0, 0, 0, 0.3); border: 1px solid rgba(201, 169, 97, 0.2); border-radius: 10px; padding: 20px; transition: all 0.3s; }
         .card:hover { border-color: #c9a961; box-shadow: 0 0 20px rgba(201, 169, 97, 0.1); }
         .card h4 { font-size: 1.2em; margin-bottom: 15px; color: #c9a961; letter-spacing: 2px; }
 
-        /* ===== ГРАФИК ===== */
-        .chart-container {
-            padding: 20px;
-            background: rgba(0, 0, 0, 0.3);
-            border-radius: 10px;
-            margin: 10px 0;
-            position: relative;
-            height: 150px;
-        }
-        .chart-bars {
-            display: flex;
-            align-items: flex-end;
-            justify-content: space-between;
-            height: 100%;
-            gap: 8px;
-            padding-bottom: 20px;
-        }
-        .chart-bar-wrapper {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            height: 100%;
-            justify-content: flex-end;
-        }
-        .chart-bar {
-            width: 100%;
-            max-width: 40px;
-            min-height: 4px;
-            background: linear-gradient(180deg, #c9a961, #8a7a4a);
-            border-radius: 4px 4px 0 0;
-            transition: height 0.5s ease;
-            position: relative;
-        }
-        .chart-bar .bar-value {
-            position: absolute;
-            top: -18px;
-            left: 50%;
-            transform: translateX(-50%);
-            font-size: 0.6em;
-            color: rgba(201, 169, 97, 0.5);
-        }
-        .chart-label {
-            font-size: 0.6em;
-            color: rgba(201, 169, 97, 0.4);
-            margin-top: 6px;
-            text-align: center;
-        }
-
-        /* ===== МИНИСТЕРСТВА ===== */
-        .ministry-card {
-            background: rgba(0, 0, 0, 0.4);
-            border: 1px solid rgba(201, 169, 97, 0.3);
-            border-radius: 12px;
-            padding: 20px;
-            text-align: center;
-            transition: all 0.4s;
-            position: relative;
-            overflow: hidden;
-        }
-        .ministry-card:hover { border-color: #c9a961; transform: translateY(-5px); box-shadow: 0 10px 30px rgba(201,169,97,0.15); }
-        .ministry-card.owned { border-color: #28a745; background: rgba(40, 167, 69, 0.05); }
-        .ministry-card.owned::after {
-            content: '✅ НАЗНАЧЕН';
-            position: absolute;
-            top: 10px;
-            right: -30px;
-            background: #28a745;
-            color: white;
-            padding: 5px 40px;
-            font-size: 0.7em;
-            font-weight: bold;
-            transform: rotate(45deg);
-            letter-spacing: 1px;
-        }
-        .ministry-icon { font-size: 2.5em; margin-bottom: 15px; }
-        .ministry-name { font-size: 1em; font-weight: bold; color: #f4e4d4; margin-bottom: 15px; min-height: 45px; display: flex; align-items: center; justify-content: center; }
-        .ministry-price { font-size: 1.5em; color: #c9a961; font-weight: bold; margin-bottom: 20px; }
-
-        /* ===== 3D КНОПКИ ===== */
         .btn-3d {
-            position: relative;
-            display: inline-block;
-            width: 100%;
-            padding: 14px 24px;
-            border: none;
-            border-radius: 16px;
-            font-family: 'Times New Roman', serif;
-            font-size: 0.9em;
-            font-weight: bold;
-            letter-spacing: 3px;
-            text-transform: uppercase;
-            color: #0a0a0a;
-            cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            position: relative; display: inline-block; width: 100%; padding: 14px 24px; border: none; border-radius: 16px;
+            font-family: 'Times New Roman', serif; font-size: 0.9em; font-weight: bold; letter-spacing: 3px; text-transform: uppercase;
+            color: #0a0a0a; cursor: pointer; transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
             background: linear-gradient(145deg, rgba(201, 169, 97, 0.9), rgba(180, 150, 70, 0.95));
             box-shadow: 0 8px 32px rgba(201, 169, 97, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.5), inset 0 -4px 0 rgba(0, 0, 0, 0.2);
-            transform: perspective(800px) rotateX(2deg) rotateY(0deg);
-            text-shadow: 0 1px 0 rgba(255, 255, 255, 0.3);
+            transform: perspective(800px) rotateX(2deg) rotateY(0deg); text-shadow: 0 1px 0 rgba(255, 255, 255, 0.3);
         }
         .btn-3d::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 200%;
-            height: 100%;
+            content: ''; position: absolute; top: 0; left: -100%; width: 200%; height: 100%;
             background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.15) 30%, rgba(255,255,255,0.3) 50%, rgba(255,255,255,0.15) 70%, transparent 100%);
-            transform: skewX(-25deg);
-            transition: all 0.8s ease;
-            pointer-events: none;
-            border-radius: 16px;
+            transform: skewX(-25deg); transition: all 0.8s ease; pointer-events: none; border-radius: 16px;
         }
         .btn-3d:hover::after { left: 100%; }
         .btn-3d:hover {
@@ -299,202 +92,270 @@
         .btn-3d:disabled { opacity: 0.4; cursor: not-allowed; transform: none; animation: none; }
         .btn-3d.owned-btn { background: linear-gradient(145deg, rgba(40,167,69,0.9), rgba(30,130,50,0.95)); color: white; cursor: default; }
         .btn-3d-small { padding: 8px 16px; font-size: 0.7em; width: auto; border-radius: 12px; }
+        .btn-3d-danger { background: linear-gradient(145deg, rgba(220,53,69,0.9), rgba(180,30,40,0.95)); color: white; }
+        .btn-3d-info {
+            background: linear-gradient(145deg, rgba(40, 167, 69, 0.8), rgba(30, 130, 50, 0.85));
+            color: white; box-shadow: 0 8px 32px rgba(40, 167, 69, 0.3); width: auto; padding: 10px 24px; font-size: 0.8em;
+        }
+        .btn-3d-info:hover { box-shadow: 0 12px 48px rgba(40, 167, 69, 0.5); }
 
-        /* ===== ФОРМЫ ===== */
         .form-group { margin-bottom: 16px; }
         .form-group label { display: block; margin-bottom: 6px; font-size: 0.85em; letter-spacing: 2px; text-transform: uppercase; color: rgba(201,169,97,0.7); }
-        .form-group select, .form-group input {
-            width: 100%;
-            padding: 10px 14px;
-            background: rgba(0, 0, 0, 0.5);
-            border: 2px solid rgba(201, 169, 97, 0.15);
-            border-radius: 8px;
-            color: #c9a961;
-            font-size: 1em;
-            font-family: 'Times New Roman', serif;
-            transition: all 0.3s;
+        .form-group select, .form-group input, .form-group textarea {
+            width: 100%; padding: 10px 14px; background: rgba(0, 0, 0, 0.5); border: 2px solid rgba(201, 169, 97, 0.15);
+            border-radius: 8px; color: #c9a961; font-size: 1em; font-family: 'Times New Roman', serif; transition: all 0.3s;
         }
-        .form-group select:focus, .form-group input:focus {
-            outline: none;
-            border-color: #c9a961;
-            box-shadow: 0 0 10px rgba(201, 169, 97, 0.1);
-        }
+        .form-group textarea { min-height: 80px; resize: vertical; }
+        .form-group select:focus, .form-group input:focus, .form-group textarea:focus { outline: none; border-color: #c9a961; box-shadow: 0 0 10px rgba(201, 169, 97, 0.1); }
         .form-group select option { background: #0a0a1a; color: #c9a961; }
 
-        /* ===== ИСТОРИЯ ===== */
         .history-list { max-height: 400px; overflow-y: auto; }
         .history-item {
-            padding: 12px 15px;
-            margin-bottom: 8px;
-            background: rgba(0, 0, 0, 0.3);
-            border-left: 4px solid #c9a961;
-            border-radius: 6px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 6px;
+            padding: 12px 15px; margin-bottom: 8px; background: rgba(0, 0, 0, 0.3); border-left: 4px solid #c9a961;
+            border-radius: 6px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 6px;
         }
         .history-item.pending { border-left-color: #ffc107; }
         .history-item.confirmed { border-left-color: #28a745; }
         .history-item.declined { border-left-color: #dc3545; }
+        .history-item.escrow { border-left-color: #17a2b8; background: rgba(23,162,184,0.05); }
         .history-time { font-size: 0.8em; color: rgba(201,169,97,0.5); min-width: 50px; }
         .history-details { font-size: 1em; flex: 1; }
         .history-status { font-size: 0.85em; font-weight: bold; }
-        .status-pending { color: #ffc107; }
-        .status-confirmed { color: #28a745; }
-        .status-declined { color: #dc3545; }
+        .status-pending { color: #ffc107; } .status-confirmed { color: #28a745; } .status-declined { color: #dc3545; } .status-escrow { color: #17a2b8; }
 
-        /* ===== СТАТИСТИКА ===== */
         .stats-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-top: 15px; }
         .stat-item { text-align: center; padding: 12px; background: rgba(0,0,0,0.3); border-radius: 6px; }
         .stat-value { font-size: 1.8em; font-weight: bold; color: #c9a961; }
         .stat-label { font-size: 0.8em; color: rgba(201,169,97,0.6); margin-top: 4px; }
 
-        /* ===== УВЕДОМЛЕНИЯ ===== */
-        .notification {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            padding: 18px 24px;
-            background: rgba(201, 169, 97, 0.95);
-            color: #0a0a0a;
-            border-radius: 12px;
-            box-shadow: 0 5px 30px rgba(0, 0, 0, 0.6);
-            z-index: 1000;
-            max-width: 400px;
-            animation: slideIn 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-        }
-        @keyframes slideIn { from { transform: translateX(450px) scale(0.9); opacity: 0; } to { transform: translateX(0) scale(1); opacity: 1; } }
-        .notification h3 { margin-bottom: 6px; font-size: 1.1em; letter-spacing: 2px; }
-        .notification p { font-size: 0.9em; }
+        .chart-container { padding: 20px; background: rgba(0, 0, 0, 0.3); border-radius: 10px; margin: 10px 0; position: relative; height: 150px; }
+        .chart-bars { display: flex; align-items: flex-end; justify-content: space-between; height: 100%; gap: 8px; padding-bottom: 20px; }
+        .chart-bar-wrapper { flex: 1; display: flex; flex-direction: column; align-items: center; height: 100%; justify-content: flex-end; }
+        .chart-bar { width: 100%; max-width: 40px; min-height: 4px; background: linear-gradient(180deg, #c9a961, #8a7a4a); border-radius: 4px 4px 0 0; transition: height 0.5s ease; position: relative; }
+        .chart-bar .bar-value { position: absolute; top: -18px; left: 50%; transform: translateX(-50%); font-size: 0.6em; color: rgba(201, 169, 97, 0.5); }
+        .chart-label { font-size: 0.6em; color: rgba(201, 169, 97, 0.4); margin-top: 6px; text-align: center; }
 
-        .security-badge {
-            display: inline-block;
-            padding: 4px 14px;
-            background: rgba(40, 167, 69, 0.15);
-            border: 1px solid #28a745;
-            border-radius: 20px;
-            font-size: 0.8em;
-            color: #28a745;
-            margin-top: 8px;
+        .template-item {
+            display: flex; justify-content: space-between; align-items: center; padding: 14px;
+            background: rgba(0, 0, 0, 0.3); border: 1px solid rgba(201, 169, 97, 0.15); border-radius: 8px; margin-bottom: 10px; transition: all 0.3s;
         }
+        .template-item:hover { border-color: #c9a961; background: rgba(201, 169, 97, 0.05); }
+        .template-item .icon { font-size: 1.5em; margin-right: 12px; }
+        .template-item .name { color: #f4e4d4; font-weight: bold; flex: 1; }
+        .template-item .amount { color: #c9a961; font-weight: bold; margin-right: 15px; font-family: 'Courier New', monospace; }
 
-        /* ===== ВКЛАДЫ ===== */
         .deposit-item {
-            background: rgba(0, 0, 0, 0.2);
-            border: 1px solid rgba(201, 169, 97, 0.1);
-            border-radius: 8px;
-            padding: 15px;
-            margin-bottom: 12px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 10px;
+            background: rgba(0, 0, 0, 0.2); border: 1px solid rgba(201, 169, 97, 0.1); border-radius: 8px;
+            padding: 15px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;
         }
         .deposit-item .info { flex: 1; }
         .deposit-item .info .name { font-weight: bold; color: #f4e4d4; }
         .deposit-item .info .detail { font-size: 0.85em; color: rgba(201,169,97,0.6); }
 
-        /* ===== КУРС ===== */
-        .rate-item {
-            display: flex;
-            justify-content: space-between;
-            padding: 10px 14px;
-            background: rgba(0, 0, 0, 0.2);
-            border-radius: 6px;
-            margin-bottom: 6px;
-            border-bottom: 1px solid rgba(201, 169, 97, 0.05);
+        .ministry-card {
+            background: rgba(0, 0, 0, 0.4); border: 1px solid rgba(201, 169, 97, 0.3); border-radius: 12px;
+            padding: 20px; text-align: center; transition: all 0.4s; position: relative; overflow: hidden;
         }
-        .rate-item .currency { color: #f4e4d4; }
-        .rate-item .value { color: #c9a961; font-weight: bold; }
-
-        /* ===== ШАБЛОНЫ ===== */
-        .template-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 10px 14px;
-            background: rgba(0, 0, 0, 0.2);
-            border-radius: 6px;
-            margin-bottom: 6px;
+        .ministry-card:hover { border-color: #c9a961; transform: translateY(-5px); box-shadow: 0 10px 30px rgba(201,169,97,0.15); }
+        .ministry-card.owned { border-color: #28a745; background: rgba(40, 167, 69, 0.05); }
+        .ministry-card.owned::after {
+            content: '✅ НАЗНАЧЕН'; position: absolute; top: 10px; right: -30px; background: #28a745; color: white;
+            padding: 5px 40px; font-size: 0.7em; font-weight: bold; transform: rotate(45deg); letter-spacing: 1px;
         }
-        .template-item .name { color: #f4e4d4; }
-        .template-item .amount { color: #c9a961; }
+        .ministry-icon { font-size: 2.5em; margin-bottom: 15px; }
+        .ministry-name { font-size: 1em; font-weight: bold; color: #f4e4d4; margin-bottom: 15px; min-height: 45px; display: flex; align-items: center; justify-content: center; }
+        .ministry-price { font-size: 1.5em; color: #c9a961; font-weight: bold; margin-bottom: 20px; }
 
-        /* ===== 2FA ===== */
-        .f2a-code {
-            font-size: 2em;
-            letter-spacing: 8px;
-            text-align: center;
-            padding: 15px;
-            background: rgba(0, 0, 0, 0.3);
-            border-radius: 8px;
-            color: #28a745;
-            font-family: 'Courier New', monospace;
+        .shop-layout { display: grid; grid-template-columns: 260px 1fr; gap: 20px; }
+        .shop-sidebar {
+            background: rgba(0, 0, 0, 0.3); border: 1px solid rgba(201, 169, 97, 0.2); border-radius: 10px;
+            padding: 15px; position: sticky; top: 20px; max-height: calc(100vh - 100px); overflow-y: auto;
         }
+        .shop-sidebar h3 { font-size: 1em; letter-spacing: 2px; margin-bottom: 12px; color: #c9a961; text-transform: uppercase; border-bottom: 1px solid rgba(201,169,97,0.2); padding-bottom: 8px; }
+        .category-btn {
+            display: block; width: 100%; padding: 10px 12px; margin-bottom: 4px; background: transparent;
+            border: 1px solid transparent; border-radius: 6px; color: rgba(201,169,97,0.7); font-family: 'Times New Roman', serif;
+            font-size: 0.9em; text-align: left; cursor: pointer; transition: all 0.2s; letter-spacing: 1px;
+        }
+        .category-btn:hover { background: rgba(201,169,97,0.05); color: #c9a961; }
+        .category-btn.active { background: rgba(201,169,97,0.1); border-color: #c9a961; color: #c9a961; font-weight: bold; }
+        .category-btn .cat-count { float: right; font-size: 0.75em; color: rgba(201,169,97,0.5); font-family: 'Courier New', monospace; }
+        
+        .shop-main { background: rgba(0, 0, 0, 0.3); border: 1px solid rgba(201, 169, 97, 0.2); border-radius: 10px; padding: 20px; }
+        .shop-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 10px; }
+        .shop-title { font-size: 1.5em; color: #c9a961; letter-spacing: 3px; }
+        .shop-search { flex: 1; max-width: 300px; padding: 8px 14px; background: rgba(0, 0, 0, 0.5); border: 2px solid rgba(201, 169, 97, 0.15); border-radius: 8px; color: #c9a961; font-family: 'Times New Roman', serif; }
+        .shop-search:focus { outline: none; border-color: #c9a961; }
+        
+        .products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 12px; }
+        .product-card { background: rgba(0, 0, 0, 0.4); border: 1px solid rgba(201, 169, 97, 0.15); border-radius: 8px; padding: 14px; transition: all 0.3s; display: flex; flex-direction: column; }
+        .product-card:hover { border-color: #c9a961; transform: translateY(-2px); box-shadow: 0 5px 15px rgba(201,169,97,0.1); }
+        .product-icon { font-size: 2em; text-align: center; margin-bottom: 8px; }
+        .product-name { color: #f4e4d4; font-size: 0.9em; font-weight: bold; margin-bottom: 8px; min-height: 40px; line-height: 1.3; }
+        .product-price { color: #c9a961; font-size: 1.3em; font-weight: bold; font-family: 'Courier New', monospace; margin-bottom: 10px; text-align: center; }
+        .product-btn {
+            padding: 8px; background: linear-gradient(145deg, rgba(201,169,97,0.9), rgba(180,150,70,0.95)); border: none; border-radius: 8px;
+            color: #0a0a0a; font-family: 'Times New Roman', serif; font-weight: bold; letter-spacing: 2px; text-transform: uppercase;
+            font-size: 0.75em; cursor: pointer; transition: all 0.2s;
+        }
+        .product-btn:hover { background: linear-gradient(145deg, rgba(220,185,110,1), rgba(200,170,90,1)); box-shadow: 0 4px 12px rgba(201,169,97,0.3); }
 
-        /* ===== АДАПТИВ ===== */
+        .cart-panel { background: rgba(201, 169, 97, 0.05); border: 2px solid rgba(201, 169, 97, 0.3); border-radius: 10px; padding: 20px; margin-top: 20px; }
+        .cart-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 1px solid rgba(201,169,97,0.2); }
+        .cart-title { font-size: 1.2em; color: #c9a961; letter-spacing: 2px; }
+        .cart-total { font-size: 1.5em; font-weight: bold; color: #c9a961; font-family: 'Courier New', monospace; }
+        .cart-items { max-height: 250px; overflow-y: auto; margin-bottom: 15px; }
+        .cart-item { display: flex; justify-content: space-between; align-items: center; padding: 10px 12px; background: rgba(0,0,0,0.3); border-radius: 6px; margin-bottom: 6px; }
+        .cart-item-info { flex: 1; }
+        .cart-item-name { color: #f4e4d4; font-size: 0.9em; }
+        .cart-item-price { color: #c9a961; font-family: 'Courier New', monospace; font-size: 0.85em; }
+        .cart-item-remove { background: transparent; border: 1px solid rgba(220,53,69,0.3); color: #dc3545; border-radius: 4px; padding: 4px 10px; cursor: pointer; font-size: 0.8em; transition: all 0.2s; }
+        .cart-item-remove:hover { background: rgba(220,53,69,0.1); border-color: #dc3545; }
+        .cart-empty { text-align: center; padding: 20px; color: rgba(201,169,97,0.4); font-style: italic; }
+
+        .my-shop-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 15px; margin-bottom: 25px; }
+        .my-shop-stat { background: rgba(0,0,0,0.3); border: 1px solid rgba(201,169,97,0.2); border-radius: 10px; padding: 18px; text-align: center; }
+        .my-shop-stat .value { font-size: 2.2em; font-weight: bold; color: #c9a961; font-family: 'Courier New', monospace; }
+        .my-shop-stat .label { font-size: 0.85em; color: rgba(201,169,97,0.6); margin-top: 6px; letter-spacing: 1px; }
+        
+        .my-product-card { background: rgba(0,0,0,0.4); border: 1px solid rgba(201,169,97,0.2); border-radius: 10px; padding: 18px; margin-bottom: 12px; display: flex; gap: 15px; align-items: center; transition: all 0.3s; flex-wrap: wrap; }
+        .my-product-card:hover { border-color: #c9a961; background: rgba(201,169,97,0.03); }
+        .my-product-card.inactive { opacity: 0.5; border-color: rgba(100,100,100,0.3); }
+        .my-product-icon { font-size: 2.5em; min-width: 60px; text-align: center; }
+        .my-product-info { flex: 1; min-width: 200px; }
+        .my-product-name { color: #f4e4d4; font-weight: bold; font-size: 1.1em; margin-bottom: 4px; }
+        .my-product-desc { color: rgba(201,169,97,0.6); font-size: 0.85em; margin-bottom: 6px; line-height: 1.4; }
+        .my-product-meta { display: flex; gap: 15px; flex-wrap: wrap; font-size: 0.8em; }
+        .my-product-meta span { color: rgba(201,169,97,0.7); }
+        .my-product-meta strong { color: #c9a961; }
+        .my-product-actions { display: flex; flex-direction: column; gap: 6px; min-width: 140px; }
+        .my-product-price { text-align: center; font-size: 1.5em; font-weight: bold; color: #c9a961; font-family: 'Courier New', monospace; margin-bottom: 8px; }
+        
+        .empty-state { text-align: center; padding: 60px 20px; color: rgba(201,169,97,0.5); }
+        .empty-state .icon { font-size: 4em; margin-bottom: 15px; opacity: 0.5; }
+        .empty-state .title { font-size: 1.3em; margin-bottom: 10px; color: rgba(201,169,97,0.7); }
+        .empty-state .desc { font-size: 0.95em; max-width: 500px; margin: 0 auto; line-height: 1.6; }
+        
+        .sales-history-item { padding: 12px 15px; margin-bottom: 8px; background: rgba(0,0,0,0.3); border-left: 4px solid #28a745; border-radius: 6px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 6px; }
+        .sales-history-item .buyer { color: #f4e4d4; font-weight: bold; }
+        .sales-history-item .product { color: rgba(201,169,97,0.7); font-size: 0.9em; }
+        .sales-history-item .amount { color: #28a745; font-weight: bold; font-family: 'Courier New', monospace; }
+        .sales-history-item .time { color: rgba(201,169,97,0.5); font-size: 0.8em; }
+
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0, 0, 0, 0.85); z-index: 2000; justify-content: center; align-items: center; padding: 20px; animation: fadeIn 0.3s; }
+        .modal-overlay.active { display: flex; }
+        .modal {
+            background: linear-gradient(135deg, #0a0a2a 0%, #0f0f3a 100%); border: 2px solid #c9a961; border-radius: 16px;
+            padding: 30px; max-width: 600px; width: 100%; max-height: 90vh; overflow-y: auto; box-shadow: 0 20px 60px rgba(201,169,97,0.3);
+        }
+        .modal h2 { text-align: center; color: #c9a961; letter-spacing: 3px; margin-bottom: 20px; }
+        .escrow-steps { display: flex; flex-direction: column; gap: 12px; margin-bottom: 25px; }
+        .escrow-step { display: flex; align-items: center; padding: 12px 15px; background: rgba(0,0,0,0.3); border-left: 3px solid rgba(201,169,97,0.2); border-radius: 6px; transition: all 0.4s; }
+        .escrow-step.active { border-left-color: #ffc107; background: rgba(255,193,7,0.05); }
+        .escrow-step.done { border-left-color: #28a745; background: rgba(40,167,69,0.05); }
+        .escrow-step-num {
+            width: 30px; height: 30px; border-radius: 50%; background: rgba(201,169,97,0.1); border: 2px solid rgba(201,169,97,0.3);
+            display: flex; align-items: center; justify-content: center; margin-right: 15px; font-weight: bold; color: #c9a961; flex-shrink: 0;
+        }
+        .escrow-step.active .escrow-step-num { background: rgba(255,193,7,0.2); border-color: #ffc107; animation: pulse 1.5s infinite; }
+        .escrow-step.done .escrow-step-num { background: rgba(40,167,69,0.2); border-color: #28a745; color: #28a745; }
+        @keyframes pulse { 0%, 100% { box-shadow: 0 0 0 0 rgba(255,193,7,0.4); } 50% { box-shadow: 0 0 0 8px rgba(255,193,7,0); } }
+        .escrow-step-text { flex: 1; color: #f4e4d4; font-size: 0.95em; }
+        .escrow-step-text .step-title { font-weight: bold; margin-bottom: 3px; }
+        .escrow-step-text .step-detail { font-size: 0.85em; color: rgba(201,169,97,0.6); }
+        .modal-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+        .modal-actions .btn-3d { flex: 1; min-width: 150px; }
+        
+        .order-summary { background: rgba(0,0,0,0.4); border-radius: 8px; padding: 15px; margin-bottom: 20px; }
+        .order-summary-item { display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px dashed rgba(201,169,97,0.1); }
+        .order-summary-item:last-child { border-bottom: none; }
+        .order-summary-item .label { color: rgba(201,169,97,0.7); }
+        .order-summary-item .value { color: #c9a961; font-weight: bold; font-family: 'Courier New', monospace; }
+        .order-summary-total { margin-top: 10px; padding-top: 10px; border-top: 2px solid rgba(201,169,97,0.3); display: flex; justify-content: space-between; font-size: 1.2em; }
+        .order-summary-total .label { color: #f4e4d4; font-weight: bold; }
+        .order-summary-total .value { color: #c9a961; font-weight: bold; font-family: 'Courier New', monospace; }
+
+        .notification {
+            position: fixed; top: 20px; right: 20px; padding: 18px 24px; background: rgba(201, 169, 97, 0.95);
+            color: #0a0a0a; border-radius: 12px; box-shadow: 0 5px 30px rgba(0, 0, 0, 0.6); z-index: 3000;
+            max-width: 420px; animation: slideIn 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        .notification.danger { background: rgba(220, 53, 69, 0.95); color: white; }
+        .notification.info { background: rgba(23, 162, 184, 0.95); color: white; }
+        @keyframes slideIn { from { transform: translateX(450px) scale(0.9); opacity: 0; } to { transform: translateX(0) scale(1); opacity: 1; } }
+        .notification h3 { margin-bottom: 6px; font-size: 1.1em; letter-spacing: 2px; }
+        .notification p { font-size: 0.9em; word-break: break-all; }
+        .security-badge { display: inline-block; padding: 4px 14px; background: rgba(40, 167, 69, 0.15); border: 1px solid #28a745; border-radius: 20px; font-size: 0.8em; color: #28a745; margin-top: 8px; }
+
+        table { width: 100%; border-collapse: collapse; margin-top: 15px; background: rgba(0, 0, 0, 0.2); border-radius: 10px; overflow: hidden; }
+        th, td { padding: 14px 18px; text-align: left; border-bottom: 1px solid rgba(201, 169, 97, 0.1); color: #f4e4d4; }
+        th { background: rgba(201, 169, 97, 0.1); color: #c9a961; font-weight: bold; letter-spacing: 2px; text-transform: uppercase; font-size: 0.9em; }
+        tr:hover { background: rgba(201, 169, 97, 0.05); }
+
+        .path-step { display: flex; justify-content: space-between; padding: 12px 18px; background: rgba(0,0,0,0.2); border-radius: 8px; margin-bottom: 6px; border-left: 3px solid rgba(201,169,97,0.2); transition: all 0.3s; }
+        .path-step.active { border-left-color: #28a745; background: rgba(40,167,69,0.05); }
+        .path-step .step-num { color: #c9a961; font-weight: bold; min-width: 30px; }
+        .path-step .step-desc { flex: 1; color: #f4e4d4; }
+        .path-step .step-balance { color: #c9a961; font-weight: bold; }
+
+        .balance-amount { font-size: 3.5em; text-align: center; padding: 10px 0; }
+        .balance-label { text-align: center; font-size: 1em; color: rgba(201,169,97,0.6); letter-spacing: 4px; }
+        .balance-display { text-align: center; padding: 15px 0; }
+
         @media (max-width: 768px) {
             .header h1 { font-size: 1.8em; letter-spacing: 4px; }
-            .grid { grid-template-columns: 1fr; }
-            .grid-2 { grid-template-columns: 1fr; }
+            .grid, .grid-2 { grid-template-columns: 1fr; }
             .tabs { flex-direction: column; border-bottom: none; }
             .tab-btn { border-bottom: 2px solid rgba(201,169,97,0.05); border-left: 3px solid transparent; text-align: left; }
             .tab-btn.active { border-bottom-color: rgba(201,169,97,0.05); border-left-color: #c9a961; }
             .stats-grid { grid-template-columns: 1fr 1fr; }
-            .history-item { flex-direction: column; align-items: stretch; }
-            .photo-frame { width: 95vw; height: auto; aspect-ratio: 16 / 9; }
+            .history-item, .my-product-card { flex-direction: column; align-items: stretch; }
+            .shop-layout { grid-template-columns: 1fr !important; }
+            .shop-sidebar { position: static !important; }
+            .my-product-actions { min-width: auto; }
+            .my-shop-stats { grid-template-columns: 1fr 1fr; }
+            .products-grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); }
         }
     </style>
 </head>
 <body>
 
     <div class="container">
-
-        <!-- ===== ШАПКА ===== -->
+        <!-- ШАПКА -->
         <div class="header">
             <div class="header-logo">
                 <div class="header-logo-frame"></div>
                 <img src="favicon.ico" alt="РКС">
             </div>
-            <h1>РКС — Банк + Экономика</h1>
+            <h1>РКС — Банк</h1>
             <div class="subtitle">Республика Когнитивного Суверенитета</div>
+            <div style="margin-top:15px;">
+                <button class="btn-3d btn-3d-info" onclick="openInfo()">📖 Как работает банк</button>
+            </div>
         </div>
 
-        <!-- ===== ОКНО ДЛЯ ФОТО 800x450 ===== -->
-        <div class="photo-frame">
-            <img src="rks-portrait.jpg" alt="Эмблема РКС">
-        </div>
-        <div class="photo-caption">Государственная Эмблема РКС</div>
-        <!-- ===== /ОКНО ДЛЯ ФОТО ===== -->
-
-        <!-- ===== ВКЛАДКИ ===== -->
+        <!-- ВКЛАДКИ -->
         <div class="tabs">
             <button class="tab-btn active" data-tab="tab-bank">🏦 Банк</button>
+            <button class="tab-btn" data-tab="tab-shop">🛒 Магазин</button>
+            <button class="tab-btn" data-tab="tab-myshop">📦 Мой Магазин</button>
             <button class="tab-btn" data-tab="tab-rules">📖 Экономика</button>
             <button class="tab-btn" data-tab="tab-ministries">🏛️ Министерства</button>
         </div>
 
-        <!-- ============================================================ -->
-        <!-- ===== ВКЛАДКА: БАНК ===== -->
-        <!-- ============================================================ -->
+        <!-- ВКЛАДКА: БАНК -->
         <div class="tab-content active" id="tab-bank">
-
             <div class="grid">
-
-                <!-- БАЛАНС -->
                 <div class="card" style="background: rgba(201,169,97,0.04); border-color: rgba(201,169,97,0.25);">
                     <h2 style="font-size:1.2em; text-align:center; letter-spacing:4px; margin-bottom:10px;">Ваш Счёт</h2>
-                    <div class="balance-display" style="text-align:center; padding:15px 0;">
+                    <div class="balance-display">
                         <div class="balance-amount" id="balance" style="font-size:3.5em;">
                             <span class="currency-icon" style="display:inline-block; width:36px; height:36px; vertical-align:middle; margin-right:4px;">
                                 <img src="favicon.ico" alt="РКС" style="width:100%; height:100%; object-fit:contain;">
                             </span>
-                            1,250
+                            1
                         </div>
-                        <div class="balance-label" style="font-size:1em; color:rgba(201,169,97,0.6); letter-spacing:4px;">ТРУДОЧАСОВ</div>
+                        <div class="balance-label">ТРУДОЧАС</div>
                         <div class="security-badge">🔒 AI-ЗАЩИЩЕНО</div>
                     </div>
                     <div class="user-info" style="margin-top:10px; padding-top:15px; border-top:1px solid rgba(201,169,97,0.15);">
@@ -505,10 +366,10 @@
                     <div style="margin-top:12px; display:flex; gap:8px; flex-wrap:wrap;">
                         <button class="btn-3d btn-3d-small glow" onclick="generate2FA()">🔐 Сгенерировать 2FA</button>
                         <button class="btn-3d btn-3d-small" onclick="printStatement()">🖨️ Выписка</button>
+                        <button class="btn-3d btn-3d-small btn-3d-info" onclick="openInfo()">📖 Описание</button>
                     </div>
                 </div>
 
-                <!-- ПЕРЕВОД -->
                 <div class="card" style="background: rgba(201,169,97,0.04); border-color: rgba(201,169,97,0.25);">
                     <h2 style="font-size:1.2em; text-align:center; letter-spacing:4px; margin-bottom:15px;">Новый Перевод</h2>
                     <div class="form-group">
@@ -518,7 +379,6 @@
                             <option value="Петров П.П.">Петров П.П. (РКС-002)</option>
                             <option value="Сидорова С.С.">Сидорова С.С. (РКС-003)</option>
                             <option value="Волков В.В.">Волков В.В. (РКС-004)</option>
-                            <option value="Смирнов С.С.">Смирнов С.С. (РКС-005)</option>
                         </select>
                     </div>
                     <div class="form-group">
@@ -530,7 +390,7 @@
                         <input type="password" id="pin" maxlength="4" placeholder="••••" />
                     </div>
                     <div class="form-group">
-                        <label>2FA-код (из приложения)</label>
+                        <label>2FA-код</label>
                         <input type="text" id="f2aInput" maxlength="6" placeholder="6 цифр" />
                     </div>
                     <button class="btn-3d glow" onclick="initiateTransfer()">📤 Отправить Запрос</button>
@@ -540,102 +400,47 @@
                     </div>
                 </div>
 
-                <!-- СТАТИСТИКА -->
                 <div class="card" style="background: rgba(201,169,97,0.04); border-color: rgba(201,169,97,0.25);">
                     <h2 style="font-size:1.2em; text-align:center; letter-spacing:4px; margin-bottom:12px;">Статистика</h2>
                     <div class="stats-grid">
-                        <div class="stat-item">
-                            <div class="stat-value" id="totalSent">450</div>
-                            <div class="stat-label">Отправлено</div>
-                        </div>
-                        <div class="stat-item">
-                            <div class="stat-value" id="totalReceived">800</div>
-                            <div class="stat-label">Получено</div>
-                        </div>
-                        <div class="stat-item">
-                            <div class="stat-value" id="pendingCount">1</div>
-                            <div class="stat-label">Ожидает</div>
-                        </div>
-                        <div class="stat-item">
-                            <div class="stat-value" id="totalCount">12</div>
-                            <div class="stat-label">Всего операций</div>
-                        </div>
+                        <div class="stat-item"><div class="stat-value" id="totalSent">0</div><div class="stat-label">Отправлено</div></div>
+                        <div class="stat-item"><div class="stat-value" id="totalReceived">0</div><div class="stat-label">Получено</div></div>
+                        <div class="stat-item"><div class="stat-value" id="pendingCount">0</div><div class="stat-label">Ожидает</div></div>
+                        <div class="stat-item"><div class="stat-value" id="totalCount">0</div><div class="stat-label">Всего операций</div></div>
                     </div>
                     <div style="margin-top:15px; display:flex; gap:8px; flex-wrap:wrap;">
                         <button class="btn-3d btn-3d-small" onclick="filterHistory('all')">Все</button>
                         <button class="btn-3d btn-3d-small" onclick="filterHistory('confirmed')">✅ Выполненные</button>
-                        <button class="btn-3d btn-3d-small" onclick="filterHistory('pending')">⏳ Ожидают</button>
                     </div>
                 </div>
 
-                <!-- ИСТОРИЯ -->
                 <div class="card" style="background: rgba(201,169,97,0.04); border-color: rgba(201,169,97,0.25);">
                     <h2 style="font-size:1.2em; text-align:center; letter-spacing:4px; margin-bottom:12px;">История Операций</h2>
                     <div class="history-list" id="historyList">
-                        <div class="history-item confirmed">
-                            <div class="history-time">14:23</div>
-                            <div class="history-details">Петров П.П. → Вы • 200 ТЧ</div>
-                            <div class="history-status status-confirmed">✅ Подтверждено</div>
-                        </div>
-                        <div class="history-item confirmed">
-                            <div class="history-time">10:15</div>
-                            <div class="history-details">Вы → Сидорова С.С. • 150 ТЧ</div>
-                            <div class="history-status status-confirmed">✅ Подтверждено</div>
-                        </div>
-                        <div class="history-item declined">
-                            <div class="history-time">09:30</div>
-                            <div class="history-details">Волков В.В. → Вы • 100 ТЧ</div>
-                            <div class="history-status status-declined">❌ Отклонено</div>
-                        </div>
+                        <div style="padding:15px; text-align:center; color:rgba(201,169,97,0.3);">Нет операций</div>
                     </div>
                 </div>
-
             </div>
 
-            <!-- ===== ГРАФИК БАЛАНСА ===== -->
             <div class="section">
                 <h2>📊 График баланса</h2>
                 <div class="chart-container">
-                    <div class="chart-bars" id="chartBars">
-                        <!-- Заполняется через JS -->
-                    </div>
+                    <div class="chart-bars" id="chartBars"></div>
                 </div>
                 <div style="text-align:center; font-size:0.8em; color:rgba(201,169,97,0.3); margin-top:6px;">Последние 7 дней</div>
             </div>
 
-            <!-- ===== ВКЛАДЫ + ШАБЛОНЫ + КУРС ===== -->
-            <div class="grid grid-2">
-
-                <!-- ВКЛАДЫ -->
+            <div class="grid-2">
                 <div class="card">
                     <h2 style="font-size:1.1em; text-align:center; letter-spacing:3px; margin-bottom:15px;">💰 Вклады (Депозиты)</h2>
                     <div id="depositList">
                         <div class="deposit-item">
-                            <div class="info">
-                                <div class="name">Сберегательный</div>
-                                <div class="detail">5% годовых</div>
-                            </div>
-                            <div>
-                                <button class="btn-3d btn-3d-small" onclick="openDeposit('Сберегательный', 5)">Открыть</button>
-                            </div>
+                            <div class="info"><div class="name">Сберегательный</div><div class="detail">5% годовых</div></div>
+                            <div><button class="btn-3d btn-3d-small" onclick="openDeposit('Сберегательный', 5)">Открыть</button></div>
                         </div>
                         <div class="deposit-item">
-                            <div class="info">
-                                <div class="name">Накопительный</div>
-                                <div class="detail">7% годовых</div>
-                            </div>
-                            <div>
-                                <button class="btn-3d btn-3d-small" onclick="openDeposit('Накопительный', 7)">Открыть</button>
-                            </div>
-                        </div>
-                        <div class="deposit-item">
-                            <div class="info">
-                                <div class="name">Инвестиционный</div>
-                                <div class="detail">10% годовых</div>
-                            </div>
-                            <div>
-                                <button class="btn-3d btn-3d-small" onclick="openDeposit('Инвестиционный', 10)">Открыть</button>
-                            </div>
+                            <div class="info"><div class="name">Накопительный</div><div class="detail">7% годовых</div></div>
+                            <div><button class="btn-3d btn-3d-small" onclick="openDeposit('Накопительный', 7)">Открыть</button></div>
                         </div>
                     </div>
                     <div id="activeDeposits" style="margin-top:15px; border-top:1px solid rgba(201,169,97,0.1); padding-top:12px;">
@@ -643,187 +448,245 @@
                     </div>
                 </div>
 
-                <!-- ШАБЛОНЫ + КУРС -->
                 <div class="card">
-                    <h2 style="font-size:1.1em; text-align:center; letter-spacing:3px; margin-bottom:15px;">📨 Шаблоны платежей</h2>
-                    <div id="templateList">
-                        <div class="template-item">
-                            <span class="name">Аренда</span>
-                            <span class="amount">500 ТЧ</span>
-                            <button class="btn-3d btn-3d-small" onclick="useTemplate('Аренда', 500)">→</button>
-                        </div>
-                        <div class="template-item">
-                            <span class="name">Обед</span>
-                            <span class="amount">50 ТЧ</span>
-                            <button class="btn-3d btn-3d-small" onclick="useTemplate('Обед', 50)">→</button>
-                        </div>
-                        <div class="template-item">
-                            <span class="name">Коммунальные</span>
-                            <span class="amount">200 ТЧ</span>
-                            <button class="btn-3d btn-3d-small" onclick="useTemplate('Коммунальные', 200)">→</button>
-                        </div>
+                    <h2 style="font-size:1.1em; text-align:center; letter-spacing:3px; margin-bottom:15px;">📨 Популярные цифровые товары</h2>
+                    <div class="template-item">
+                        <span class="icon">🎮</span><span class="name">Компьютерная игра (AAA)</span><span class="amount">100 ТЧ</span>
+                        <button class="btn-3d btn-3d-small" onclick="quickBuy('Компьютерная игра (AAA)', 100)">Купить</button>
                     </div>
-                    <div style="margin-top:15px; border-top:1px solid rgba(201,169,97,0.1); padding-top:15px;">
-                        <h3 style="font-size:0.9em; margin-bottom:8px;">📈 Курс Трудочаса</h3>
-                        <div id="rateList">
-                            <div class="rate-item"><span class="currency">Зерно (кг)</span><span class="value">100</span></div>
-                            <div class="rate-item"><span class="currency">Энергия (кВт·ч)</span><span class="value">50</span></div>
-                            <div class="rate-item"><span class="currency">Вода (л)</span><span class="value">500</span></div>
-                        </div>
+                    <div class="template-item">
+                        <span class="icon">🎬</span><span class="name">Видео-ролик (1 мин)</span><span class="amount">1 ТЧ</span>
+                        <button class="btn-3d btn-3d-small" onclick="quickBuy('Видео-ролик (1 мин)', 1)">Купить</button>
+                    </div>
+                    <div class="template-item">
+                        <span class="icon">📸</span><span class="name">Цифровое фото (4K)</span><span class="amount">1 ТЧ</span>
+                        <button class="btn-3d btn-3d-small" onclick="quickBuy('Цифровое фото (4K)', 1)">Купить</button>
+                    </div>
+                    <div class="template-item">
+                        <span class="icon">🎵</span><span class="name">Отдельный трек</span><span class="amount">1 ТЧ</span>
+                        <button class="btn-3d btn-3d-small" onclick="quickBuy('Отдельный трек', 1)">Купить</button>
                     </div>
                 </div>
-
             </div>
-
         </div>
 
-        <!-- ============================================================ -->
-        <!-- ===== ВКЛАДКА: ЭКОНОМИКА ===== -->
-        <!-- ============================================================ -->
-        <div class="tab-content" id="tab-rules">
+        <!-- ВКЛАДКА: МАГАЗИН -->
+        <div class="tab-content" id="tab-shop">
             <div class="section">
-                <h2>1. Деньги Выдаёт Государство</h2>
-                <div class="grid">
-                    <div class="card"><h4>Эмиссия</h4><p>Только Государственный банк РКС создаёт новые Трудочасы</p></div>
-                    <div class="card"><h4>Обеспечение</h4><p>Каждый Трудочас обеспечен трудом, талантом или вкладом гражданина</p></div>
-                    <div class="card"><h4>Цель</h4><p>Поощрение полезных действий для общества</p></div>
-                    <div class="card"><h4>Защита от инфляции</h4><p>Деньги создаются только под реальные заслуги</p></div>
+                <h2>🛒 Магазин Цифровых Товаров</h2>
+                <p style="text-align:center; color:rgba(201,169,97,0.7); margin-bottom:25px; max-width:900px; margin-left:auto; margin-right:auto; line-height:1.7;">
+                    Все цены в трудочасах (ТЧ). Покупка проходит через <strong style="color:#c9a961;">защищённую сделку (Escrow)</strong>: средства блокируются до подтверждения получения товара.
+                </p>
+
+                <div class="shop-layout">
+                    <div class="shop-sidebar">
+                        <h3>📂 Категории</h3>
+                        <div id="categoryList"></div>
+                    </div>
+
+                    <div class="shop-main">
+                        <div class="shop-header">
+                            <div class="shop-title" id="currentCategoryTitle">🎮 Развлечения и культура</div>
+                            <input type="text" class="shop-search" id="shopSearch" placeholder="🔍 Поиск товара..." oninput="renderProducts()">
+                        </div>
+                        <div class="products-grid" id="productsGrid"></div>
+
+                        <div class="cart-panel">
+                            <div class="cart-header">
+                                <div class="cart-title">🛒 Корзина <span id="cartCount" style="color:rgba(201,169,97,0.5); font-size:0.8em;">(0)</span></div>
+                                <div class="cart-total">Итого: <span id="cartTotal">0</span> ТЧ</div>
+                            </div>
+                            <div class="cart-items" id="cartItems">
+                                <div class="cart-empty">Корзина пуста. Добавьте товары из каталога.</div>
+                            </div>
+                            <div style="display:flex; gap:10px; flex-wrap:wrap;">
+                                <button class="btn-3d" onclick="clearCart()" style="flex:1; background:linear-gradient(145deg, rgba(100,100,100,0.8), rgba(60,60,60,0.9)); color:#f4e4d4;">🗑️ Очистить</button>
+                                <button class="btn-3d glow" onclick="checkout()" style="flex:2;">💳 Оформить покупку</button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
+        </div>
+
+        <!-- ВКЛАДКА: МОЙ МАГАЗИН -->
+        <div class="tab-content" id="tab-myshop">
             <div class="section">
-                <h2>2. Таблица Наград</h2>
-                <table style="width:100%; border-collapse: collapse; color: #f4e4d4;">
-                    <thead><tr style="border-bottom: 2px solid rgba(201,169,97,0.3);"><th style="padding:10px; text-align:left;">Действие</th><th style="padding:10px; text-align:left;">Награда (ТЧ)</th><th style="padding:10px; text-align:left;">Условие</th></tr></thead>
+                <h2>📦 Мой Магазин</h2>
+                <p style="text-align:center; color:rgba(201,169,97,0.7); margin-bottom:25px; max-width:900px; margin-left:auto; margin-right:auto; line-height:1.7;">
+                    Выложите свой цифровой товар или услугу на продажу.
+                </p>
+
+                <div class="my-shop-stats">
+                    <div class="my-shop-stat"><div class="value" id="myProductsCount">0</div><div class="label">Товаров на продаже</div></div>
+                    <div class="my-shop-stat"><div class="value" id="mySalesCount">0</div><div class="label">Продаж совершено</div></div>
+                    <div class="my-shop-stat"><div class="value" id="myTotalEarned">0</div><div class="label">Заработано ТЧ</div></div>
+                    <div class="my-shop-stat"><div class="value" id="myRating">5.0</div><div class="label">Рейтинг продавца</div></div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>➕ Выложить новый товар / услугу</h2>
+                <div class="grid-2">
+                    <div>
+                        <div class="form-group"><label>Название</label><input type="text" id="newProductName" placeholder="Например: Моя компьютерная игра" maxlength="100" /></div>
+                        <div class="form-group">
+                            <label>Категория</label>
+                            <select id="newProductCategory">
+                                <option value="🎮 Развлечения и культура">🎮 Развлечения и культура</option>
+                                <option value="🎨 Искусство и творчество">🎨 Искусство и творчество</option>
+                                <option value="🎵 Музыка и звук">🎵 Музыка и звук</option>
+                                <option value="📚 Литература и образование">📚 Литература и образование</option>
+                                <option value="📱 Программы и приложения">📱 Программы и приложения</option>
+                                <option value="🌐 Интернет и облачные сервисы">🌐 Интернет и облачные сервисы</option>
+                                <option value="💼 Работа и бизнес">💼 Работа и бизнес</option>
+                                <option value="💬 Коммуникации и соцсети">💬 Коммуникации и соцсети</option>
+                                <option value="🧠 Саморазвитие и здоровье">🧠 Саморазвитие и здоровье</option>
+                                <option value="🛡️ Безопасность и приватность">🛡️ Безопасность и приватность</option>
+                                <option value="💡 Дополнительные случаи">💡 Дополнительные случаи</option>
+                            </select>
+                        </div>
+                        <div class="form-group"><label>Цена (Трудочасов)</label><input type="number" id="newProductPrice" min="1" max="10000" placeholder="Например: 100" /></div>
+                    </div>
+                    <div>
+                        <div class="form-group"><label>Описание</label><textarea id="newProductDesc" placeholder="Опишите ваш товар..." maxlength="500"></textarea></div>
+                        <div class="form-group"><label>Ссылка на файл</label><input type="text" id="newProductLink" placeholder="https://..." /></div>
+                        <div class="form-group"><label>Иконка (эмодзи)</label><input type="text" id="newProductIcon" value="📦" maxlength="2" /></div>
+                    </div>
+                </div>
+                <div style="text-align:center; margin-top:15px;">
+                    <button class="btn-3d glow" onclick="addMyProduct()" style="max-width:400px; margin:0 auto;">📤 Опубликовать товар</button>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>📋 Мои товары и услуги</h2>
+                <div id="myProductsList"></div>
+            </div>
+
+            <div class="section">
+                <h2>💰 История продаж</h2>
+                <div id="salesHistoryList"></div>
+            </div>
+        </div>
+
+        <!-- ВКЛАДКА: ЭКОНОМИКА -->
+        <div class="tab-content" id="tab-rules">
+            <div class="section">
+                <h2>1. Принципы Цифровой Экономики</h2>
+                <div class="grid">
+                    <div class="card"><h4>Эмиссия</h4><p>Только за реальный цифровой труд</p></div>
+                    <div class="card"><h4>Обеспечение</h4><p>Каждый ТЧ обеспечен часом работы</p></div>
+                    <div class="card"><h4>Копирование</h4><p>Бесплатно. Цена платится только за оригинальный труд</p></div>
+                    <div class="card"><h4>Защита</h4><p>AI проверяет уникальность и авторство</p></div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>2. Таблица Наград (Цифровой мир)</h2>
+                <table>
+                    <thead><tr><th>Действие</th><th>Награда (ТЧ)</th><th>Условие</th></tr></thead>
                     <tbody>
-                        <tr style="border-bottom: 1px solid rgba(201,169,97,0.1);"><td style="padding:10px;">Привёл нового человека</td><td style="padding:10px;">1</td><td style="padding:10px;">Официальная регистрация</td></tr>
-                        <tr style="border-bottom: 1px solid rgba(201,169,97,0.1);"><td style="padding:10px;">Написал полезную программу</td><td style="padding:10px;">100</td><td style="padding:10px;">Принята государством</td></tr>
-                        <tr style="border-bottom: 1px solid rgba(201,169,97,0.1);"><td style="padding:10px;">Создал произведение искусства</td><td style="padding:10px;">50–500</td><td style="padding:10px;">Подтверждено Цехом Свидетелей</td></tr>
-                        <tr style="border-bottom: 1px solid rgba(201,169,97,0.1);"><td style="padding:10px;">Выиграл спортивное соревнование</td><td style="padding:10px;">100–1000</td><td style="padding:10px;">Подтверждено Оргкомитетом</td></tr>
-                        <tr style="border-bottom: 1px solid rgba(201,169,97,0.1);"><td style="padding:10px;">Создал полезное изобретение</td><td style="padding:10px;">500–5000</td><td style="padding:10px;">Подтверждено Советом Гильдий</td></tr>
-                        <tr><td style="padding:10px;">Хочет стать Президентом</td><td style="padding:10px;">Вносит 100 000</td><td style="padding:10px;">В казну государства</td></tr>
+                        <tr><td>Разработка компьютерной игры</td><td>100</td><td>Рабочий билд</td></tr>
+                        <tr><td>Создание и монтаж видео</td><td>20</td><td>Уникальный контент</td></tr>
+                        <tr><td>Художественная фотография</td><td>1</td><td>Обработка, композиция</td></tr>
+                        <tr><td>Написание чистого кода</td><td>10</td><td>За 1000 строк кода</td></tr>
+                        <tr><td>Поиск уязвимости (Bug Bounty)</td><td>50</td><td>Подтверждено Министерством</td></tr>
                     </tbody>
                 </table>
             </div>
+
             <div class="section">
-                <h2>3. Калькулятор Заработка</h2>
-                <div class="calculator" style="background:rgba(0,0,0,0.3); border-radius:12px; padding:25px;">
-                    <div class="calc-grid" style="display:grid; grid-template-columns:repeat(auto-fit, minmax(200px,1fr)); gap:15px;">
-                        <div class="calc-item"><label style="display:block; margin-bottom:5px; font-size:0.85em; color:rgba(201,169,97,0.7);">Привёл людей</label><input type="number" id="calcPeople" min="0" value="0" oninput="calculateEarnings()" style="width:100%; padding:8px; background:rgba(0,0,0,0.5); border:1px solid rgba(201,169,97,0.3); border-radius:6px; color:#c9a961;"></div>
-                        <div class="calc-item"><label style="display:block; margin-bottom:5px; font-size:0.85em; color:rgba(201,169,97,0.7);">Написал программ</label><input type="number" id="calcPrograms" min="0" value="0" oninput="calculateEarnings()" style="width:100%; padding:8px; background:rgba(0,0,0,0.5); border:1px solid rgba(201,169,97,0.3); border-radius:6px; color:#c9a961;"></div>
-                        <div class="calc-item"><label style="display:block; margin-bottom:5px; font-size:0.85em; color:rgba(201,169,97,0.7);">Создал искусства</label><input type="number" id="calcArt" min="0" value="0" oninput="calculateEarnings()" style="width:100%; padding:8px; background:rgba(0,0,0,0.5); border:1px solid rgba(201,169,97,0.3); border-radius:6px; color:#c9a961;"></div>
-                        <div class="calc-item"><label style="display:block; margin-bottom:5px; font-size:0.85em; color:rgba(201,169,97,0.7);">Выиграл соревнований</label><input type="number" id="calcSports" min="0" value="0" oninput="calculateEarnings()" style="width:100%; padding:8px; background:rgba(0,0,0,0.5); border:1px solid rgba(201,169,97,0.3); border-radius:6px; color:#c9a961;"></div>
-                        <div class="calc-item"><label style="display:block; margin-bottom:5px; font-size:0.85em; color:rgba(201,169,97,0.7);">Создал изобретений</label><input type="number" id="calcInventions" min="0" value="0" oninput="calculateEarnings()" style="width:100%; padding:8px; background:rgba(0,0,0,0.5); border:1px solid rgba(201,169,97,0.3); border-radius:6px; color:#c9a961;"></div>
-                    </div>
-                    <div class="calc-result" style="text-align:center; padding:20px;">
-                        <div class="total" id="totalEarnings" style="font-size:2.5em; color:#c9a961; font-weight:bold;">0</div>
-                        <div class="label" style="font-size:1em; color:rgba(201,169,97,0.6); letter-spacing:3px;">ТРУДОЧАСОВ ЗАРАБОТАНО</div>
-                    </div>
-                </div>
-            </div>
-            <div class="section">
-                <h2>4. Симулятор Пути Гражданина</h2>
-                <div class="path-simulator" style="background:rgba(0,0,0,0.2); border-radius:12px; padding:20px;">
+                <h2>3. Симулятор Пути Гражданина</h2>
+                <div style="background:rgba(0,0,0,0.2); border-radius:12px; padding:20px;">
                     <div id="pathSteps">
-                        <div class="path-step" id="step1" style="padding:10px; border-left:3px solid rgba(201,169,97,0.3); margin-bottom:8px;"><div class="step-num" style="font-weight:bold; color:#c9a961;">1</div><div class="step-desc">Зарегистрировался в РКС</div><div class="step-balance" style="color:rgba(201,169,97,0.6);">0 ТЧ</div></div>
-                        <div class="path-step" id="step2" style="padding:10px; border-left:3px solid rgba(201,169,97,0.3); margin-bottom:8px;"><div class="step-num" style="font-weight:bold; color:#c9a961;">2</div><div class="step-desc">Привёл друга в РКС</div><div class="step-balance" style="color:rgba(201,169,97,0.6);">+1 ТЧ</div></div>
-                        <div class="path-step" id="step3" style="padding:10px; border-left:3px solid rgba(201,169,97,0.3); margin-bottom:8px;"><div class="step-num" style="font-weight:bold; color:#c9a961;">3</div><div class="step-desc">Написал программу учёта</div><div class="step-balance" style="color:rgba(201,169,97,0.6);">+100 ТЧ</div></div>
-                        <div class="path-step" id="step4" style="padding:10px; border-left:3px solid rgba(201,169,97,0.3); margin-bottom:8px;"><div class="step-num" style="font-weight:bold; color:#c9a961;">4</div><div class="step-desc">Написал ещё 10 программ</div><div class="step-balance" style="color:rgba(201,169,97,0.6);">+1000 ТЧ</div></div>
-                        <div class="path-step" id="step5" style="padding:10px; border-left:3px solid rgba(201,169,97,0.3); margin-bottom:8px;"><div class="step-num" style="font-weight:bold; color:#c9a961;">5</div><div class="step-desc">Привёл 100 новых людей</div><div class="step-balance" style="color:rgba(201,169,97,0.6);">+100 ТЧ</div></div>
-                        <div class="path-step" id="step6" style="padding:10px; border-left:3px solid rgba(201,169,97,0.3); margin-bottom:8px;"><div class="step-num" style="font-weight:bold; color:#c9a961;">6</div><div class="step-desc">Создал 2 картины (по 500 ТЧ)</div><div class="step-balance" style="color:rgba(201,169,97,0.6);">+1000 ТЧ</div></div>
-                        <div class="path-step" id="step7" style="padding:10px; border-left:3px solid rgba(201,169,97,0.3); margin-bottom:8px;"><div class="step-num" style="font-weight:bold; color:#c9a961;">7</div><div class="step-desc">ИТОГО заработал</div><div class="step-balance" style="color:rgba(201,169,97,0.6);">2 201 ТЧ</div></div>
-                        <div class="path-step" id="step8" style="padding:10px; border-left:3px solid rgba(201,169,97,0.3); margin-bottom:8px;"><div class="step-num" style="font-weight:bold; color:#c9a961;">8</div><div class="step-desc">Продолжает работать и копить</div><div class="step-balance" style="color:rgba(201,169,97,0.6);">→ 100 000 ТЧ</div></div>
-                        <div class="path-step" id="step9" style="padding:10px; border-left:3px solid rgba(201,169,97,0.3); margin-bottom:8px;"><div class="step-num" style="font-weight:bold; color:#c9a961;">9</div><div class="step-desc">Вносит 100 000 ТЧ в казну</div><div class="step-balance" style="color:#28a745; font-weight:bold;">БАЛЛОТИРУЕТСЯ</div></div>
+                        <div class="path-step" id="step1"><div class="step-num">1</div><div class="step-desc">Зарегистрировался в РКС</div><div class="step-balance">1 ТЧ</div></div>
+                        <div class="path-step" id="step2"><div class="step-num">2</div><div class="step-desc">Привёл друга в РКС</div><div class="step-balance">+1 ТЧ</div></div>
+                        <div class="path-step" id="step3"><div class="step-num">3</div><div class="step-desc">Написал программу учёта</div><div class="step-balance">+100 ТЧ</div></div>
+                        <div class="path-step" id="step4"><div class="step-num">4</div><div class="step-desc">Написал ещё 10 программ</div><div class="step-balance">+1000 ТЧ</div></div>
+                        <div class="path-step" id="step5"><div class="step-num">5</div><div class="step-desc">Привёл 100 новых людей</div><div class="step-balance">+100 ТЧ</div></div>
+                        <div class="path-step" id="step6"><div class="step-num">6</div><div class="step-desc">Создал 2 картины (по 500 ТЧ)</div><div class="step-balance">+1000 ТЧ</div></div>
+                        <div class="path-step" id="step7"><div class="step-num">7</div><div class="step-desc">ИТОГО заработал</div><div class="step-balance">2 202 ТЧ</div></div>
+                        <div class="path-step" id="step8"><div class="step-num">8</div><div class="step-desc">Продолжает работать и копить</div><div class="step-balance">→ 100 000 ТЧ</div></div>
+                        <div class="path-step" id="step9"><div class="step-num">9</div><div class="step-desc">Вносит 100 000 ТЧ в казну</div><div class="step-balance">БАЛЛОТИРУЕТСЯ</div></div>
                     </div>
                     <button class="btn-3d glow" onclick="simulatePath()" style="margin-top:20px;">▶ Запустить Симуляцию</button>
                 </div>
             </div>
+
             <div class="section">
-                <h2>5. Калькулятор Президентства</h2>
-                <div class="calculator" style="background:rgba(0,0,0,0.3); border-radius:12px; padding:25px;">
-                    <div class="calc-grid" style="display:grid; grid-template-columns:repeat(auto-fit, minmax(200px,1fr)); gap:15px;">
-                        <div class="calc-item"><label style="display:block; margin-bottom:5px; font-size:0.85em; color:rgba(201,169,97,0.7);">Людей привести</label><input type="number" id="presPeople" min="0" value="0" oninput="calculatePresidency()" style="width:100%; padding:8px; background:rgba(0,0,0,0.5); border:1px solid rgba(201,169,97,0.3); border-radius:6px; color:#c9a961;"></div>
-                        <div class="calc-item"><label style="display:block; margin-bottom:5px; font-size:0.85em; color:rgba(201,169,97,0.7);">Программ написать</label><input type="number" id="presPrograms" min="0" value="0" oninput="calculatePresidency()" style="width:100%; padding:8px; background:rgba(0,0,0,0.5); border:1px solid rgba(201,169,97,0.3); border-radius:6px; color:#c9a961;"></div>
-                        <div class="calc-item"><label style="display:block; margin-bottom:5px; font-size:0.85em; color:rgba(201,169,97,0.7);">Шедевров создать</label><input type="number" id="presArt" min="0" value="0" oninput="calculatePresidency()" style="width:100%; padding:8px; background:rgba(0,0,0,0.5); border:1px solid rgba(201,169,97,0.3); border-radius:6px; color:#c9a961;"></div>
-                        <div class="calc-item"><label style="display:block; margin-bottom:5px; font-size:0.85em; color:rgba(201,169,97,0.7);">Соревнований выиграть</label><input type="number" id="presSports" min="0" value="0" oninput="calculatePresidency()" style="width:100%; padding:8px; background:rgba(0,0,0,0.5); border:1px solid rgba(201,169,97,0.3); border-radius:6px; color:#c9a961;"></div>
+                <h2>4. Калькулятор Президентства</h2>
+                <div style="background:rgba(0,0,0,0.3); border-radius:12px; padding:25px;">
+                    <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:15px;">
+                        <div><label>Людей привести</label><input type="number" id="presPeople" min="0" value="0" oninput="calculatePresidency()"></div>
+                        <div><label>Программ написать</label><input type="number" id="presPrograms" min="0" value="0" oninput="calculatePresidency()"></div>
+                        <div><label>Шедевров создать</label><input type="number" id="presArt" min="0" value="0" oninput="calculatePresidency()"></div>
+                        <div><label>Соревнований выиграть</label><input type="number" id="presSports" min="0" value="0" oninput="calculatePresidency()"></div>
                     </div>
-                    <div class="calc-result" style="text-align:center; padding:20px;">
-                        <div class="total" id="presTotal" style="font-size:2.5em; color:#c9a961; font-weight:bold;">0</div>
-                        <div class="label" style="font-size:1em; color:rgba(201,169,97,0.6); letter-spacing:3px;">ТЧ НАКОПЛЕНО ИЗ 100 000</div>
-                        <div class="progress" id="presProgress" style="font-size:1.2em; color:#28a745; margin-top:10px;">0%</div>
-                    </div>
-                </div>
-            </div>
-            <div class="section">
-                <h2>6. Главные Принципы</h2>
-                <div class="principle-list" style="display:grid; grid-template-columns:repeat(auto-fit, minmax(220px,1fr)); gap:15px;">
-                    <div class="principle-item" style="background:rgba(201,169,97,0.03); border:1px solid rgba(201,169,97,0.1); border-radius:8px; padding:18px;">
-                        <h4 style="color:#c9a961; margin-bottom:8px;">Деньги от государства</h4><p style="font-size:0.9em; color:rgba(201,169,97,0.7);">Только государство создаёт Трудочасы</p>
-                    </div>
-                    <div class="principle-item" style="background:rgba(201,169,97,0.03); border:1px solid rgba(201,169,97,0.1); border-radius:8px; padding:18px;">
-                        <h4 style="color:#c9a961; margin-bottom:8px;">За реальный труд</h4><p style="font-size:0.9em; color:rgba(201,169,97,0.7);">Каждый ТЧ выдан за полезное действие</p>
-                    </div>
-                    <div class="principle-item" style="background:rgba(201,169,97,0.03); border:1px solid rgba(201,169,97,0.1); border-radius:8px; padding:18px;">
-                        <h4 style="color:#c9a961; margin-bottom:8px;">Поощрение роста</h4><p style="font-size:0.9em; color:rgba(201,169,97,0.7);">Приведи человека → получи ТЧ</p>
-                    </div>
-                    <div class="principle-item" style="background:rgba(201,169,97,0.03); border:1px solid rgba(201,169,97,0.1); border-radius:8px; padding:18px;">
-                        <h4 style="color:#c9a961; margin-bottom:8px;">Президентство — не подарок</h4><p style="font-size:0.9em; color:rgba(201,169,97,0.7);">Только тот, кто доказал состоятельность (100 000 ТЧ)</p>
+                    <div style="text-align:center; padding:20px;">
+                        <div class="total" id="presTotal" style="font-size:2.5em;">0</div>
+                        <div style="font-size:1em; color:rgba(201,169,97,0.6); letter-spacing:3px;">ТЧ НАКОПЛЕНО ИЗ 100 000</div>
+                        <div class="progress" id="presProgress" style="font-size:1.2em; color:#28a745;">0%</div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- ============================================================ -->
-        <!-- ===== ВКЛАДКА: МИНИСТЕРСТВА ===== -->
-        <!-- ============================================================ -->
+        <!-- ВКЛАДКА: МИНИСТЕРСТВА -->
         <div class="tab-content" id="tab-ministries">
             <div class="section">
-                <h2>🏛️ Реализация Потенциала</h2>
-                <p style="text-align:center; font-size:1.4em; margin-bottom:10px; color:#f4e4d4; font-style:italic;">«Главная задача — человек реализовал свой потенциал»</p>
-                <p style="text-align:center; margin-bottom:30px; color:rgba(201,169,97,0.7); max-width:800px; margin-left:auto; margin-right:auto; line-height:1.6;">
-                    Достигнув высокого уровня развития и накопив капитал, гражданин РКС может взять на себя управление ключевым направлением развития государства.
-                </p>
+                <h2>🏛️ Цифровое Управление</h2>
+                <p style="text-align:center; font-size:1.4em; margin-bottom:10px; color:#f4e4d4; font-style:italic;">«Главная задача — человек реализовал свой потенциал в цифровой среде»</p>
                 <div style="text-align:center; margin-bottom:25px; padding:15px; background:rgba(201,169,97,0.05); border-radius:12px; border:1px solid rgba(201,169,97,0.2);">
                     <span style="font-size:1.1em;">Стоимость назначения на пост Министра:</span><br>
                     <span style="font-size:2.2em; font-weight:bold; color:#c9a961;">50 000 Трудочасов</span>
                 </div>
-                <div class="grid" id="ministriesGrid" style="grid-template-columns:repeat(auto-fit, minmax(260px,1fr)); gap:18px;">
-                </div>
+                <div class="grid" id="ministriesGrid" style="grid-template-columns:repeat(auto-fit, minmax(260px,1fr)); gap:18px;"></div>
             </div>
         </div>
-
-        <!-- ============================================================ -->
-        <!-- ===== КНОПКА ВОЗВРАТА НА ГЛАВНУЮ ===== -->
-        <!-- ============================================================ -->
-        <div style="text-align: center; padding: 30px 0 10px 0; border-top: 2px solid rgba(201,169,97,0.15); margin-top: 20px;">
-            <button class="btn-3d" style="width: auto; padding: 14px 48px; font-size: 1em;" onclick="goToMainPage()">
-                ← Вернуться к проектам
-            </button>
-        </div>
-
     </div>
 
-    <!-- ============================================================ -->
-    <!-- ===== JAVASCRIPT ===== -->
-    <!-- ============================================================ -->
+    <!-- МОДАЛЬНОЕ ОКНО ESCROW -->
+    <div class="modal-overlay" id="escrowModal">
+        <div class="modal">
+            <h2 id="modalTitle">💳 Оформление покупки</h2>
+            <div id="modalContent"></div>
+        </div>
+    </div>
+
+    <!-- ОКНО ОПИСАНИЯ -->
+    <div class="modal-overlay" id="infoModal">
+        <div class="modal" style="max-width:900px;">
+            <h2>🏦 РКС — Банк</h2>
+            <p style="text-align:center; color:rgba(255,255,255,0.6); margin-bottom:20px;">Республика Когнитивного Суверенитета</p>
+            <h3 style="color:#c9a961;">📋 Что такое РКС — Банк?</h3>
+            <p style="color:rgba(255,255,255,0.8); line-height:1.7;">РКС — Банк — это <strong>цифровая банковская система</strong>, построенная на принципе <strong>«1 час труда = 1 Трудочас (ТЧ)»</strong>.</p>
+            <h3 style="color:#c9a961;">🔑 Ключевые принципы</h3>
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:15px; margin:10px 0;">
+                <div style="background:rgba(0,0,0,0.3); border:1px solid rgba(201,169,97,0.1); border-radius:10px; padding:15px; text-align:center;">
+                    <div style="font-size:2em; color:#c9a961; font-weight:bold;">1:1</div>
+                    <div style="font-size:0.8em; color:rgba(255,255,255,0.5);">1 час труда = 1 Трудочас</div>
+                </div>
+                <div style="background:rgba(0,0,0,0.3); border:1px solid rgba(201,169,97,0.1); border-radius:10px; padding:15px; text-align:center;">
+                    <div style="font-size:2em; color:#c9a961; font-weight:bold;">⚖️</div>
+                    <div style="font-size:0.8em; color:rgba(255,255,255,0.5);">Равенство всех профессий</div>
+                </div>
+            </div>
+            <h3 style="color:#c9a961;">🏛️ Структура системы</h3>
+            <ul style="color:rgba(255,255,255,0.8); line-height:1.7; padding-left:20px;">
+                <li><strong style="color:#c9a961;">🏦 Банк</strong> — баланс, переводы, вклады, история, график.</li>
+                <li><strong style="color:#c9a961;">🛒 Магазин</strong> — цифровые товары с Escrow-сделкой.</li>
+                <li><strong style="color:#c9a961;">📦 Мой Магазин</strong> — продажа своих товаров.</li>
+                <li><strong style="color:#c9a961;">📖 Экономика</strong> — правила, награды, симуляторы.</li>
+                <li><strong style="color:#c9a961;">🏛️ Министерства</strong> — 22 должности.</li>
+            </ul>
+            <button class="btn-3d" onclick="closeInfo()" style="margin-top:20px;">✕ Закрыть</button>
+        </div>
+    </div>
+
     <script>
         // ============================================================
-        // 0. УНИВЕРСАЛЬНАЯ ФУНКЦИЯ ВОЗВРАТА НА ГЛАВНУЮ
-        // ============================================================
-        function goToMainPage() {
-            var currentUrl = window.location.href;
-            var pathParts = currentUrl.split('/');
-            pathParts.pop();
-            var lastPart = pathParts[pathParts.length - 1];
-            var subfolders = ['constitution', 'passport', 'bank', 'money', 'projects'];
-            if (subfolders.includes(lastPart)) {
-                pathParts.pop();
-            }
-            pathParts.push('index.html');
-            window.location.href = pathParts.join('/');
-        }
-
-        // ============================================================
-        // 1. ВКЛАДКИ
+        // 1. ВКЛАДКИ И МОДАЛКИ
         // ============================================================
         document.querySelectorAll('.tab-btn').forEach(btn => {
             btn.addEventListener('click', function() {
@@ -834,109 +697,259 @@
             });
         });
 
+        function openInfo() { document.getElementById('infoModal').classList.add('active'); document.body.style.overflow = 'hidden'; }
+        function closeInfo() { document.getElementById('infoModal').classList.remove('active'); document.body.style.overflow = ''; }
+        document.getElementById('infoModal').addEventListener('click', function(e) { if (e.target === this) closeInfo(); });
+        document.addEventListener('keydown', function(e) { if (e.key === 'Escape') closeInfo(); });
+
         // ============================================================
-        // 2. БАНК — ДАННЫЕ
+        // 2. КАТАЛОГ ТОВАРОВ (ПОЛНЫЙ)
         // ============================================================
-        let balance = 1250;
-        let historyData = [
-            { time: '14:23', from: 'Петров П.П.', to: 'Вы', amount: 200, status: 'confirmed' },
-            { time: '10:15', from: 'Вы', to: 'Сидорова С.С.', amount: 150, status: 'confirmed' },
-            { time: '09:30', from: 'Волков В.В.', to: 'Вы', amount: 100, status: 'declined' }
+        const catalog = {
+            "🎮 Развлечения и культура": [
+                ["Компьютерная игра (AAA)", 100], ["Инди-игра", 40], ["Игровое дополнение (DLC)", 20],
+                ["Игровой скин", 5], ["Подписка на MMO", 30], ["Внутриигровая валюта", 10],
+                ["Фильм (HD)", 15], ["Фильм (4K)", 20], ["Короткометражка", 5],
+                ["Видео-клип", 2], ["Видео-ролик (1 мин)", 1], ["Аниме-сериал", 20],
+                ["Мультфильм", 12], ["Стриминг-подписка", 20], ["Концерт (трансляция)", 10]
+            ],
+            "🎨 Искусство и творчество": [
+                ["Цифровая картина (стандарт)", 15], ["Цифровая картина (премиум)", 30], ["Живопись (оцифрованная)", 20],
+                ["Картина маслом", 25], ["Акварель (скан)", 15], ["Графика (цифра)", 10],
+                ["Портрет на заказ", 20], ["NFT-изображение", 15], ["NFT-коллекция (10 шт)", 120],
+                ["3D-модель", 10], ["3D-персонаж", 25], ["Анимация (5 сек)", 8],
+                ["Анимация (30 сек)", 30], ["Арт-комплект (10 работ)", 50], ["Дизайн персонажа", 20],
+                ["Концепт-арт", 12], ["Комикс", 10], ["Графический роман", 25],
+                ["Создание логотипа (типовой)", 25], ["Создание логотипа (уникальный)", 50]
+            ],
+            "🎵 Музыка и звук": [
+                ["Музыкальный альбом (10 треков)", 5], ["Отдельный трек", 1], ["Сборник (50 треков)", 20],
+                ["Библиотека звуков (100 шт)", 10], ["Саундтрек", 8], ["Подписка на стриминг", 10],
+                ["Подкаст (эпизод)", 5], ["Подкаст-серия (10 эпизодов)", 40], ["Аудиокнига", 15],
+                ["Звуковой эффект", 1], ["Пакет звуков (50 шт)", 15]
+            ],
+            "📚 Литература и образование": [
+                ["Электронная книга", 10], ["Научно-популярная книга", 12], ["Учебник / справочник", 25],
+                ["Научная статья", 5], ["Поэтический сборник", 8], ["Сценарий", 15],
+                ["Онлайн-курс (полный)", 50], ["Отдельный урок", 5], ["Вебинар (1-2 часа)", 15],
+                ["Мастер-класс", 10], ["Сертификация", 30], ["Тренинг (полный)", 40]
+            ],
+            "📱 Программы и приложения": [
+                ["Мобильное приложение (игра)", 30], ["Мобильное приложение (утилита)", 20], ["Программа для ПК (стандарт)", 50],
+                ["Программа для ПК (профессиональная)", 100], ["Специализированный софт", 150],
+                ["Подписка на софт (месяц)", 10], ["Плагин для браузера", 5],
+                ["Шаблон для сайта", 15], ["Скрипт / бот", 10]
+            ],
+            "🌐 Интернет и облачные сервисы": [
+                ["Облачное хранилище (100 ГБ, месяц)", 8], ["Облачное хранилище (1 ТБ, месяц)", 20], ["Домен (.com) на год", 10],
+                ["Хостинг (базовый, месяц)", 12], ["Хостинг (VPS, месяц)", 30], ["VPN-подписка (месяц)", 10],
+                ["Анонимайзер", 12], ["SSL-сертификат (год)", 20]
+            ],
+            "💼 Работа и бизнес": [
+                ["Создание сайта (типовой)", 100], ["Создание сайта (интернет-магазин)", 200],
+                ["Создание сайта (корпоративный)", 150], ["Настройка CRM", 80],
+                ["Настройка сервера", 100], ["Написание скрипта", 30],
+                ["Интеграция API", 50], ["Бизнес-план (типовой)", 40], ["Бизнес-план (индивидуальный)", 80]
+            ],
+            "💬 Коммуникации и соцсети": [
+                ["Аватар", 1], ["Анимированный аватар", 2], ["Оформление профиля", 5], ["Набор стикеров", 2],
+                ["Создание чат-бота", 20], ["Настройка Telegram-бота", 15], ["Аналитика соцсетей", 10], ["SMM-стратегия", 50]
+            ],
+            "🧠 Саморазвитие и здоровье": [
+                ["Медитация (аудио)", 3], ["Курс медитации (10 сессий)", 25], ["Трекер привычек", 5],
+                ["План тренировок", 15], ["Фитнес-программа", 10], ["Дневник питания", 8],
+                ["Консультация психолога (онлайн, час)", 30], ["Языковой курс (полный)", 50],
+                ["Языковой урок", 8], ["Тренажёр мозга", 5]
+            ],
+            "🛡️ Безопасность и приватность": [
+                ["Антивирус (лицензия, год)", 30], ["Антивирус (лицензия, месяц)", 5], ["Менеджер паролей (год)", 15],
+                ["Шифрование файлов", 10], ["2FA-аутентификатор", 1], ["Резервное копирование (100 ГБ, месяц)", 10]
+            ],
+            "💡 Дополнительные случаи": [
+                ["Цифровой подарок", 1], ["Доступ к закрытому контенту", 15], ["Участие в розыгрыше", 3],
+                ["Виртуальный мерч", 1], ["Премиум-доступ", 5], ["Доступ к архиву", 10], ["Персонализированная база данных", 40]
+            ]
+        };
+
+        // ============================================================
+        // 3. МИНИСТЕРСТВА (22)
+        // ============================================================
+        const ministriesList = [
+            "Министерство системного администрирования", "Министерство кибербезопасности и шифрования",
+            "Министерство цифровой инфраструктуры", "Министерство искусственного интеллекта",
+            "Министерство разработки ПО", "Министерство аппаратного обеспечения",
+            "Министерство сетей и протоколов", "Министерство облачных вычислений",
+            "Министерство баз данных", "Министерство пользовательских интерфейсов",
+            "Министерство робототехники", "Министерство квантовых технологий",
+            "Министерство интернета вещей", "Министерство цифрового образования",
+            "Министерство электронного документооборота", "Министерство цифровой экономики",
+            "Министерство технического надзора", "Министерство открытых данных",
+            "Министерство компьютерной этики", "Министерство цифровых коммуникаций",
+            "Министерство резервного копирования", "Министерство логистики"
         ];
+        const ministryIcons = ["⚙️", "🛡️", "🏢", "🧠", "💻", "🔌", "🌐", "☁️", "🗄️", "🎨", "🤖", "⚛️", "📡", "🎓", "📜", "🪙", "📏", "🔓", "⚖️", "📢", "💾", "🚚"];
+
+        // ============================================================
+        // 4. СОСТОЯНИЕ
+        // ============================================================
+        let balance = 1;
+        let historyData = [];
         let historyFilter = 'all';
         let activeDeposits = [];
         let current2FA = '';
+        let ownedMinistries = new Set();
+        let balanceHistory = [1];
+        let f2aExpiry = 0;
+        let currentCategory = Object.keys(catalog)[0];
+        let cart = [];
+        let myProducts = [];
+        let salesHistory = [];
 
         // ============================================================
-        // 3. ГРАФИК БАЛАНСА (последние 7 дней)
+        // 5. СОХРАНЕНИЕ / ЗАГРУЗКА (С ПЕРВЫМ ЗАПУСКОМ)
+        // ============================================================
+        function loadData() {
+            const saved = localStorage.getItem('rks_bank_data_v2');
+            if (saved) {
+                try {
+                    const data = JSON.parse(saved);
+                    balance = data.balance ?? 1;
+                    historyData = data.historyData || [];
+                    activeDeposits = data.activeDeposits || [];
+                    ownedMinistries = new Set(data.ownedMinistries || []);
+                    balanceHistory = data.balanceHistory || [1];
+                    myProducts = data.myProducts || [];
+                    salesHistory = data.salesHistory || [];
+                } catch (e) { console.warn('Ошибка загрузки', e); resetToDefault(); }
+            } else {
+                // ============================================================
+                // ПЕРВЫЙ ЗАПУСК В ЖИЗНИ — ВЫДАЁМ 1 ТЧ С КРАСИВЫМ УВЕДОМЛЕНИЕМ
+                // ============================================================
+                resetToDefault();
+            }
+            if (balanceHistory.length === 0) balanceHistory = [balance];
+            updateAll();
+        }
+
+        function resetToDefault() {
+            balance = 1;
+            const now = new Date();
+            const timeStr = now.toTimeString().slice(0, 5);
+            historyData = [{ 
+                id: 0, 
+                time: timeStr, 
+                from: 'Государство РКС', 
+                to: 'Вы (Регистрация)', 
+                amount: 1, 
+                status: 'confirmed' 
+            }];
+            balanceHistory = [1];
+            activeDeposits = [];
+            ownedMinistries = new Set();
+            myProducts = [];
+            salesHistory = [];
+            // === КРАСИВОЕ УВЕДОМЛЕНИЕ ПРИ ПЕРВОМ ЗАПУСКЕ ===
+            showNotification('🎉 Добро пожаловать в РКС!', 'Вам начислен 1 Трудочас за регистрацию в системе.');
+        }
+
+        function saveData() {
+            try {
+                localStorage.setItem('rks_bank_data_v2', JSON.stringify({
+                    balance: balance,
+                    historyData, activeDeposits, ownedMinistries: Array.from(ownedMinistries),
+                    balanceHistory, myProducts, salesHistory, cart
+                }));
+            } catch (e) { console.warn('Ошибка сохранения', e); }
+        }
+
+        // ============================================================
+        // 6. ГРАФИК И ОБНОВЛЕНИЕ UI
         // ============================================================
         function renderChart() {
             const days = ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'];
-            const values = [];
-            let base = balance - 500 + Math.floor(Math.random() * 300);
-            for (let i = 0; i < 7; i++) {
-                base += Math.floor(Math.random() * 200) - 80;
-                if (base < 100) base = 100 + Math.floor(Math.random() * 50);
-                values.push(base);
-            }
-            const max = Math.max(...values) * 1.2;
-
+            const values = balanceHistory.length < 7 ? [...Array(7 - balanceHistory.length).fill(balanceHistory[0] || 1), ...balanceHistory] : balanceHistory.slice(-7);
+            const max = Math.max(...values, 1) * 1.2;
             const container = document.getElementById('chartBars');
+            if (!container) return;
             container.innerHTML = '';
             days.forEach((day, i) => {
-                const wrapper = document.createElement('div');
-                wrapper.className = 'chart-bar-wrapper';
-                const bar = document.createElement('div');
-                bar.className = 'chart-bar';
-                const height = Math.max((values[i] / max) * 100, 5);
-                bar.style.height = height + '%';
-                bar.innerHTML = `<span class="bar-value">${values[i]}</span>`;
+                const wrapper = document.createElement('div'); wrapper.className = 'chart-bar-wrapper';
+                const bar = document.createElement('div'); bar.className = 'chart-bar';
+                const val = values[i] || 1;
+                bar.style.height = Math.max((val / max) * 100, 5) + '%';
+                bar.innerHTML = `<span class="bar-value">${Math.round(val)}</span>`;
                 wrapper.appendChild(bar);
-                const label = document.createElement('div');
-                label.className = 'chart-label';
-                label.textContent = day;
+                const label = document.createElement('div'); label.className = 'chart-label'; label.textContent = day;
                 wrapper.appendChild(label);
                 container.appendChild(wrapper);
             });
         }
 
-        // ============================================================
-        // 4. БАНК — БАЗОВЫЕ ФУНКЦИИ
-        // ============================================================
-        function updateBalance() {
-            document.getElementById('balance').innerHTML = `
-                <span class="currency-icon" style="display:inline-block; width:36px; height:36px; vertical-align:middle; margin-right:4px;">
-                    <img src="favicon.ico" alt="РКС" style="width:100%; height:100%; object-fit:contain;">
-                </span>
-                ${balance.toLocaleString()}
-            `;
+        function recordBalance() {
+            balanceHistory.push(Math.round(balance));
+            if (balanceHistory.length > 7) balanceHistory.shift();
+            renderChart();
+            saveData();
         }
 
-        function getFilteredHistory() {
-            if (historyFilter === 'all') return historyData;
-            return historyData.filter(h => h.status === historyFilter);
+        function updateBalance() {
+            const el = document.getElementById('balance');
+            if (!el) return;
+            el.innerHTML = `<span class="currency-icon" style="display:inline-block; width:36px; height:36px; vertical-align:middle; margin-right:4px;"><img src="favicon.ico" alt="РКС" style="width:100%; height:100%; object-fit:contain;"></span>${balance}`;
         }
+
+        function getFilteredHistory() { return historyFilter === 'all' ? historyData : historyData.filter(h => h.status === historyFilter); }
 
         function updateHistory() {
             const list = document.getElementById('historyList');
+            if (!list) return;
             const filtered = getFilteredHistory();
             if (filtered.length === 0) {
                 list.innerHTML = '<div style="padding:15px; text-align:center; color:rgba(201,169,97,0.3);">Нет операций</div>';
                 return;
             }
-            list.innerHTML = filtered.map(item => `
-                <div class="history-item ${item.status}">
-                    <div class="history-time">${item.time}</div>
-                    <div class="history-details">${item.from} → ${item.to} • ${item.amount} ТЧ</div>
-                    <div class="history-status status-${item.status}">
-                        ${item.status === 'confirmed' ? '✅ Подтверждено' : item.status === 'declined' ? '❌ Отклонено' : '⏳ Ожидает'}
-                    </div>
-                </div>
-            `).join('');
+            list.innerHTML = filtered.map(item => {
+                let statusText = '', statusClass = '';
+                if (item.status === 'confirmed') { statusText = '✅ Подтверждено'; statusClass = 'status-confirmed'; }
+                else if (item.status === 'declined') { statusText = '❌ Отклонено'; statusClass = 'status-declined'; }
+                else if (item.status === 'escrow') { statusText = '🔒 Заморожено'; statusClass = 'status-escrow'; }
+                else { statusText = '⏳ Ожидает'; statusClass = 'status-pending'; }
+                return `<div class="history-item ${item.status}"><div class="history-time">${item.time}</div><div class="history-details">${item.from} → ${item.to} • ${item.amount} ТЧ</div><div class="history-status ${statusClass}">${statusText}</div></div>`;
+            }).join('');
         }
 
         function updateStats() {
-            const sent = historyData.filter(h => h.from === 'Иванов И.И.' && h.status === 'confirmed').reduce((s, h) => s + h.amount, 0);
+            const sent = historyData.filter(h => h.from === 'Иванов И.И.' && (h.status === 'confirmed' || h.status === 'escrow')).reduce((s, h) => s + h.amount, 0);
             const received = historyData.filter(h => h.to === 'Вы' && h.status === 'confirmed').reduce((s, h) => s + h.amount, 0);
-            const pending = historyData.filter(h => h.status === 'pending').length;
+            const pending = historyData.filter(h => h.status === 'pending' || h.status === 'escrow').length;
             document.getElementById('totalSent').textContent = sent;
             document.getElementById('totalReceived').textContent = received;
             document.getElementById('pendingCount').textContent = pending;
             document.getElementById('totalCount').textContent = historyData.length;
         }
 
-        function filterHistory(status) {
-            historyFilter = status;
-            updateHistory();
+        function filterHistory(status) { historyFilter = status; updateHistory(); }
+
+        function updateAll() {
+            updateBalance(); updateHistory(); updateStats(); renderChart();
+            renderDeposits(); renderMinistries(); renderMyShop(); saveData();
         }
 
         // ============================================================
-        // 5. БАНК — ПЕРЕВОД С 2FA
+        // 7. 2FA И ПЕРЕВОД
         // ============================================================
         function generate2FA() {
             current2FA = String(Math.floor(100000 + Math.random() * 900000));
-            document.getElementById('f2aDisplay').textContent = current2FA;
-            showNotification('🔐 2FA-код сгенерирован', `Ваш код: ${current2FA}. Введите его в поле 2FA.`);
+            f2aExpiry = Date.now() + 60000;
+            const display = document.getElementById('f2aDisplay');
+            if (display) display.textContent = current2FA;
+            let timeLeft = 60;
+            const timer = setInterval(() => {
+                timeLeft--;
+                if (timeLeft > 0 && display) display.textContent = current2FA;
+                else { if (display) display.textContent = 'ИСТЁК'; clearInterval(timer); }
+            }, 1000);
+            showNotification('🔐 2FA-код сгенерирован', `Действует 60 секунд: ${current2FA}`);
         }
 
         function initiateTransfer() {
@@ -947,189 +960,425 @@
 
             if (!recipient) { showNotification('❌ Ошибка', 'Выберите получателя'); return; }
             if (!amount || amount < 1) { showNotification('❌ Ошибка', 'Введите сумму'); return; }
-            if (amount > 5000) { showNotification('❌ Ошибка', 'Максимум 5000 ТЧ'); return; }
             if (amount > balance) { showNotification('❌ Ошибка', 'Недостаточно средств'); return; }
             if (pin !== '1234') { showNotification('❌ Ошибка', 'Неверный ПИН-код'); return; }
-            if (f2a !== current2FA || !current2FA) { showNotification('❌ Ошибка', 'Неверный 2FA-код. Сгенерируйте новый.'); return; }
+            if (Date.now() > f2aExpiry || !current2FA) { showNotification('❌ Ошибка', 'Срок 2FA истёк'); return; }
+            if (f2a !== current2FA) { showNotification('❌ Ошибка', 'Неверный 2FA-код'); return; }
 
-            balance -= amount;
-            updateBalance();
+            balance -= amount; updateBalance();
+            const timeStr = new Date().toTimeString().slice(0, 5);
+            historyData.unshift({ id: Date.now(), time: timeStr, from: 'Иванов И.И.', to: recipient, amount, status: 'pending' });
 
-            const now = new Date();
-            const timeStr = now.toTimeString().slice(0, 5);
-
-            const transfer = {
-                id: Date.now(),
-                time: timeStr,
-                from: 'Иванов И.И.',
-                to: recipient,
-                amount: amount,
-                status: 'pending'
-            };
-            historyData.unshift(transfer);
-            updateHistory();
-            updateStats();
-
-            document.getElementById('recipient').value = '';
-            document.getElementById('amount').value = '';
-            document.getElementById('pin').value = '';
-            document.getElementById('f2aInput').value = '';
-            current2FA = '';
-            document.getElementById('f2aDisplay').textContent = '– – – – – –';
+            document.getElementById('recipient').value = ''; document.getElementById('amount').value = '';
+            document.getElementById('pin').value = ''; document.getElementById('f2aInput').value = '';
+            current2FA = ''; document.getElementById('f2aDisplay').textContent = '– – – – – –';
 
             showNotification('⏳ Запрос отправлен', `${recipient} ожидает подтверждения...`);
+            recordBalance();
 
             setTimeout(() => {
                 const confirmed = Math.random() > 0.15;
                 if (confirmed) {
-                    transfer.status = 'confirmed';
-                    showNotification('✅ Перевод подтверждён', `${recipient} подтвердил получение ${transfer.amount} ТЧ`);
+                    historyData[0].status = 'confirmed';
+                    showNotification('✅ Перевод подтверждён', `${recipient} получил ${amount} ТЧ`);
                 } else {
-                    transfer.status = 'declined';
-                    balance += transfer.amount;
-                    updateBalance();
-                    showNotification('❌ Перевод отклонён', `${recipient} отклонил перевод. ${transfer.amount} ТЧ возвращены.`);
+                    historyData[0].status = 'declined'; balance += amount; updateBalance();
+                    showNotification('❌ Перевод отклонён', 'Средства возвращены'); recordBalance();
                 }
-                updateHistory();
-                updateStats();
-                renderChart();
+                updateHistory(); updateStats(); renderChart(); saveData();
             }, 2000);
         }
 
         // ============================================================
-        // 6. БАНК — ВКЛАДЫ
+        // 8. ВКЛАДЫ И МИНИСТЕРСТВА
         // ============================================================
         function openDeposit(name, rate) {
-            if (balance < 100) {
-                showNotification('❌ Ошибка', 'Минимальная сумма для вклада: 100 ТЧ');
-                return;
-            }
+            if (balance < 100) { showNotification('❌ Ошибка', 'Минимум 100 ТЧ'); return; }
             const amount = Math.min(1000, balance);
-            balance -= amount;
-            updateBalance();
+            balance -= amount; updateBalance();
             activeDeposits.push({ name, rate, amount, date: new Date().toLocaleDateString() });
-            renderDeposits();
-            showNotification('✅ Вклад открыт', `${name} на ${amount} ТЧ под ${rate}% годовых`);
+            renderDeposits(); recordBalance();
+            showNotification('✅ Вклад открыт', `${name} на ${amount} ТЧ под ${rate}%`);
         }
 
         function renderDeposits() {
             const container = document.getElementById('activeDeposits');
-            if (activeDeposits.length === 0) {
-                container.innerHTML = '<p style="font-size:0.85em; color:rgba(201,169,97,0.3); text-align:center;">Активных вкладов нет</p>';
-                return;
-            }
-            container.innerHTML = activeDeposits.map(d => `
-                <div class="deposit-item">
-                    <div class="info">
-                        <div class="name">${d.name}</div>
-                        <div class="detail">${d.amount} ТЧ · ${d.rate}% · ${d.date}</div>
-                    </div>
-                    <button class="btn-3d btn-3d-small" onclick="closeDeposit('${d.name}')">Закрыть</button>
-                </div>
-            `).join('');
+            if (!container) return;
+            if (activeDeposits.length === 0) { container.innerHTML = '<p style="font-size:0.85em; color:rgba(201,169,97,0.3); text-align:center;">Активных вкладов нет</p>'; return; }
+            container.innerHTML = activeDeposits.map((d, idx) => `<div class="deposit-item"><div class="info"><div class="name">${d.name}</div><div class="detail">${d.amount} ТЧ · ${d.rate}% · ${d.date}</div></div><button class="btn-3d btn-3d-small" onclick="closeDeposit(${idx})">Закрыть</button></div>`).join('');
         }
 
-        function closeDeposit(name) {
-            const idx = activeDeposits.findIndex(d => d.name === name);
-            if (idx === -1) return;
+        function closeDeposit(idx) {
             const dep = activeDeposits[idx];
             const interest = Math.floor(dep.amount * dep.rate / 100);
-            balance += dep.amount + interest;
-            activeDeposits.splice(idx, 1);
-            updateBalance();
-            renderDeposits();
-            showNotification('💰 Вклад закрыт', `Возвращено ${dep.amount + interest} ТЧ (включая проценты)`);
+            balance += dep.amount + interest; activeDeposits.splice(idx, 1);
+            updateBalance(); renderDeposits(); recordBalance();
+            showNotification('💰 Вклад закрыт', `Возвращено ${dep.amount + interest} ТЧ`);
         }
 
-        // ============================================================
-        // 7. БАНК — ШАБЛОНЫ
-        // ============================================================
-        function useTemplate(name, amount) {
-            if (amount > balance) {
-                showNotification('❌ Ошибка', 'Недостаточно средств для шаблона');
-                return;
-            }
-            balance -= amount;
-            updateBalance();
-
-            const now = new Date();
-            const timeStr = now.toTimeString().slice(0, 5);
-
-            historyData.unshift({
-                id: Date.now(),
-                time: timeStr,
-                from: 'Иванов И.И.',
-                to: name,
-                amount: amount,
-                status: 'confirmed'
+        function renderMinistries() {
+            const grid = document.getElementById('ministriesGrid');
+            if (!grid) return;
+            grid.innerHTML = '';
+            ministriesList.forEach((name, idx) => {
+                const owned = ownedMinistries.has(idx);
+                const card = document.createElement('div');
+                card.className = `ministry-card ${owned ? 'owned' : ''}`;
+                card.innerHTML = `<div class="ministry-icon">${ministryIcons[idx]}</div><div class="ministry-name">${name}</div><div class="ministry-price">50 000 ТЧ</div><button class="btn-3d ${owned ? 'owned-btn' : 'glow'}" onclick="buyMinistry(${idx})" ${owned ? 'disabled' : ''}>${owned ? '✅ ВЫ НАЗНАЧЕНЫ' : '🏛️ НАЗНАЧИТЬСЯ'}</button>`;
+                grid.appendChild(card);
             });
-            updateHistory();
-            updateStats();
-            renderChart();
+        }
 
-            showNotification('✅ Шаблон выполнен', `${name} — ${amount} ТЧ отправлено`);
+        function buyMinistry(idx) {
+            if (ownedMinistries.has(idx)) return;
+            if (balance >= 50000) {
+                balance -= 50000; ownedMinistries.add(idx);
+                updateBalance(); renderMinistries(); recordBalance();
+                showNotification('🎉 Поздравляем!', `Вы назначены главой: ${ministriesList[idx]}`);
+            } else {
+                showNotification('❌ Недостаточно средств', `Требуется 50 000 ТЧ. У вас: ${balance} ТЧ.`, true);
+            }
         }
 
         // ============================================================
-        // 8. БАНК — ВЫПИСКА (ПЕЧАТЬ)
+        // 9. МАГАЗИН И КОРЗИНА
         // ============================================================
-        function printStatement() {
-            const printWindow = window.open('', '_blank');
-            if (!printWindow) {
-                showNotification('❌ Ошибка', 'Разрешите всплывающие окна для печати');
+        function renderCategories() {
+            const container = document.getElementById('categoryList');
+            if (!container) return;
+            container.innerHTML = Object.keys(catalog).map(cat => {
+                const count = catalog[cat].length;
+                const isActive = cat === currentCategory ? 'active' : '';
+                return `<button class="category-btn ${isActive}" onclick="selectCategory('${cat.replace(/'/g, "\\'")}')"><span class="cat-count">${count}</span> ${cat}</button>`;
+            }).join('');
+        }
+
+        function selectCategory(cat) {
+            currentCategory = cat;
+            document.getElementById('currentCategoryTitle').textContent = cat;
+            renderCategories(); renderProducts();
+        }
+
+        function renderProducts() {
+            const grid = document.getElementById('productsGrid');
+            const search = (document.getElementById('shopSearch')?.value || '').toLowerCase();
+            if (!grid) return;
+
+            let items = catalog[currentCategory] || [];
+            if (search) {
+                items = [];
+                Object.keys(catalog).forEach(cat => {
+                    catalog[cat].forEach(([name, price]) => { if (name.toLowerCase().includes(search)) items.push([name, price]); });
+                });
+            }
+
+            if (items.length === 0) { grid.innerHTML = '<div style="grid-column:1/-1; text-align:center; padding:40px; color:rgba(201,169,97,0.4);">Товары не найдены</div>'; return; }
+
+            grid.innerHTML = items.map(([name, price]) => {
+                const icon = currentCategory.split(' ')[0];
+                const safeName = name.replace(/'/g, "\\'");
+                return `<div class="product-card"><div class="product-icon">${icon}</div><div class="product-name">${name}</div><div class="product-price">${price} ТЧ</div><button class="product-btn" onclick="addToCart('${safeName}', ${price})">🛒 В корзину</button></div>`;
+            }).join('');
+        }
+
+        function addToCart(name, price) {
+            cart.push({ name, price, id: Date.now() + Math.random() });
+            renderCart();
+            showNotification('✅ Добавлено в корзину', `${name} · ${price} ТЧ`);
+        }
+
+        function removeFromCart(id) { cart = cart.filter(item => item.id !== id); renderCart(); }
+        function clearCart() { if (cart.length === 0) return; cart = []; renderCart(); showNotification('🗑️ Корзина очищена', ''); }
+
+        function renderCart() {
+            const container = document.getElementById('cartItems');
+            const countEl = document.getElementById('cartCount');
+            const totalEl = document.getElementById('cartTotal');
+            if (!container) return;
+
+            if (cart.length === 0) {
+                container.innerHTML = '<div class="cart-empty">Корзина пуста. Добавьте товары из каталога.</div>';
+                if (countEl) countEl.textContent = '(0)';
+                if (totalEl) totalEl.textContent = '0';
                 return;
             }
-            const filtered = getFilteredHistory();
-            const rows = filtered.map(h => `
-                <tr>
-                    <td>${h.time}</td>
-                    <td>${h.from}</td>
-                    <td>${h.to}</td>
-                    <td style="text-align:right;">${h.amount}</td>
-                    <td>${h.status === 'confirmed' ? '✅ Выполнен' : h.status === 'declined' ? '❌ Отклонён' : '⏳ Ожидает'}</td>
-                </tr>
-            `).join('');
 
-            printWindow.document.write(`
-                <html><head><title>Выписка РКС</title>
-                <style>
-                    body { font-family: 'Times New Roman', serif; padding: 40px; color: #0a0a0a; }
-                    h1 { text-align: center; letter-spacing: 4px; }
-                    table { width: 100%; border-collapse: collapse; margin-top: 30px; }
-                    th, td { padding: 12px; border-bottom: 1px solid #ccc; text-align: left; }
-                    th { background: #f0e8d0; }
-                    .total { text-align: right; font-weight: bold; margin-top: 20px; }
-                    .footer { text-align: center; margin-top: 40px; color: #999; border-top: 2px solid #ddd; padding-top: 20px; }
-                </style>
-                </head><body>
-                <h1>РКС — Выписка по счёту</h1>
-                <p><strong>Владелец:</strong> Иванов Иван Иванович</p>
-                <p><strong>ID:</strong> РКС-001</p>
-                <p><strong>Дата:</strong> ${new Date().toLocaleDateString()}</p>
-                <p><strong>Баланс:</strong> ${balance.toLocaleString()} ТЧ</p>
-                <table>
-                    <tr><th>Время</th><th>От</th><th>Кому</th><th style="text-align:right;">Сумма</th><th>Статус</th></tr>
-                    ${rows}
-                </table>
-                <div class="total">Итого операций: ${filtered.length}</div>
-                <div class="footer">Республика Когнитивного Суверенитета · Государственный банк РКС</div>
-                </body></html>
-            `);
-            printWindow.document.close();
-            setTimeout(() => { printWindow.print(); }, 500);
+            const total = cart.reduce((sum, item) => sum + item.price, 0);
+            if (countEl) countEl.textContent = `(${cart.length})`;
+            if (totalEl) totalEl.textContent = total.toLocaleString();
+
+            container.innerHTML = cart.map(item => `<div class="cart-item"><div class="cart-item-info"><div class="cart-item-name">${item.name}</div><div class="cart-item-price">${item.price} ТЧ</div></div><button class="cart-item-remove" onclick="removeFromCart(${item.id})">✕</button></div>`).join('');
+        }
+
+        function quickBuy(name, price) {
+            if (price > balance) { showNotification('❌ Недостаточно средств', `Нужно ${price} ТЧ, у вас ${balance} ТЧ`, true); return; }
+            cart = [{ name, price, id: Date.now() }];
+            renderCart();
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(tc => tc.classList.remove('active'));
+            document.querySelector('[data-tab="tab-shop"]').classList.add('active');
+            document.getElementById('tab-shop').classList.add('active');
+            showEscrowModal();
+        }
+
+        function checkout() {
+            if (cart.length === 0) { showNotification('❌ Корзина пуста', 'Добавьте товары перед покупкой'); return; }
+            const total = cart.reduce((sum, item) => sum + item.price, 0);
+            if (total > balance) { showNotification('❌ Недостаточно средств', `Нужно ${total} ТЧ, у вас ${balance} ТЧ`, true); return; }
+            showEscrowModal();
         }
 
         // ============================================================
-        // 9. ЭКОНОМИКА — КАЛЬКУЛЯТОРЫ
+        // 10. ESCROW (БЕЗОПАСНАЯ СДЕЛКА)
         // ============================================================
-        function calculateEarnings() {
-            const p = parseInt(document.getElementById('calcPeople').value) || 0;
-            const pr = parseInt(document.getElementById('calcPrograms').value) || 0;
-            const a = parseInt(document.getElementById('calcArt').value) || 0;
-            const s = parseInt(document.getElementById('calcSports').value) || 0;
-            const i = parseInt(document.getElementById('calcInventions').value) || 0;
-            const total = (p * 1) + (pr * 100) + (a * 275) + (s * 550) + (i * 2750);
-            document.getElementById('totalEarnings').textContent = total.toLocaleString();
+        function showEscrowModal() {
+            const total = cart.reduce((sum, item) => sum + item.price, 0);
+            const modal = document.getElementById('escrowModal');
+            const content = document.getElementById('modalContent');
+
+            const itemsList = cart.map(item => `<div class="order-summary-item"><span class="label">${item.name}</span><span class="value">${item.price} ТЧ</span></div>`).join('');
+
+            content.innerHTML = `
+                <div class="order-summary">
+                    <h3 style="color:#c9a961; margin-bottom:10px; font-size:1em; letter-spacing:2px;">📋 СОСТАВ ЗАКАЗА</h3>
+                    ${itemsList}
+                    <div class="order-summary-total"><span class="label">ИТОГО К СПИСАНИЮ:</span><span class="value">${total} ТЧ</span></div>
+                    <div style="margin-top:10px; font-size:0.8em; color:rgba(201,169,97,0.5); text-align:center;">Ваш текущий баланс: ${balance} ТЧ · После покупки: ${balance - total} ТЧ</div>
+                </div>
+                <div class="escrow-steps" id="escrowSteps">
+                    <div class="escrow-step" id="step-1"><div class="escrow-step-num">1</div><div class="escrow-step-text"><div class="step-title">Подтверждение покупки</div><div class="step-detail">Введите ПИН-код и 2FA</div></div></div>
+                    <div class="escrow-step" id="step-2"><div class="escrow-step-num">2</div><div class="escrow-step-text"><div class="step-title">Блокировка средств (Escrow)</div><div class="step-detail">Банк замораживает ${total} ТЧ</div></div></div>
+                    <div class="escrow-step" id="step-3"><div class="escrow-step-num">3</div><div class="escrow-step-text"><div class="step-title">Передача товара</div><div class="step-detail">Продавец передаёт цифровой контент</div></div></div>
+                    <div class="escrow-step" id="step-4"><div class="escrow-step-num">4</div><div class="escrow-step-text"><div class="step-title">Подтверждение получения</div><div class="step-detail">Вы проверяете товар и подтверждаете</div></div></div>
+                    <div class="escrow-step" id="step-5"><div class="escrow-step-num">5</div><div class="escrow-step-text"><div class="step-title">Перевод средств продавцу</div><div class="step-detail">ТЧ зачисляются на счёт продавца</div></div></div>
+                </div>
+                <div id="escrowForm">
+                    <div class="form-group"><label>ПИН-код</label><input type="password" id="escrowPin" maxlength="4" placeholder="••••" /></div>
+                    <div class="form-group"><label>2FA-код</label><input type="text" id="escrow2FA" maxlength="6" placeholder="6 цифр" />
+                        <div style="margin-top:6px; font-size:0.8em; color:rgba(201,169,97,0.5);">Текущий 2FA: <span id="escrow2FADisplay" style="color:#28a745; font-family:'Courier New',monospace;">${current2FA || '– – – – – –'}</span></div>
+                    </div>
+                    <div class="modal-actions">
+                        <button class="btn-3d btn-3d-danger" onclick="closeEscrowModal()">Отмена</button>
+                        <button class="btn-3d glow" onclick="processEscrow()">🔐 Подтвердить и заблокировать</button>
+                    </div>
+                </div>
+                <div id="escrowProgress" style="display:none;">
+                    <div class="modal-actions">
+                        <button class="btn-3d" id="btnConfirmReceive" onclick="confirmReceive()" style="display:none;">✅ Товар получен — перевести продавцу</button>
+                        <button class="btn-3d btn-3d-danger" id="btnOpenDispute" onclick="openDispute()" style="display:none;">⚠️ Открыть спор (возврат)</button>
+                    </div>
+                </div>
+            `;
+            modal.classList.add('active');
+        }
+
+        function closeEscrowModal() { document.getElementById('escrowModal').classList.remove('active'); }
+
+        function processEscrow() {
+            const pin = document.getElementById('escrowPin').value;
+            const f2a = document.getElementById('escrow2FA').value;
+            const total = cart.reduce((sum, item) => sum + item.price, 0);
+
+            if (pin !== '1234') { showNotification('❌ Неверный ПИН-код', '', true); return; }
+            if (Date.now() > f2aExpiry || !current2FA) { showNotification('❌ 2FA-код истёк', 'Сгенерируйте новый код', true); return; }
+            if (f2a !== current2FA) { showNotification('❌ Неверный 2FA-код', '', true); return; }
+
+            document.getElementById('step-1').classList.add('done');
+            document.getElementById('step-1').querySelector('.escrow-step-num').textContent = '✓';
+            document.getElementById('escrowForm').style.display = 'none';
+
+            setTimeout(() => {
+                document.getElementById('step-2').classList.add('active');
+                setTimeout(() => {
+                    balance -= total; updateBalance();
+                    const timeStr = new Date().toTimeString().slice(0, 5);
+                    const orderName = cart.length === 1 ? cart[0].name : `Заказ из ${cart.length} товаров`;
+                    historyData.unshift({ id: Date.now(), time: timeStr, from: 'Иванов И.И.', to: `Магазин (${orderName})`, amount: total, status: 'escrow', cart: [...cart] });
+                    updateHistory(); updateStats(); recordBalance();
+
+                    document.getElementById('step-2').classList.remove('active');
+                    document.getElementById('step-2').classList.add('done');
+                    document.getElementById('step-2').querySelector('.escrow-step-num').textContent = '✓';
+                    showNotification('🔒 Средства заблокированы', `${total} ТЧ заморожены на эскроу-счёте`, false, true);
+
+                    setTimeout(() => {
+                        document.getElementById('step-3').classList.add('active');
+                        setTimeout(() => {
+                            document.getElementById('step-3').classList.remove('active');
+                            document.getElementById('step-3').classList.add('done');
+                            document.getElementById('step-3').querySelector('.escrow-step-num').textContent = '✓';
+                            setTimeout(() => {
+                                document.getElementById('step-4').classList.add('active');
+                                document.getElementById('escrowProgress').style.display = 'block';
+                                document.getElementById('btnConfirmReceive').style.display = 'inline-block';
+                                document.getElementById('btnOpenDispute').style.display = 'inline-block';
+                                showNotification('📦 Товар передан', 'Проверьте содержимое и подтвердите получение', false, true);
+                            }, 800);
+                        }, 1200);
+                    }, 800);
+                }, 1000);
+            }, 500);
+        }
+
+        function confirmReceive() {
+            document.getElementById('step-4').classList.remove('active');
+            document.getElementById('step-4').classList.add('done');
+            document.getElementById('step-4').querySelector('.escrow-step-num').textContent = '✓';
+            setTimeout(() => {
+                document.getElementById('step-5').classList.add('active');
+                setTimeout(() => {
+                    const lastOrder = historyData.find(h => h.status === 'escrow');
+                    if (lastOrder) lastOrder.status = 'confirmed';
+                    document.getElementById('step-5').classList.remove('active');
+                    document.getElementById('step-5').classList.add('done');
+                    document.getElementById('step-5').querySelector('.escrow-step-num').textContent = '✓';
+                    updateHistory(); updateStats(); saveData();
+                    showNotification('✅ Сделка завершена', 'ТЧ переведены продавцу. Спасибо за покупку!');
+                    setTimeout(() => { cart = []; renderCart(); closeEscrowModal(); }, 1500);
+                }, 1000);
+            }, 500);
+        }
+
+        function openDispute() {
+            const total = cart.reduce((sum, item) => sum + item.price, 0);
+            balance += total; updateBalance();
+            const lastOrder = historyData.find(h => h.status === 'escrow');
+            if (lastOrder) lastOrder.status = 'declined';
+            updateHistory(); updateStats(); recordBalance();
+            showNotification('⚠️ Спор открыт', `Средства ${total} ТЧ возвращены на ваш счёт`, true);
+            setTimeout(() => { cart = []; renderCart(); closeEscrowModal(); }, 1500);
+        }
+
+        // ============================================================
+        // 11. МОЙ МАГАЗИН (С УВЕЛИЧЕНИЕМ БАЛАНСА)
+        // ============================================================
+        function addMyProduct() {
+            const name = document.getElementById('newProductName').value.trim();
+            const category = document.getElementById('newProductCategory').value;
+            const price = parseInt(document.getElementById('newProductPrice').value);
+            const desc = document.getElementById('newProductDesc').value.trim();
+            const link = document.getElementById('newProductLink').value.trim();
+            const icon = document.getElementById('newProductIcon').value.trim() || '📦';
+
+            if (!name || !price || price < 1 || !desc || !link) { showNotification('❌ Ошибка', 'Заполните все поля корректно', true); return; }
+
+            showNotification('🔍 Проверка ИИ-банком...', 'Анализ уникальности и безопасности...', false, true);
+            setTimeout(() => {
+                myProducts.push({ id: Date.now(), name, category, price, desc, link, icon, active: true, createdAt: new Date().toLocaleString('ru-RU'), views: 0, sales: 0 });
+                saveData(); renderMyShop();
+                document.getElementById('newProductName').value = ''; document.getElementById('newProductPrice').value = '';
+                document.getElementById('newProductDesc').value = ''; document.getElementById('newProductLink').value = '';
+                document.getElementById('newProductIcon').value = '📦';
+                showNotification('✅ Товар опубликован!', `${name} доступен в общем каталоге.`);
+            }, 1500);
+        }
+
+        function toggleMyProduct(id) {
+            const product = myProducts.find(p => p.id === id);
+            if (!product) return;
+            product.active = !product.active;
+            saveData(); renderMyShop();
+            showNotification(product.active ? '✅ Товар активирован' : '⏸️ Товар снят с продажи', product.name);
+        }
+
+        function deleteMyProduct(id) {
+            if (!confirm('Удалить этот товар?')) return;
+            myProducts = myProducts.filter(p => p.id !== id);
+            saveData(); renderMyShop();
+            showNotification('🗑️ Товар удалён', '');
+        }
+
+        function simulateSale(id) {
+            const product = myProducts.find(p => p.id === id);
+            if (!product || !product.active) { showNotification('❌ Ошибка', 'Товар не активен', true); return; }
+            
+            const buyers = ['Петров П.П.', 'Сидорова С.С.', 'Волков В.В.', 'Смирнов С.С.', 'Кузнецов К.К.'];
+            const buyer = buyers[Math.floor(Math.random() * buyers.length)];
+            
+            product.sales++;
+            product.views += Math.floor(Math.random() * 10) + 1;
+            
+            // ============================================================
+            // === ГЛАВНОЕ: БАЛАНС УВЕЛИЧИВАЕТСЯ ПРИ ПРОДАЖЕ! ===
+            // ============================================================
+            balance += product.price;
+            updateBalance();
+            
+            salesHistory.unshift({ 
+                id: Date.now(), 
+                productId: product.id, 
+                productName: product.name, 
+                buyer, 
+                amount: product.price, 
+                time: new Date().toLocaleString('ru-RU') 
+            });
+            
+            const timeStr = new Date().toTimeString().slice(0, 5);
+            historyData.unshift({ 
+                id: Date.now(), 
+                time: timeStr, 
+                from: buyer, 
+                to: 'Вы (продажа)', 
+                amount: product.price, 
+                status: 'confirmed' 
+            });
+            
+            updateHistory(); updateStats(); recordBalance(); saveData(); renderMyShop();
+            showNotification('💰 Новая продажа!', `${buyer} купил "${product.name}" за ${product.price} ТЧ`);
+        }
+
+        function renderMyShop() {
+            const activeProducts = myProducts.filter(p => p.active).length;
+            const totalSales = salesHistory.length;
+            const totalEarned = salesHistory.reduce((sum, s) => sum + s.amount, 0);
+
+            document.getElementById('myProductsCount').textContent = activeProducts;
+            document.getElementById('mySalesCount').textContent = totalSales;
+            document.getElementById('myTotalEarned').textContent = totalEarned.toLocaleString();
+
+            const list = document.getElementById('myProductsList');
+            if (!list) return;
+            if (myProducts.length === 0) {
+                list.innerHTML = `<div class="empty-state"><div class="icon">📦</div><div class="title">У вас пока нет товаров</div><div class="desc">Заполните форму выше, чтобы выложить свой первый цифровой товар.</div></div>`;
+            } else {
+                list.innerHTML = myProducts.map(p => `
+                    <div class="my-product-card ${p.active ? '' : 'inactive'}">
+                        <div class="my-product-icon">${p.icon}</div>
+                        <div class="my-product-info">
+                            <div class="my-product-name">${p.name}</div>
+                            <div class="my-product-desc">${p.desc}</div>
+                            <div class="my-product-meta">
+                                <span>📂 ${p.category}</span><span>👁️ ${p.views}</span><span>💰 ${p.sales}</span>
+                                <span>📅 ${p.createdAt}</span><span>${p.active ? '🟢 Активен' : '⏸️ Снят'}</span>
+                            </div>
+                        </div>
+                        <div class="my-product-actions">
+                            <div class="my-product-price">${p.price} ТЧ</div>
+                            <button class="btn-3d btn-3d-small" onclick="simulateSale(${p.id})" ${p.active ? '' : 'disabled'}>🎲 Продажа</button>
+                            <button class="btn-3d btn-3d-small" onclick="toggleMyProduct(${p.id})">${p.active ? '⏸️ Снять' : '▶️ Активировать'}</button>
+                            <button class="btn-3d btn-3d-small btn-3d-danger" onclick="deleteMyProduct(${p.id})">🗑️ Удалить</button>
+                        </div>
+                    </div>
+                `).join('');
+            }
+
+            const salesList = document.getElementById('salesHistoryList');
+            if (!salesList) return;
+            if (salesHistory.length === 0) {
+                salesList.innerHTML = `<div class="empty-state"><div class="icon">💰</div><div class="title">Продаж пока не было</div><div class="desc">Как только кто-то купит ваш товар, здесь появится запись.</div></div>`;
+            } else {
+                salesList.innerHTML = salesHistory.map(s => `<div class="sales-history-item"><div><div class="buyer">${s.buyer}</div><div class="product">${s.productName}</div></div><div style="text-align:right;"><div class="amount">+${s.amount} ТЧ</div><div class="time">${s.time}</div></div></div>`).join('');
+            }
+        }
+
+        // ============================================================
+        // 12. ЭКОНОМИКА И УТИЛИТЫ
+        // ============================================================
+        function simulatePath() {
+            const steps = document.querySelectorAll('.path-step');
+            steps.forEach(s => s.classList.remove('active'));
+            let i = 0;
+            const interval = setInterval(() => { if (i < steps.length) { steps[i].classList.add('active'); i++; } else { clearInterval(interval); } }, 700);
         }
 
         function calculatePresidency() {
@@ -1141,105 +1390,25 @@
             const progress = Math.min((total / 100000) * 100, 100);
             document.getElementById('presTotal').textContent = total.toLocaleString();
             const el = document.getElementById('presProgress');
-            if (progress >= 100) {
-                el.textContent = '🎉 100% — МОЖНО БАЛЛОТИРОВАТЬСЯ!';
-                el.style.color = '#28a745';
-            } else {
-                el.textContent = progress.toFixed(2) + '%';
-                el.style.color = '#c9a961';
-            }
+            if (progress >= 100) { el.textContent = '🎉 100% — МОЖНО БАЛЛОТИРОВАТЬСЯ!'; el.style.color = '#28a745'; }
+            else { el.textContent = progress.toFixed(2) + '%'; el.style.color = '#c9a961'; }
         }
 
-        // ============================================================
-        // 10. ЭКОНОМИКА — СИМУЛЯЦИЯ ПУТИ
-        // ============================================================
-        function simulatePath() {
-            const steps = document.querySelectorAll('.path-step');
-            steps.forEach(s => {
-                s.style.borderLeftColor = 'rgba(201,169,97,0.3)';
-                s.style.background = 'transparent';
-            });
-            let i = 0;
-            const interval = setInterval(() => {
-                if (i < steps.length) {
-                    steps[i].style.borderLeftColor = '#28a745';
-                    steps[i].style.background = 'rgba(40, 167, 69, 0.05)';
-                    i++;
-                } else {
-                    clearInterval(interval);
-                }
-            }, 700);
+        function printStatement() {
+            const printWindow = window.open('', '_blank');
+            if (!printWindow) { showNotification('❌ Ошибка', 'Разрешите всплывающие окна'); return; }
+            const filtered = getFilteredHistory();
+            const rows = filtered.map(h => `<tr><td>${h.time}</td><td>${h.from}</td><td>${h.to}</td><td style="text-align:right;">${h.amount}</td><td>${h.status === 'confirmed' ? '✅' : h.status === 'declined' ? '❌' : h.status === 'escrow' ? '🔒' : '⏳'}</td></tr>`).join('');
+            printWindow.document.write(`<html><head><title>Выписка РКС</title><style>body { font-family: 'Times New Roman', serif; padding: 40px; color: #0a0a0a; } h1 { text-align: center; } table { width: 100%; border-collapse: collapse; margin-top: 30px; } th, td { padding: 12px; border-bottom: 1px solid #ccc; text-align: left; } th { background: #f0e8d0; }</style></head><body><h1>РКС — Банк · Выписка</h1><p><strong>Владелец:</strong> Иванов Иван Иванович | <strong>Баланс:</strong> ${balance} ТЧ</p><table><tr><th>Время</th><th>От</th><th>Кому</th><th style="text-align:right;">Сумма</th><th>Статус</th></tr>${rows}</table></body></html>`);
+            printWindow.document.close();
+            setTimeout(() => { printWindow.print(); }, 500);
         }
 
-        // ============================================================
-        // 11. МИНИСТЕРСТВА
-        // ============================================================
-        const ministriesList = [
-            "Министерство системного администрирования",
-            "Министерство кибербезопасности и шифрования",
-            "Министерство цифровой инфраструктуры",
-            "Министерство искусственного интеллекта",
-            "Министерство разработки ПО",
-            "Министерство аппаратного обеспечения",
-            "Министерство сетей и протоколов",
-            "Министерство облачных вычислений",
-            "Министерство баз данных",
-            "Министерство пользовательских интерфейсов",
-            "Министерство робототехники",
-            "Министерство квантовых технологий",
-            "Министерство интернета вещей",
-            "Министерство цифрового образования",
-            "Министерство электронного документооборота",
-            "Министерство цифровой экономики",
-            "Министерство технического надзора",
-            "Министерство открытых данных",
-            "Министерство компьютерной этики",
-            "Министерство цифровых коммуникаций",
-            "Министерство резервного копирования",
-            "Министерство логистики"
-        ];
-        const ministryIcons = ["⚙️", "🛡️", "🏢", "🧠", "💻", "🔌", "🌐", "☁️", "🗄️", "🎨", "🤖", "⚛️", "📡", "🎓", "📜", "🪙", "📏", "🔓", "⚖️", "📢", "💾", "🚚"];
-        let ownedMinistries = new Set();
-
-        function renderMinistries() {
-            const grid = document.getElementById('ministriesGrid');
-            grid.innerHTML = '';
-            ministriesList.forEach((name, idx) => {
-                const owned = ownedMinistries.has(idx);
-                const card = document.createElement('div');
-                card.className = `ministry-card ${owned ? 'owned' : ''}`;
-                card.innerHTML = `
-                    <div class="ministry-icon">${ministryIcons[idx]}</div>
-                    <div class="ministry-name">${name}</div>
-                    <div class="ministry-price">50 000 ТЧ</div>
-                    <button class="btn-3d ${owned ? 'owned-btn' : 'glow'}" 
-                            onclick="buyMinistry(${idx})" ${owned ? 'disabled' : ''}>
-                        ${owned ? '✅ ВЫ НАЗНАЧЕНЫ' : '🏛️ КУПИТЬ / НАЗНАЧИТЬСЯ'}
-                    </button>
-                `;
-                grid.appendChild(card);
-            });
-        }
-
-        function buyMinistry(idx) {
-            if (ownedMinistries.has(idx)) return;
-            if (balance >= 50000) {
-                balance -= 50000;
-                ownedMinistries.add(idx);
-                updateBalance();
-                renderMinistries();
-                showNotification('🎉 Поздравляем!', `Вы назначены главой: ${ministriesList[idx]}`);
-            } else {
-                showNotification('❌ Недостаточно средств', `Требуется 50 000 ТЧ. У вас: ${balance.toLocaleString()} ТЧ.`);
-            }
-        }
-
-        // ============================================================
-        // 12. УВЕДОМЛЕНИЯ
-        // ============================================================
-        function showNotification(title, message) {
+        function showNotification(title, message, danger = false, info = false) {
             const n = document.createElement('div');
-            n.className = 'notification';
+            let cls = 'notification';
+            if (danger) cls += ' danger'; else if (info) cls += ' info';
+            n.className = cls;
             n.innerHTML = `<h3>${title}</h3><p>${message}</p>`;
             document.body.appendChild(n);
             setTimeout(() => { if (n.parentNode) n.remove(); }, 4500);
@@ -1248,15 +1417,19 @@
         // ============================================================
         // 13. ЗАПУСК
         // ============================================================
-        updateBalance();
-        updateHistory();
-        updateStats();
-        renderChart();
-        renderDeposits();
-        renderMinistries();
-        calculateEarnings();
-        calculatePresidency();
-    </script>
+        loadData();
+        renderCategories();
+        renderProducts();
+        renderCart();
+        setInterval(saveData, 10000);
+        setTimeout(generate2FA, 500);
 
+        document.getElementById('escrowModal').addEventListener('click', function(e) { if (e.target === this) closeEscrowModal(); });
+
+        console.log('🏦 РКС Банк загружен');
+        console.log('💰 Текущий баланс:', balance);
+        console.log('🌍 Товаров в каталоге:', Object.values(catalog).reduce((s, arr) => s + arr.length, 0));
+        console.log('📦 Моих товаров:', myProducts.length);
+    </script>
 </body>
 </html>
