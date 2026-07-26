@@ -1,10 +1,10 @@
 
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Республика Когнитивного Суверенитета - Главная</title>
+    <title>Republic of Cognitive Sovereignty - Home</title>
     <link rel="icon" href="favicon.ico" type="image/x-icon">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -89,6 +89,7 @@
             border-right: 2px solid rgba(201, 169, 97, 0.2);
             padding: 150px 20px 20px;
             overflow-y: auto;
+            z-index: 100;
         }
 
         .nav-menu {
@@ -109,6 +110,7 @@
             text-transform: uppercase;
             transition: all 0.3s;
             display: block;
+            cursor: pointer;
         }
 
         .nav-item:hover {
@@ -117,16 +119,130 @@
             transform: translateX(10px);
         }
 
-        /* Стиль для активной кнопки */
-        .nav-item.active {
-            background: rgba(201, 169, 97, 0.2);
-            border-color: #c9a961;
-            box-shadow: 0 0 20px rgba(201, 169, 97, 0.1);
+        .nav-item.disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+            pointer-events: none;
         }
 
         .main-content {
             margin-left: 280px;
             padding: 40px;
+            min-height: 100vh;
+        }
+
+        /* ===== 3D GLASS LANGUAGE TOGGLE BUTTON - RU/EN FORMAT ===== */
+        .lang-toggle {
+            position: fixed;
+            top: 25px;
+            right: 25px;
+            z-index: 1000;
+            perspective: 800px;
+        }
+
+        .lang-btn {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 12px 24px;
+            min-width: 120px;
+            height: 52px;
+            border: none;
+            border-radius: 16px;
+            cursor: pointer;
+            font-family: 'Times New Roman', serif;
+            font-size: 1em;
+            font-weight: bold;
+            letter-spacing: 2px;
+            color: #f5e6a8;
+            text-shadow: 0 0 8px rgba(201, 169, 97, 0.9);
+
+            background: linear-gradient(135deg,
+                rgba(255, 255, 255, 0.15) 0%,
+                rgba(201, 169, 97, 0.10) 40%,
+                rgba(255, 255, 255, 0.05) 100%);
+            backdrop-filter: blur(14px) saturate(180%);
+            -webkit-backdrop-filter: blur(14px) saturate(180%);
+
+            border-top: 1px solid rgba(255, 255, 255, 0.4);
+            border-left: 1px solid rgba(255, 255, 255, 0.25);
+            border-right: 1px solid rgba(0, 0, 0, 0.35);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.5);
+
+            box-shadow:
+                0 10px 25px rgba(0, 0, 0, 0.55),
+                0 0 25px rgba(201, 169, 97, 0.35),
+                inset 0 1px 0 rgba(255, 255, 255, 0.35),
+                inset 0 -2px 6px rgba(0, 0, 0, 0.25);
+
+            transform: rotateX(12deg) rotateY(-6deg) translateZ(0);
+            transform-style: preserve-3d;
+            transition: transform 0.35s ease, box-shadow 0.35s ease, filter 0.35s ease;
+
+            animation: glassGlow 3.5s ease-in-out infinite;
+        }
+
+        @keyframes glassGlow {
+            0%, 100% {
+                box-shadow:
+                    0 10px 25px rgba(0, 0, 0, 0.55),
+                    0 0 25px rgba(201, 169, 97, 0.35),
+                    inset 0 1px 0 rgba(255, 255, 255, 0.35),
+                    inset 0 -2px 6px rgba(0, 0, 0, 0.25);
+            }
+            50% {
+                box-shadow:
+                    0 10px 25px rgba(0, 0, 0, 0.55),
+                    0 0 45px rgba(201, 169, 97, 0.75),
+                    0 0 80px rgba(201, 169, 97, 0.25),
+                    inset 0 1px 0 rgba(255, 255, 255, 0.45),
+                    inset 0 -2px 6px rgba(0, 0, 0, 0.25);
+            }
+        }
+
+        .lang-btn::before {
+            content: '';
+            position: absolute;
+            top: 3px;
+            left: 8%;
+            right: 8%;
+            height: 35%;
+            background: linear-gradient(180deg,
+                rgba(255, 255, 255, 0.55) 0%,
+                rgba(255, 255, 255, 0) 100%);
+            border-radius: 14px 14px 50% 50%;
+            pointer-events: none;
+        }
+
+        .lang-btn:hover {
+            transform: rotateX(6deg) rotateY(-3deg) translateZ(10px) scale(1.05);
+            filter: brightness(1.15);
+        }
+
+        .lang-btn:active {
+            transform: rotateX(14deg) rotateY(-8deg) translateZ(-5px) scale(0.98);
+            box-shadow:
+                0 5px 15px rgba(0, 0, 0, 0.6),
+                0 0 20px rgba(201, 169, 97, 0.4),
+                inset 0 1px 0 rgba(255, 255, 255, 0.25),
+                inset 0 -2px 6px rgba(0, 0, 0, 0.35);
+        }
+
+        .lang-text {
+            font-weight: 900;
+            letter-spacing: 3px;
+        }
+
+        .lang-active {
+            color: #ffd700;
+            text-shadow: 0 0 12px rgba(255, 215, 0, 0.9);
+        }
+
+        .lang-separator {
+            color: rgba(201, 169, 97, 0.5);
+            font-weight: 300;
         }
 
         @media (max-width: 768px) {
@@ -134,48 +250,155 @@
                 width: 100%;
                 position: relative;
                 padding: 120px 20px 20px;
+                border-right: none;
+                border-bottom: 2px solid rgba(201, 169, 97, 0.2);
             }
             .main-content {
                 margin-left: 0;
                 padding: 20px;
+            }
+            .main-title {
+                font-size: 1.5em;
+                letter-spacing: 4px;
+            }
+            .hero-image {
+                height: 200px;
             }
         }
     </style>
 </head>
 <body>
 
+    <!-- ===== 3D GLASS LANGUAGE TOGGLE - RU/EN ===== -->
+    <div class="lang-toggle">
+        <button class="lang-btn" id="langBtn" type="button" aria-label="Switch language">
+            <span class="lang-text" id="langText">
+                <span class="lang-active">EN</span><span class="lang-separator">/</span><span>RU</span>
+            </span>
+        </button>
+    </div>
+
     <header class="main-header">
         <div class="logo-frame">
             <div class="rotating-border"></div>
-            <img src="favicon.ico" alt="РКС">
+            <img src="favicon.ico" alt="RCS">
         </div>
-        <h1 class="main-title">Республика Когнитивного Суверенитета</h1>
+        <h1 class="main-title" data-ru="Республика Когнитивного Суверенитета" data-en="Republic of Cognitive Sovereignty">Republic of Cognitive Sovereignty</h1>
         
         <div class="hero-image">
-            <img src="rks-republic.jpg" alt="Республика Когнитивного Суверенитета">
+            <img src="rks-republic.jpg" alt="Republic of Cognitive Sovereignty">
         </div>
     </header>
 
     <nav class="nav-sidebar">
         <div class="nav-menu">
-            <!-- ===== КНОПКА "ОБЩЕНИЕ" ВЕДЁТ НА СТРАНИЦУ ЧАТА ===== -->
-            <a href="chat/index.html" class="nav-item">💬 Общение</a>
-            <a href="constitution/index.html" class="nav-item">📜 Конституция</a>
-            <a href="passport/index.html" class="nav-item">🪪 Паспорт</a>
-            <a href="bank/index.html" class="nav-item">🏦 Банк</a>
-            <a href="money/index.html" class="nav-item">💰 Денежные Знаки</a>
-            <a href="projects/index.html" class="nav-item">💡 Проекты Граждан</a>
+            <a href="chat/index.html" class="nav-item" data-ru="💬 Общение" data-en="💬 Chat">💬 Chat</a>
+            <a href="constitution/index.html" class="nav-item" data-ru="📜 Конституция" data-en="📜 Constitution">📜 Constitution</a>
+            <a href="passport/index.html" class="nav-item" data-ru="🪪 Паспорт" data-en="🪪 Passport">🪪 Passport</a>
+            <a href="bank/index.html" class="nav-item" data-ru="🏦 Банк" data-en="🏦 Bank">🏦 Bank</a>
+            <a href="money/index.html" class="nav-item" data-ru="💰 Денежные Знаки" data-en="💰 Currency">💰 Currency</a>
+            <a href="#" class="nav-item" id="projectsLink" data-ru="💡 Проекты Граждан" data-en="💡 Citizens' Projects">💡 Citizens' Projects</a>
         </div>
     </nav>
 
     <main class="main-content">
         <div style="text-align: center; padding: 100px 20px;">
-            <h2 style="font-size: 2em; margin-bottom: 20px; letter-spacing: 4px;">Добро пожаловать в РКС</h2>
-            <p style="font-size: 1.2em; color: rgba(201,169,97,0.8); max-width: 800px; margin: 0 auto; line-height: 1.8;">
-                Республика Когнитивного Суверенитета — государство будущего, где каждый гражданин реализует свой потенциал.
+            <h2 style="font-size: 2em; margin-bottom: 20px; letter-spacing: 4px;" data-ru="Добро пожаловать в РКС" data-en="Welcome to RCS">Welcome to RCS</h2>
+            <p style="font-size: 1.2em; color: rgba(201,169,97,0.8); max-width: 800px; margin: 0 auto; line-height: 1.8;"
+               data-ru="Республика Когнитивного Суверенитета — государство будущего, где каждый гражданин реализует свой потенциал."
+               data-en="The Republic of Cognitive Sovereignty is a state of the future, where every citizen realizes their potential.">
+                The Republic of Cognitive Sovereignty is a state of the future, where every citizen realizes their potential.
             </p>
         </div>
     </main>
+
+    <script>
+        // ============================================================
+        // 1. ЯЗЫК
+        // ============================================================
+        (function () {
+            const btn = document.getElementById('langBtn');
+            const langTextEl = document.getElementById('langText');
+            const htmlEl = document.documentElement;
+            const projectsLink = document.getElementById('projectsLink');
+
+            let currentLang = 'en';
+
+            function updateLangDisplay() {
+                if (currentLang === 'en') {
+                    langTextEl.innerHTML = '<span class="lang-active">EN</span><span class="lang-separator">/</span><span>RU</span>';
+                } else {
+                    langTextEl.innerHTML = '<span>EN</span><span class="lang-separator">/</span><span class="lang-active">RU</span>';
+                }
+            }
+
+            function checkProjectsAccess() {
+                const isVerified = localStorage.getItem('rks_verified') === 'true';
+
+                if (!isVerified) {
+                    projectsLink.removeAttribute('href');
+                    projectsLink.classList.add('disabled');
+                    projectsLink.textContent = currentLang === 'ru' ? '🔒 Проекты (нужен паспорт)' : '🔒 Projects (passport needed)';
+                } else {
+                    projectsLink.href = 'projects/index.html';
+                    projectsLink.classList.remove('disabled');
+                    projectsLink.textContent = currentLang === 'ru' ? '💡 Проекты Граждан' : '💡 Citizens\' Projects';
+                }
+            }
+
+            function applyLang(lang) {
+                currentLang = lang;
+                htmlEl.setAttribute('lang', lang);
+
+                document.querySelectorAll('[data-ru][data-en]').forEach(el => {
+                    el.textContent = el.getAttribute('data-' + lang);
+                });
+
+                const titleEl = document.querySelector('title');
+                if (titleEl) {
+                    titleEl.textContent = lang === 'ru'
+                        ? 'Республика Когнитивного Суверенитета - Главная'
+                        : 'Republic of Cognitive Sovereignty - Home';
+                }
+
+                btn.setAttribute('aria-label', lang === 'en' ? 'Переключить на русский' : 'Switch to English');
+
+                updateLangDisplay();
+                checkProjectsAccess();
+
+                try { localStorage.setItem('rks-lang', lang); } catch (e) {}
+            }
+
+            btn.addEventListener('click', () => {
+                applyLang(currentLang === 'en' ? 'ru' : 'en');
+            });
+
+            // Инициализация
+            try {
+                const saved = localStorage.getItem('rks-lang');
+                if (saved === 'ru' || saved === 'en') {
+                    applyLang(saved);
+                } else {
+                    applyLang('en');
+                }
+            } catch (e) {
+                applyLang('en');
+            }
+
+            // Обновляем доступ к проектам при загрузке страницы
+            document.addEventListener('DOMContentLoaded', checkProjectsAccess);
+
+            // Обновляем при изменении localStorage (например, после верификации в паспорте)
+            window.addEventListener('storage', (e) => {
+                if (e.key === 'rks_verified') {
+                    checkProjectsAccess();
+                }
+            });
+
+            // Также проверяем при показе страницы (если пользователь вернулся из паспорта)
+            window.addEventListener('pageshow', checkProjectsAccess);
+        })();
+    </script>
 
 </body>
 </html>
