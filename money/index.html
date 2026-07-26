@@ -1,10 +1,10 @@
 
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Денежные Знаки РКС 2026</title>
+    <title>RCS Currency 2026</title>
     <link rel="icon" href="favicon.ico" type="image/x-icon">
     <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
     <style>
@@ -93,6 +93,7 @@
         }
         /* === /ОКНО ДЛЯ ФОТО === */
 
+        /* ===== БАНКНОТЫ ===== */
         .banknote {
             width: 100%;
             max-width: 1000px;
@@ -652,29 +653,153 @@
             .bottom-actions { flex-direction: column; align-items: center; }
             .btn-3d { width: 100%; text-align: center; max-width: 300px; }
         }
+
+        /* ===== 3D GLASS LANGUAGE TOGGLE BUTTON - RU/EN FORMAT ===== */
+        .lang-toggle {
+            position: fixed;
+            top: 25px;
+            right: 25px;
+            z-index: 1000;
+            perspective: 800px;
+        }
+
+        .lang-btn {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 12px 24px;
+            min-width: 120px;
+            height: 52px;
+            border: none;
+            border-radius: 16px;
+            cursor: pointer;
+            font-family: 'Times New Roman', serif;
+            font-size: 1em;
+            font-weight: bold;
+            letter-spacing: 2px;
+            color: #f5e6a8;
+            text-shadow: 0 0 8px rgba(201, 169, 97, 0.9);
+
+            background: linear-gradient(135deg,
+                rgba(255, 255, 255, 0.15) 0%,
+                rgba(201, 169, 97, 0.10) 40%,
+                rgba(255, 255, 255, 0.05) 100%);
+            backdrop-filter: blur(14px) saturate(180%);
+            -webkit-backdrop-filter: blur(14px) saturate(180%);
+
+            border-top: 1px solid rgba(255, 255, 255, 0.4);
+            border-left: 1px solid rgba(255, 255, 255, 0.25);
+            border-right: 1px solid rgba(0, 0, 0, 0.35);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.5);
+
+            box-shadow:
+                0 10px 25px rgba(0, 0, 0, 0.55),
+                0 0 25px rgba(201, 169, 97, 0.35),
+                inset 0 1px 0 rgba(255, 255, 255, 0.35),
+                inset 0 -2px 6px rgba(0, 0, 0, 0.25);
+
+            transform: rotateX(12deg) rotateY(-6deg) translateZ(0);
+            transform-style: preserve-3d;
+            transition: transform 0.35s ease, box-shadow 0.35s ease, filter 0.35s ease;
+
+            animation: glassGlow 3.5s ease-in-out infinite;
+        }
+
+        @keyframes glassGlow {
+            0%, 100% {
+                box-shadow:
+                    0 10px 25px rgba(0, 0, 0, 0.55),
+                    0 0 25px rgba(201, 169, 97, 0.35),
+                    inset 0 1px 0 rgba(255, 255, 255, 0.35),
+                    inset 0 -2px 6px rgba(0, 0, 0, 0.25);
+            }
+            50% {
+                box-shadow:
+                    0 10px 25px rgba(0, 0, 0, 0.55),
+                    0 0 45px rgba(201, 169, 97, 0.75),
+                    0 0 80px rgba(201, 169, 97, 0.25),
+                    inset 0 1px 0 rgba(255, 255, 255, 0.45),
+                    inset 0 -2px 6px rgba(0, 0, 0, 0.25);
+            }
+        }
+
+        .lang-btn::before {
+            content: '';
+            position: absolute;
+            top: 3px;
+            left: 8%;
+            right: 8%;
+            height: 35%;
+            background: linear-gradient(180deg,
+                rgba(255, 255, 255, 0.55) 0%,
+                rgba(255, 255, 255, 0) 100%);
+            border-radius: 14px 14px 50% 50%;
+            pointer-events: none;
+        }
+
+        .lang-btn:hover {
+            transform: rotateX(6deg) rotateY(-3deg) translateZ(10px) scale(1.05);
+            filter: brightness(1.15);
+        }
+
+        .lang-btn:active {
+            transform: rotateX(14deg) rotateY(-8deg) translateZ(-5px) scale(0.98);
+            box-shadow:
+                0 5px 15px rgba(0, 0, 0, 0.6),
+                0 0 20px rgba(201, 169, 97, 0.4),
+                inset 0 1px 0 rgba(255, 255, 255, 0.25),
+                inset 0 -2px 6px rgba(0, 0, 0, 0.35);
+        }
+
+        .lang-text {
+            font-weight: 900;
+            letter-spacing: 3px;
+        }
+
+        .lang-active {
+            color: #ffd700;
+            text-shadow: 0 0 12px rgba(255, 215, 0, 0.9);
+        }
+
+        .lang-separator {
+            color: rgba(201, 169, 97, 0.5);
+            font-weight: 300;
+        }
     </style>
 </head>
 <body>
+
+    <!-- ===== 3D GLASS LANGUAGE TOGGLE - RU/EN ===== -->
+    <div class="lang-toggle">
+        <button class="lang-btn" id="langBtn" type="button" aria-label="Switch language">
+            <span class="lang-text" id="langText">
+                <span class="lang-active">EN</span><span class="lang-separator">/</span><span>RU</span>
+            </span>
+        </button>
+    </div>
+
 <div class="container">
     
     <!-- ===== ЛОГОТИП И НАЗВАНИЕ ===== -->
     <div class="logo-center">
         <div class="logo-wrapper">
             <div class="logo-frame"></div>
-            <img src="favicon.ico" alt="РКС">
+            <img src="favicon.ico" alt="RCS">
         </div>
-        <div class="logo-title">РКС</div>
-        <div class="logo-sub">Республика Когнитивного Суверенитета</div>
+        <div class="logo-title">RCS</div>
+        <div class="logo-sub" data-ru="Республика Когнитивного Суверенитета" data-en="Republic of Cognitive Sovereignty">Republic of Cognitive Sovereignty</div>
     </div>
 
     <!-- === ОКНО ДЛЯ ФОТО 800x450 === -->
     <div class="photo-frame">
-        <img src="rks-portrait.jpg" alt="Эмблема РКС">
+        <img src="rks-portrait.jpg" alt="State Emblem of RCS">
     </div>
-    <div class="photo-caption">Государственная Эмблема РКС</div>
+    <div class="photo-caption" data-ru="Государственная Эмблема РКС" data-en="State Emblem of RCS">State Emblem of RCS</div>
     <!-- === /ОКНО ДЛЯ ФОТО === -->
 
-    <!-- 1 ТЧ -->
+    <!-- 1 LH -->
     <div class="banknote denom-1">
         <div class="banknote-inner">
             <div class="guilloche"></div><div class="holo-stripe"></div><div class="glass-reflection"></div>
@@ -684,10 +809,10 @@
             <div class="kinetic-circle kinetic-1"></div><div class="kinetic-circle kinetic-2"></div>
             
             <div class="top-section">
-                <div class="state-name">РКС</div>
+                <div class="state-name">RCS</div>
                 <div class="logo-container">
                     <div class="rotating-frame-inner"></div>
-                    <img src="favicon.ico" alt="РКС" class="favicon-center">
+                    <img src="favicon.ico" alt="RCS" class="favicon-center">
                 </div>
                 <div class="year-mark">2026</div>
             </div>
@@ -705,24 +830,24 @@
                 <div class="chip-circle-deco chip-circle-3"></div>
                 <div class="rotating-chip"><div class="chip-grid" id="chipGrid1"></div></div>
                 <div class="ai-secure-text">AI SECURE</div>
-                <div class="president-text">ПРЕЗИДЕНТ БАНКА</div>
-                <div class="treasurer-text">ГЛАВНЫЙ КАЗНАЧЕЙ</div>
+                <div class="president-text" data-ru="ПРЕЗИДЕНТ БАНКА" data-en="BANK PRESIDENT">BANK PRESIDENT</div>
+                <div class="treasurer-text" data-ru="ГЛАВНЫЙ КАЗНАЧЕЙ" data-en="CHIEF TREASURER">CHIEF TREASURER</div>
             </div>
 
             <div class="bottom-section">
                 <div class="serial-block">AI-001-2026-7X9M</div>
-                <div class="currency-label">ТРУДОЧАС</div>
-                <div class="signature-block">ПРЕЗИДЕНТ БАНКА<div class="signature-line">ГЛАВНЫЙ КАЗНАЧЕЙ</div></div>
+                <div class="currency-label" data-ru="ТРУДОЧАС" data-en="LABOR HOUR">LABOR HOUR</div>
+                <div class="signature-block"><span data-ru="ПРЕЗИДЕНТ БАНКА" data-en="BANK PRESIDENT">BANK PRESIDENT</span><div class="signature-line"><span data-ru="ГЛАВНЫЙ КАЗНАЧЕЙ" data-en="CHIEF TREASURER">CHIEF TREASURER</span></div></div>
             </div>
 
-            <div class="micro-pattern pattern-top">AI-SECURE-ENCRYPTED-2026-RKS-BLOCKCHAIN-VERIFY</div>
-            <div class="micro-pattern pattern-left">COGNITIVE-SOVEREIGNTY-AI-PROTECTED-2026</div>
-            <div class="micro-pattern pattern-right">COGNITIVE-SOVEREIGNTY-AI-PROTECTED-2026</div>
+            <div class="micro-pattern pattern-top">AI-SECURE-ENCRYPTED-2026-RCS-BLOCKCHAIN-VERIFY</div>
+            <div class="micro-pattern pattern-left" data-ru="КОГНИТИВНЫЙ-СУВЕРЕНИТЕТ-AI-ЗАЩИЩЕНО-2026" data-en="COGNITIVE-SOVEREIGNTY-AI-PROTECTED-2026">COGNITIVE-SOVEREIGNTY-AI-PROTECTED-2026</div>
+            <div class="micro-pattern pattern-right" data-ru="КОГНИТИВНЫЙ-СУВЕРЕНИТЕТ-AI-ЗАЩИЩЕНО-2026" data-en="COGNITIVE-SOVEREIGNTY-AI-PROTECTED-2026">COGNITIVE-SOVEREIGNTY-AI-PROTECTED-2026</div>
             <div class="micro-pattern pattern-bottom">HASH:8F3D9A2E1B7C4F6A0D8E2B5C9F1A3E7D</div>
         </div>
     </div>
 
-    <!-- 2 ТЧ -->
+    <!-- 2 LH -->
     <div class="banknote denom-2">
         <div class="banknote-inner">
             <div class="guilloche"></div><div class="holo-stripe"></div><div class="glass-reflection"></div>
@@ -732,10 +857,10 @@
             <div class="kinetic-circle kinetic-1"></div><div class="kinetic-circle kinetic-2"></div>
             
             <div class="top-section">
-                <div class="state-name">РКС</div>
+                <div class="state-name">RCS</div>
                 <div class="logo-container">
                     <div class="rotating-frame-inner"></div>
-                    <img src="favicon.ico" alt="РКС" class="favicon-center">
+                    <img src="favicon.ico" alt="RCS" class="favicon-center">
                 </div>
                 <div class="year-mark">2026</div>
             </div>
@@ -753,24 +878,24 @@
                 <div class="chip-circle-deco chip-circle-3"></div>
                 <div class="rotating-chip"><div class="chip-grid" id="chipGrid2"></div></div>
                 <div class="ai-secure-text">AI SECURE</div>
-                <div class="president-text">ПРЕЗИДЕНТ БАНКА</div>
-                <div class="treasurer-text">ГЛАВНЫЙ КАЗНАЧЕЙ</div>
+                <div class="president-text" data-ru="ПРЕЗИДЕНТ БАНКА" data-en="BANK PRESIDENT">BANK PRESIDENT</div>
+                <div class="treasurer-text" data-ru="ГЛАВНЫЙ КАЗНАЧЕЙ" data-en="CHIEF TREASURER">CHIEF TREASURER</div>
             </div>
 
             <div class="bottom-section">
                 <div class="serial-block">AI-002-2026-Ω4K8P</div>
-                <div class="currency-label">ТРУДОЧАСА</div>
-                <div class="signature-block">ПРЕЗИДЕНТ БАНКА<div class="signature-line">ГЛАВНЫЙ КАЗНАЧЕЙ</div></div>
+                <div class="currency-label" data-ru="ТРУДОЧАСА" data-en="LABOR HOURS">LABOR HOURS</div>
+                <div class="signature-block"><span data-ru="ПРЕЗИДЕНТ БАНКА" data-en="BANK PRESIDENT">BANK PRESIDENT</span><div class="signature-line"><span data-ru="ГЛАВНЫЙ КАЗНАЧЕЙ" data-en="CHIEF TREASURER">CHIEF TREASURER</span></div></div>
             </div>
 
-            <div class="micro-pattern pattern-top">AI-SECURE-ENCRYPTED-2026-RKS-BLOCKCHAIN-VERIFY</div>
-            <div class="micro-pattern pattern-left">COGNITIVE-SOVEREIGNTY-AI-PROTECTED-2026</div>
-            <div class="micro-pattern pattern-right">COGNITIVE-SOVEREIGNTY-AI-PROTECTED-2026</div>
+            <div class="micro-pattern pattern-top">AI-SECURE-ENCRYPTED-2026-RCS-BLOCKCHAIN-VERIFY</div>
+            <div class="micro-pattern pattern-left" data-ru="КОГНИТИВНЫЙ-СУВЕРЕНИТЕТ-AI-ЗАЩИЩЕНО-2026" data-en="COGNITIVE-SOVEREIGNTY-AI-PROTECTED-2026">COGNITIVE-SOVEREIGNTY-AI-PROTECTED-2026</div>
+            <div class="micro-pattern pattern-right" data-ru="КОГНИТИВНЫЙ-СУВЕРЕНИТЕТ-AI-ЗАЩИЩЕНО-2026" data-en="COGNITIVE-SOVEREIGNTY-AI-PROTECTED-2026">COGNITIVE-SOVEREIGNTY-AI-PROTECTED-2026</div>
             <div class="micro-pattern pattern-bottom">HASH:2B9E5F1A7D3C8E4B0F6A9D2E5C8F1B4A</div>
         </div>
     </div>
 
-    <!-- 5 ТЧ -->
+    <!-- 5 LH -->
     <div class="banknote denom-5">
         <div class="banknote-inner">
             <div class="guilloche"></div><div class="holo-stripe"></div><div class="glass-reflection"></div>
@@ -780,10 +905,10 @@
             <div class="kinetic-circle kinetic-1"></div><div class="kinetic-circle kinetic-2"></div>
             
             <div class="top-section">
-                <div class="state-name">РКС</div>
+                <div class="state-name">RCS</div>
                 <div class="logo-container">
                     <div class="rotating-frame-inner"></div>
-                    <img src="favicon.ico" alt="РКС" class="favicon-center">
+                    <img src="favicon.ico" alt="RCS" class="favicon-center">
                 </div>
                 <div class="year-mark">2026</div>
             </div>
@@ -801,24 +926,24 @@
                 <div class="chip-circle-deco chip-circle-3"></div>
                 <div class="rotating-chip"><div class="chip-grid" id="chipGrid5"></div></div>
                 <div class="ai-secure-text">AI SECURE</div>
-                <div class="president-text">ПРЕЗИДЕНТ БАНКА</div>
-                <div class="treasurer-text">ГЛАВНЫЙ КАЗНАЧЕЙ</div>
+                <div class="president-text" data-ru="ПРЕЗИДЕНТ БАНКА" data-en="BANK PRESIDENT">BANK PRESIDENT</div>
+                <div class="treasurer-text" data-ru="ГЛАВНЫЙ КАЗНАЧЕЙ" data-en="CHIEF TREASURER">CHIEF TREASURER</div>
             </div>
 
             <div class="bottom-section">
                 <div class="serial-block">AI-005-2026-Δ9R2T</div>
-                <div class="currency-label">ТРУДОЧАСОВ</div>
-                <div class="signature-block">ПРЕЗИДЕНТ БАНКА<div class="signature-line">ГЛАВНЫЙ КАЗНАЧЕЙ</div></div>
+                <div class="currency-label" data-ru="ТРУДОЧАСОВ" data-en="LABOR HOURS">LABOR HOURS</div>
+                <div class="signature-block"><span data-ru="ПРЕЗИДЕНТ БАНКА" data-en="BANK PRESIDENT">BANK PRESIDENT</span><div class="signature-line"><span data-ru="ГЛАВНЫЙ КАЗНАЧЕЙ" data-en="CHIEF TREASURER">CHIEF TREASURER</span></div></div>
             </div>
 
-            <div class="micro-pattern pattern-top">AI-SECURE-ENCRYPTED-2026-RKS-BLOCKCHAIN-VERIFY</div>
-            <div class="micro-pattern pattern-left">COGNITIVE-SOVEREIGNTY-AI-PROTECTED-2026</div>
-            <div class="micro-pattern pattern-right">COGNITIVE-SOVEREIGNTY-AI-PROTECTED-2026</div>
+            <div class="micro-pattern pattern-top">AI-SECURE-ENCRYPTED-2026-RCS-BLOCKCHAIN-VERIFY</div>
+            <div class="micro-pattern pattern-left" data-ru="КОГНИТИВНЫЙ-СУВЕРЕНИТЕТ-AI-ЗАЩИЩЕНО-2026" data-en="COGNITIVE-SOVEREIGNTY-AI-PROTECTED-2026">COGNITIVE-SOVEREIGNTY-AI-PROTECTED-2026</div>
+            <div class="micro-pattern pattern-right" data-ru="КОГНИТИВНЫЙ-СУВЕРЕНИТЕТ-AI-ЗАЩИЩЕНО-2026" data-en="COGNITIVE-SOVEREIGNTY-AI-PROTECTED-2026">COGNITIVE-SOVEREIGNTY-AI-PROTECTED-2026</div>
             <div class="micro-pattern pattern-bottom">HASH:7C4F9A1E6B2D8C3F5A0E7B4D9C2F6A1E</div>
         </div>
     </div>
 
-    <!-- 10 ТЧ -->
+    <!-- 10 LH -->
     <div class="banknote denom-10">
         <div class="banknote-inner">
             <div class="guilloche"></div><div class="holo-stripe"></div><div class="glass-reflection"></div>
@@ -828,10 +953,10 @@
             <div class="kinetic-circle kinetic-1"></div><div class="kinetic-circle kinetic-2"></div>
             
             <div class="top-section">
-                <div class="state-name">РКС</div>
+                <div class="state-name">RCS</div>
                 <div class="logo-container">
                     <div class="rotating-frame-inner"></div>
-                    <img src="favicon.ico" alt="РКС" class="favicon-center">
+                    <img src="favicon.ico" alt="RCS" class="favicon-center">
                 </div>
                 <div class="year-mark">2026</div>
             </div>
@@ -849,24 +974,24 @@
                 <div class="chip-circle-deco chip-circle-3"></div>
                 <div class="rotating-chip"><div class="chip-grid" id="chipGrid10"></div></div>
                 <div class="ai-secure-text">AI SECURE</div>
-                <div class="president-text">ПРЕЗИДЕНТ БАНКА</div>
-                <div class="treasurer-text">ГЛАВНЫЙ КАЗНАЧЕЙ</div>
+                <div class="president-text" data-ru="ПРЕЗИДЕНТ БАНКА" data-en="BANK PRESIDENT">BANK PRESIDENT</div>
+                <div class="treasurer-text" data-ru="ГЛАВНЫЙ КАЗНАЧЕЙ" data-en="CHIEF TREASURER">CHIEF TREASURER</div>
             </div>
 
             <div class="bottom-section">
                 <div class="serial-block">AI-010-2026-Σ6M3W</div>
-                <div class="currency-label">ТРУДОЧАСОВ</div>
-                <div class="signature-block">ПРЕЗИДЕНТ БАНКА<div class="signature-line">ГЛАВНЫЙ КАЗНАЧЕЙ</div></div>
+                <div class="currency-label" data-ru="ТРУДОЧАСОВ" data-en="LABOR HOURS">LABOR HOURS</div>
+                <div class="signature-block"><span data-ru="ПРЕЗИДЕНТ БАНКА" data-en="BANK PRESIDENT">BANK PRESIDENT</span><div class="signature-line"><span data-ru="ГЛАВНЫЙ КАЗНАЧЕЙ" data-en="CHIEF TREASURER">CHIEF TREASURER</span></div></div>
             </div>
 
-            <div class="micro-pattern pattern-top">AI-SECURE-ENCRYPTED-2026-RKS-BLOCKCHAIN-VERIFY</div>
-            <div class="micro-pattern pattern-left">COGNITIVE-SOVEREIGNTY-AI-PROTECTED-2026</div>
-            <div class="micro-pattern pattern-right">COGNITIVE-SOVEREIGNTY-AI-PROTECTED-2026</div>
+            <div class="micro-pattern pattern-top">AI-SECURE-ENCRYPTED-2026-RCS-BLOCKCHAIN-VERIFY</div>
+            <div class="micro-pattern pattern-left" data-ru="КОГНИТИВНЫЙ-СУВЕРЕНИТЕТ-AI-ЗАЩИЩЕНО-2026" data-en="COGNITIVE-SOVEREIGNTY-AI-PROTECTED-2026">COGNITIVE-SOVEREIGNTY-AI-PROTECTED-2026</div>
+            <div class="micro-pattern pattern-right" data-ru="КОГНИТИВНЫЙ-СУВЕРЕНИТЕТ-AI-ЗАЩИЩЕНО-2026" data-en="COGNITIVE-SOVEREIGNTY-AI-PROTECTED-2026">COGNITIVE-SOVEREIGNTY-AI-PROTECTED-2026</div>
             <div class="micro-pattern pattern-bottom">HASH:3E8B1F5A9D2C7E4B0F6A8D3E5C9F2B7A</div>
         </div>
     </div>
 
-    <!-- 50 ТЧ -->
+    <!-- 50 LH -->
     <div class="banknote denom-50">
         <div class="banknote-inner">
             <div class="guilloche"></div><div class="holo-stripe"></div><div class="glass-reflection"></div>
@@ -876,10 +1001,10 @@
             <div class="kinetic-circle kinetic-1"></div><div class="kinetic-circle kinetic-2"></div>
             
             <div class="top-section">
-                <div class="state-name">РКС</div>
+                <div class="state-name">RCS</div>
                 <div class="logo-container">
                     <div class="rotating-frame-inner"></div>
-                    <img src="favicon.ico" alt="РКС" class="favicon-center">
+                    <img src="favicon.ico" alt="RCS" class="favicon-center">
                 </div>
                 <div class="year-mark">2026</div>
             </div>
@@ -897,24 +1022,24 @@
                 <div class="chip-circle-deco chip-circle-3"></div>
                 <div class="rotating-chip"><div class="chip-grid" id="chipGrid50"></div></div>
                 <div class="ai-secure-text">AI SECURE</div>
-                <div class="president-text">ПРЕЗИДЕНТ БАНКА</div>
-                <div class="treasurer-text">ГЛАВНЫЙ КАЗНАЧЕЙ</div>
+                <div class="president-text" data-ru="ПРЕЗИДЕНТ БАНКА" data-en="BANK PRESIDENT">BANK PRESIDENT</div>
+                <div class="treasurer-text" data-ru="ГЛАВНЫЙ КАЗНАЧЕЙ" data-en="CHIEF TREASURER">CHIEF TREASURER</div>
             </div>
 
             <div class="bottom-section">
                 <div class="serial-block">AI-050-2026-Φ1H7Y</div>
-                <div class="currency-label">ТРУДОЧАСОВ</div>
-                <div class="signature-block">ПРЕЗИДЕНТ БАНКА<div class="signature-line">ГЛАВНЫЙ КАЗНАЧЕЙ</div></div>
+                <div class="currency-label" data-ru="ТРУДОЧАСОВ" data-en="LABOR HOURS">LABOR HOURS</div>
+                <div class="signature-block"><span data-ru="ПРЕЗИДЕНТ БАНКА" data-en="BANK PRESIDENT">BANK PRESIDENT</span><div class="signature-line"><span data-ru="ГЛАВНЫЙ КАЗНАЧЕЙ" data-en="CHIEF TREASURER">CHIEF TREASURER</span></div></div>
             </div>
 
-            <div class="micro-pattern pattern-top">AI-SECURE-ENCRYPTED-2026-RKS-BLOCKCHAIN-VERIFY</div>
-            <div class="micro-pattern pattern-left">COGNITIVE-SOVEREIGNTY-AI-PROTECTED-2026</div>
-            <div class="micro-pattern pattern-right">COGNITIVE-SOVEREIGNTY-AI-PROTECTED-2026</div>
+            <div class="micro-pattern pattern-top">AI-SECURE-ENCRYPTED-2026-RCS-BLOCKCHAIN-VERIFY</div>
+            <div class="micro-pattern pattern-left" data-ru="КОГНИТИВНЫЙ-СУВЕРЕНИТЕТ-AI-ЗАЩИЩЕНО-2026" data-en="COGNITIVE-SOVEREIGNTY-AI-PROTECTED-2026">COGNITIVE-SOVEREIGNTY-AI-PROTECTED-2026</div>
+            <div class="micro-pattern pattern-right" data-ru="КОГНИТИВНЫЙ-СУВЕРЕНИТЕТ-AI-ЗАЩИЩЕНО-2026" data-en="COGNITIVE-SOVEREIGNTY-AI-PROTECTED-2026">COGNITIVE-SOVEREIGNTY-AI-PROTECTED-2026</div>
             <div class="micro-pattern pattern-bottom">HASH:9F2D6A4E1B8C5F3A7D0E9B2C6F4A8D1E</div>
         </div>
     </div>
 
-    <!-- 100 ТЧ -->
+    <!-- 100 LH -->
     <div class="banknote denom-100">
         <div class="banknote-inner">
             <div class="guilloche"></div><div class="holo-stripe"></div><div class="glass-reflection"></div>
@@ -924,10 +1049,10 @@
             <div class="kinetic-circle kinetic-1"></div><div class="kinetic-circle kinetic-2"></div>
             
             <div class="top-section">
-                <div class="state-name">РКС</div>
+                <div class="state-name">RCS</div>
                 <div class="logo-container">
                     <div class="rotating-frame-inner"></div>
-                    <img src="favicon.ico" alt="РКС" class="favicon-center">
+                    <img src="favicon.ico" alt="RCS" class="favicon-center">
                 </div>
                 <div class="year-mark">2026</div>
             </div>
@@ -945,24 +1070,24 @@
                 <div class="chip-circle-deco chip-circle-3"></div>
                 <div class="rotating-chip"><div class="chip-grid" id="chipGrid100"></div></div>
                 <div class="ai-secure-text">AI SECURE</div>
-                <div class="president-text">ПРЕЗИДЕНТ БАНКА</div>
-                <div class="treasurer-text">ГЛАВНЫЙ КАЗНАЧЕЙ</div>
+                <div class="president-text" data-ru="ПРЕЗИДЕНТ БАНКА" data-en="BANK PRESIDENT">BANK PRESIDENT</div>
+                <div class="treasurer-text" data-ru="ГЛАВНЫЙ КАЗНАЧЕЙ" data-en="CHIEF TREASURER">CHIEF TREASURER</div>
             </div>
 
             <div class="bottom-section">
                 <div class="serial-block">AI-100-2026-Λ5N9Z</div>
-                <div class="currency-label">ТРУДОЧАСОВ</div>
-                <div class="signature-block">ПРЕЗИДЕНТ БАНКА<div class="signature-line">ГЛАВНЫЙ КАЗНАЧЕЙ</div></div>
+                <div class="currency-label" data-ru="ТРУДОЧАСОВ" data-en="LABOR HOURS">LABOR HOURS</div>
+                <div class="signature-block"><span data-ru="ПРЕЗИДЕНТ БАНКА" data-en="BANK PRESIDENT">BANK PRESIDENT</span><div class="signature-line"><span data-ru="ГЛАВНЫЙ КАЗНАЧЕЙ" data-en="CHIEF TREASURER">CHIEF TREASURER</span></div></div>
             </div>
 
-            <div class="micro-pattern pattern-top">AI-SECURE-ENCRYPTED-2026-RKS-BLOCKCHAIN-VERIFY</div>
-            <div class="micro-pattern pattern-left">COGNITIVE-SOVEREIGNTY-AI-PROTECTED-2026</div>
-            <div class="micro-pattern pattern-right">COGNITIVE-SOVEREIGNTY-AI-PROTECTED-2026</div>
+            <div class="micro-pattern pattern-top">AI-SECURE-ENCRYPTED-2026-RCS-BLOCKCHAIN-VERIFY</div>
+            <div class="micro-pattern pattern-left" data-ru="КОГНИТИВНЫЙ-СУВЕРЕНИТЕТ-AI-ЗАЩИЩЕНО-2026" data-en="COGNITIVE-SOVEREIGNTY-AI-PROTECTED-2026">COGNITIVE-SOVEREIGNTY-AI-PROTECTED-2026</div>
+            <div class="micro-pattern pattern-right" data-ru="КОГНИТИВНЫЙ-СУВЕРЕНИТЕТ-AI-ЗАЩИЩЕНО-2026" data-en="COGNITIVE-SOVEREIGNTY-AI-PROTECTED-2026">COGNITIVE-SOVEREIGNTY-AI-PROTECTED-2026</div>
             <div class="micro-pattern pattern-bottom">HASH:4B7E2F9A6D1C8E5B3F0A7D4E9C2F5B8A</div>
         </div>
     </div>
 
-    <!-- 500 ТЧ -->
+    <!-- 500 LH -->
     <div class="banknote denom-500">
         <div class="banknote-inner">
             <div class="guilloche"></div><div class="holo-stripe"></div><div class="glass-reflection"></div>
@@ -972,10 +1097,10 @@
             <div class="kinetic-circle kinetic-1"></div><div class="kinetic-circle kinetic-2"></div>
             
             <div class="top-section">
-                <div class="state-name">РКС</div>
+                <div class="state-name">RCS</div>
                 <div class="logo-container">
                     <div class="rotating-frame-inner"></div>
-                    <img src="favicon.ico" alt="РКС" class="favicon-center">
+                    <img src="favicon.ico" alt="RCS" class="favicon-center">
                 </div>
                 <div class="year-mark">2026</div>
             </div>
@@ -993,24 +1118,24 @@
                 <div class="chip-circle-deco chip-circle-3"></div>
                 <div class="rotating-chip"><div class="chip-grid" id="chipGrid500"></div></div>
                 <div class="ai-secure-text">AI SECURE</div>
-                <div class="president-text">ПРЕЗИДЕНТ БАНКА</div>
-                <div class="treasurer-text">ГЛАВНЫЙ КАЗНАЧЕЙ</div>
+                <div class="president-text" data-ru="ПРЕЗИДЕНТ БАНКА" data-en="BANK PRESIDENT">BANK PRESIDENT</div>
+                <div class="treasurer-text" data-ru="ГЛАВНЫЙ КАЗНАЧЕЙ" data-en="CHIEF TREASURER">CHIEF TREASURER</div>
             </div>
 
             <div class="bottom-section">
                 <div class="serial-block">AI-500-2026-Ξ3Q6V</div>
-                <div class="currency-label">ТРУДОЧАСОВ</div>
-                <div class="signature-block">ПРЕЗИДЕНТ БАНКА<div class="signature-line">ГЛАВНЫЙ КАЗНАЧЕЙ</div></div>
+                <div class="currency-label" data-ru="ТРУДОЧАСОВ" data-en="LABOR HOURS">LABOR HOURS</div>
+                <div class="signature-block"><span data-ru="ПРЕЗИДЕНТ БАНКА" data-en="BANK PRESIDENT">BANK PRESIDENT</span><div class="signature-line"><span data-ru="ГЛАВНЫЙ КАЗНАЧЕЙ" data-en="CHIEF TREASURER">CHIEF TREASURER</span></div></div>
             </div>
 
-            <div class="micro-pattern pattern-top">AI-SECURE-ENCRYPTED-2026-RKS-BLOCKCHAIN-VERIFY</div>
-            <div class="micro-pattern pattern-left">COGNITIVE-SOVEREIGNTY-AI-PROTECTED-2026</div>
-            <div class="micro-pattern pattern-right">COGNITIVE-SOVEREIGNTY-AI-PROTECTED-2026</div>
+            <div class="micro-pattern pattern-top">AI-SECURE-ENCRYPTED-2026-RCS-BLOCKCHAIN-VERIFY</div>
+            <div class="micro-pattern pattern-left" data-ru="КОГНИТИВНЫЙ-СУВЕРЕНИТЕТ-AI-ЗАЩИЩЕНО-2026" data-en="COGNITIVE-SOVEREIGNTY-AI-PROTECTED-2026">COGNITIVE-SOVEREIGNTY-AI-PROTECTED-2026</div>
+            <div class="micro-pattern pattern-right" data-ru="КОГНИТИВНЫЙ-СУВЕРЕНИТЕТ-AI-ЗАЩИЩЕНО-2026" data-en="COGNITIVE-SOVEREIGNTY-AI-PROTECTED-2026">COGNITIVE-SOVEREIGNTY-AI-PROTECTED-2026</div>
             <div class="micro-pattern pattern-bottom">HASH:8D1F5A3E9B7C2F6A4D0E8B5C9F3A7D2E</div>
         </div>
     </div>
 
-    <!-- 1000 ТЧ -->
+    <!-- 1000 LH -->
     <div class="banknote denom-1000">
         <div class="banknote-inner">
             <div class="guilloche"></div><div class="holo-stripe"></div><div class="glass-reflection"></div>
@@ -1020,10 +1145,10 @@
             <div class="kinetic-circle kinetic-1"></div><div class="kinetic-circle kinetic-2"></div>
             
             <div class="top-section">
-                <div class="state-name">РКС</div>
+                <div class="state-name">RCS</div>
                 <div class="logo-container">
                     <div class="rotating-frame-inner"></div>
-                    <img src="favicon.ico" alt="РКС" class="favicon-center">
+                    <img src="favicon.ico" alt="RCS" class="favicon-center">
                 </div>
                 <div class="year-mark">2026</div>
             </div>
@@ -1041,24 +1166,24 @@
                 <div class="chip-circle-deco chip-circle-3"></div>
                 <div class="rotating-chip"><div class="chip-grid" id="chipGrid1000"></div></div>
                 <div class="ai-secure-text">AI SECURE</div>
-                <div class="president-text">ПРЕЗИДЕНТ БАНКА</div>
-                <div class="treasurer-text">ГЛАВНЫЙ КАЗНАЧЕЙ</div>
+                <div class="president-text" data-ru="ПРЕЗИДЕНТ БАНКА" data-en="BANK PRESIDENT">BANK PRESIDENT</div>
+                <div class="treasurer-text" data-ru="ГЛАВНЫЙ КАЗНАЧЕЙ" data-en="CHIEF TREASURER">CHIEF TREASURER</div>
             </div>
 
             <div class="bottom-section">
                 <div class="serial-block">AI-1000-2026-Π8J4K</div>
-                <div class="currency-label">ТРУДОЧАСОВ</div>
-                <div class="signature-block">ПРЕЗИДЕНТ БАНКА<div class="signature-line">ГЛАВНЫЙ КАЗНАЧЕЙ</div></div>
+                <div class="currency-label" data-ru="ТРУДОЧАСОВ" data-en="LABOR HOURS">LABOR HOURS</div>
+                <div class="signature-block"><span data-ru="ПРЕЗИДЕНТ БАНКА" data-en="BANK PRESIDENT">BANK PRESIDENT</span><div class="signature-line"><span data-ru="ГЛАВНЫЙ КАЗНАЧЕЙ" data-en="CHIEF TREASURER">CHIEF TREASURER</span></div></div>
             </div>
 
-            <div class="micro-pattern pattern-top">AI-SECURE-ENCRYPTED-2026-RKS-BLOCKCHAIN-VERIFY</div>
-            <div class="micro-pattern pattern-left">COGNITIVE-SOVEREIGNTY-AI-PROTECTED-2026</div>
-            <div class="micro-pattern pattern-right">COGNITIVE-SOVEREIGNTY-AI-PROTECTED-2026</div>
+            <div class="micro-pattern pattern-top">AI-SECURE-ENCRYPTED-2026-RCS-BLOCKCHAIN-VERIFY</div>
+            <div class="micro-pattern pattern-left" data-ru="КОГНИТИВНЫЙ-СУВЕРЕНИТЕТ-AI-ЗАЩИЩЕНО-2026" data-en="COGNITIVE-SOVEREIGNTY-AI-PROTECTED-2026">COGNITIVE-SOVEREIGNTY-AI-PROTECTED-2026</div>
+            <div class="micro-pattern pattern-right" data-ru="КОГНИТИВНЫЙ-СУВЕРЕНИТЕТ-AI-ЗАЩИЩЕНО-2026" data-en="COGNITIVE-SOVEREIGNTY-AI-PROTECTED-2026">COGNITIVE-SOVEREIGNTY-AI-PROTECTED-2026</div>
             <div class="micro-pattern pattern-bottom">HASH:1C6F9A4E2B8D5F3A0E7B9D4C6F2A8E5D</div>
         </div>
     </div>
 
-    <!-- 5000 ТЧ -->
+    <!-- 5000 LH -->
     <div class="banknote denom-5000">
         <div class="banknote-inner">
             <div class="guilloche"></div><div class="holo-stripe"></div><div class="glass-reflection"></div>
@@ -1068,10 +1193,10 @@
             <div class="kinetic-circle kinetic-1"></div><div class="kinetic-circle kinetic-2"></div>
             
             <div class="top-section">
-                <div class="state-name">РКС</div>
+                <div class="state-name">RCS</div>
                 <div class="logo-container">
                     <div class="rotating-frame-inner"></div>
-                    <img src="favicon.ico" alt="РКС" class="favicon-center">
+                    <img src="favicon.ico" alt="RCS" class="favicon-center">
                 </div>
                 <div class="year-mark">2026</div>
             </div>
@@ -1089,27 +1214,27 @@
                 <div class="chip-circle-deco chip-circle-3"></div>
                 <div class="rotating-chip"><div class="chip-grid" id="chipGrid5000"></div></div>
                 <div class="ai-secure-text">AI SECURE</div>
-                <div class="president-text">ПРЕЗИДЕНТ БАНКА</div>
-                <div class="treasurer-text">ГЛАВНЫЙ КАЗНАЧЕЙ</div>
+                <div class="president-text" data-ru="ПРЕЗИДЕНТ БАНКА" data-en="BANK PRESIDENT">BANK PRESIDENT</div>
+                <div class="treasurer-text" data-ru="ГЛАВНЫЙ КАЗНАЧЕЙ" data-en="CHIEF TREASURER">CHIEF TREASURER</div>
             </div>
 
             <div class="bottom-section">
                 <div class="serial-block">AI-5000-2026-Θ2L7R</div>
-                <div class="currency-label">ТРУДОЧАСОВ</div>
-                <div class="signature-block">ПРЕЗИДЕНТ БАНКА<div class="signature-line">ГЛАВНЫЙ КАЗНАЧЕЙ</div></div>
+                <div class="currency-label" data-ru="ТРУДОЧАСОВ" data-en="LABOR HOURS">LABOR HOURS</div>
+                <div class="signature-block"><span data-ru="ПРЕЗИДЕНТ БАНКА" data-en="BANK PRESIDENT">BANK PRESIDENT</span><div class="signature-line"><span data-ru="ГЛАВНЫЙ КАЗНАЧЕЙ" data-en="CHIEF TREASURER">CHIEF TREASURER</span></div></div>
             </div>
 
-            <div class="micro-pattern pattern-top">AI-SECURE-ENCRYPTED-2026-RKS-BLOCKCHAIN-VERIFY</div>
-            <div class="micro-pattern pattern-left">COGNITIVE-SOVEREIGNTY-AI-PROTECTED-2026</div>
-            <div class="micro-pattern pattern-right">COGNITIVE-SOVEREIGNTY-AI-PROTECTED-2026</div>
+            <div class="micro-pattern pattern-top">AI-SECURE-ENCRYPTED-2026-RCS-BLOCKCHAIN-VERIFY</div>
+            <div class="micro-pattern pattern-left" data-ru="КОГНИТИВНЫЙ-СУВЕРЕНИТЕТ-AI-ЗАЩИЩЕНО-2026" data-en="COGNITIVE-SOVEREIGNTY-AI-PROTECTED-2026">COGNITIVE-SOVEREIGNTY-AI-PROTECTED-2026</div>
+            <div class="micro-pattern pattern-right" data-ru="КОГНИТИВНЫЙ-СУВЕРЕНИТЕТ-AI-ЗАЩИЩЕНО-2026" data-en="COGNITIVE-SOVEREIGNTY-AI-PROTECTED-2026">COGNITIVE-SOVEREIGNTY-AI-PROTECTED-2026</div>
             <div class="micro-pattern pattern-bottom">HASH:6E3B9F2A7D5C1E8B4F0A6D9E3C7F5B2A</div>
         </div>
     </div>
 
     <!-- ===== КНОПКИ ВНИЗУ ===== -->
     <div class="bottom-actions">
-        <button class="btn-3d" onclick="window.print()">🖨️ ПЕЧАТЬ БАНКНОТ</button>
-        <button class="btn-3d secondary" onclick="goToMainPage()">← Вернуться к проектам</button>
+        <button class="btn-3d" onclick="window.print()" data-ru="🖨️ ПЕЧАТЬ БАНКНОТ" data-en="🖨️ PRINT BANKNOTES">🖨️ PRINT BANKNOTES</button>
+        <button class="btn-3d secondary" onclick="goToMainPage()" data-ru="← Вернуться к проектам" data-en="← Back to Projects">← Back to Projects</button>
     </div>
 
 </div>
@@ -1142,6 +1267,66 @@
     }
     ['chipGrid1','chipGrid2','chipGrid5','chipGrid10','chipGrid50','chipGrid100','chipGrid500','chipGrid1000','chipGrid5000']
         .forEach(id => createGridDots(id));
+
+    // ===== LANGUAGE TOGGLE LOGIC - RU/EN FORMAT =====
+    let currentLang = 'en';
+    const langBtn = document.getElementById('langBtn');
+    const langTextEl = document.getElementById('langText');
+    const htmlEl = document.documentElement;
+
+    const langTranslations = {
+        en: { label: 'Переключить на русский' },
+        ru: { label: 'Switch to English' }
+    };
+
+    function updateLangDisplay() {
+        if (currentLang === 'en') {
+            langTextEl.innerHTML = '<span class="lang-active">EN</span><span class="lang-separator">/</span><span>RU</span>';
+        } else {
+            langTextEl.innerHTML = '<span>EN</span><span class="lang-separator">/</span><span class="lang-active">RU</span>';
+        }
+    }
+
+    function applyLang(lang) {
+        currentLang = lang;
+        htmlEl.setAttribute('lang', lang);
+
+        document.querySelectorAll('[data-ru][data-en]').forEach(el => {
+            if (el.children.length === 0) {
+                el.textContent = el.getAttribute('data-' + lang);
+            } else {
+                el.innerHTML = el.getAttribute('data-' + lang);
+            }
+        });
+
+        const titleEl = document.querySelector('title');
+        if (titleEl) {
+            titleEl.textContent = lang === 'ru' ? 'Денежные Знаки РКС 2026' : 'RCS Currency 2026';
+        }
+
+        const next = langTranslations[lang];
+        langBtn.setAttribute('aria-label', next.label);
+
+        updateLangDisplay();
+
+        try { localStorage.setItem('rks-lang', lang); } catch (e) {}
+    }
+
+    langBtn.addEventListener('click', () => {
+        applyLang(currentLang === 'en' ? 'ru' : 'en');
+    });
+
+    // Initialize language
+    try {
+        const saved = localStorage.getItem('rks-lang');
+        if (saved === 'ru' || saved === 'en') {
+            applyLang(saved);
+        } else {
+            applyLang('en');
+        }
+    } catch (e) {
+        applyLang('en');
+    }
 </script>
 </body>
 </html>
