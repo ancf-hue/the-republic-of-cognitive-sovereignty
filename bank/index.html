@@ -1,9 +1,10 @@
+
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>РКС — Банк</title>
+    <title>RCS — Bank</title>
     <link rel="icon" href="favicon.ico" type="image/x-icon" />
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -16,6 +17,43 @@
         }
         .container { max-width: 1400px; margin: 0 auto; }
 
+        /* ===== 3D GLASS LANGUAGE TOGGLE BUTTON ===== */
+        .lang-toggle {
+            position: fixed; top: 25px; right: 25px; z-index: 2000; perspective: 800px;
+        }
+        .lang-btn {
+            position: relative; display: flex; align-items: center; justify-content: center; gap: 10px;
+            padding: 12px 24px; min-width: 120px; height: 52px; border: none; border-radius: 16px;
+            cursor: pointer; font-family: 'Times New Roman', serif; font-size: 1em; font-weight: bold;
+            letter-spacing: 2px; color: #f5e6a8; text-shadow: 0 0 8px rgba(201, 169, 97, 0.9);
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.15) 0%, rgba(201, 169, 97, 0.10) 40%, rgba(255, 255, 255, 0.05) 100%);
+            backdrop-filter: blur(14px) saturate(180%); -webkit-backdrop-filter: blur(14px) saturate(180%);
+            border-top: 1px solid rgba(255, 255, 255, 0.4); border-left: 1px solid rgba(255, 255, 255, 0.25);
+            border-right: 1px solid rgba(0, 0, 0, 0.35); border-bottom: 1px solid rgba(0, 0, 0, 0.5);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.55), 0 0 25px rgba(201, 169, 97, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.35), inset 0 -2px 6px rgba(0, 0, 0, 0.25);
+            transform: rotateX(12deg) rotateY(-6deg) translateZ(0); transform-style: preserve-3d;
+            transition: transform 0.35s ease, box-shadow 0.35s ease, filter 0.35s ease;
+            animation: glassGlow 3.5s ease-in-out infinite;
+        }
+        @keyframes glassGlow {
+            0%, 100% { box-shadow: 0 10px 25px rgba(0, 0, 0, 0.55), 0 0 25px rgba(201, 169, 97, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.35), inset 0 -2px 6px rgba(0, 0, 0, 0.25); }
+            50% { box-shadow: 0 10px 25px rgba(0, 0, 0, 0.55), 0 0 45px rgba(201, 169, 97, 0.75), 0 0 80px rgba(201, 169, 97, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.45), inset 0 -2px 6px rgba(0, 0, 0, 0.25); }
+        }
+        .lang-btn::before {
+            content: ''; position: absolute; top: 3px; left: 8%; right: 8%; height: 35%;
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.55) 0%, rgba(255, 255, 255, 0) 100%);
+            border-radius: 14px 14px 50% 50%; pointer-events: none;
+        }
+        .lang-btn:hover { transform: rotateX(6deg) rotateY(-3deg) translateZ(10px) scale(1.05); filter: brightness(1.15); }
+        .lang-btn:active {
+            transform: rotateX(14deg) rotateY(-8deg) translateZ(-5px) scale(0.98);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.6), 0 0 20px rgba(201, 169, 97, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.25), inset 0 -2px 6px rgba(0, 0, 0, 0.35);
+        }
+        .lang-text { font-weight: 900; letter-spacing: 3px; }
+        .lang-active { color: #ffd700; text-shadow: 0 0 12px rgba(255, 215, 0, 0.9); }
+        .lang-separator { color: rgba(201, 169, 97, 0.5); font-weight: 300; }
+
+        /* ===== ШАПКА ===== */
         .header {
             text-align: center; margin-bottom: 40px; padding: 30px;
             background: rgba(201, 169, 97, 0.03); border: 2px solid rgba(201, 169, 97, 0.2);
@@ -38,6 +76,22 @@
         .header h1 { font-size: 2.5em; letter-spacing: 8px; text-transform: uppercase; margin-bottom: 10px; text-shadow: 0 0 20px rgba(201,169,97,0.5); }
         .header .subtitle { font-size: 1.1em; color: rgba(201,169,97,0.7); letter-spacing: 4px; }
 
+        /* ===== ОКНО ДЛЯ ФОТО ===== */
+        .photo-frame {
+            width: 800px; height: 450px; max-width: 100%; margin: 20px auto 0; position: relative;
+            border: 3px solid #c9a961; border-radius: 10px; padding: 10px;
+            background: linear-gradient(135deg, rgba(201,169,97,0.1) 0%, rgba(0,0,0,0.6) 100%);
+            box-shadow: 0 0 25px rgba(201,169,97,0.5), inset 0 0 20px rgba(201,169,97,0.2), 0 15px 40px rgba(0,0,0,0.8);
+            overflow: hidden;
+        }
+        .photo-frame::before {
+            content: ''; position: absolute; top: 5px; left: 5px; right: 5px; bottom: 5px;
+            border: 1px solid rgba(201,169,97,0.4); border-radius: 6px; pointer-events: none;
+        }
+        .photo-frame img { width: 100%; height: 100%; object-fit: cover; display: block; border-radius: 4px; filter: sepia(0.15) contrast(1.1); }
+        .photo-caption { text-align: center; color: #c9a961; font-size: 1em; letter-spacing: 5px; text-transform: uppercase; margin-bottom: 20px; text-shadow: 0 0 10px rgba(201,169,97,0.6); }
+
+        /* ===== ВКЛАДКИ ===== */
         .tabs { display: flex; gap: 4px; margin-bottom: 30px; flex-wrap: wrap; border-bottom: 2px solid rgba(201, 169, 97, 0.15); }
         .tab-btn {
             padding: 14px 30px; background: rgba(201, 169, 97, 0.03); border: none; border-bottom: 3px solid transparent;
@@ -50,6 +104,7 @@
         .tab-content.active { display: block; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
+        /* ===== КАРТОЧКИ ===== */
         .section {
             background: rgba(201, 169, 97, 0.03); border: 2px solid rgba(201, 169, 97, 0.15);
             border-radius: 14px; padding: 30px; margin-bottom: 30px; position: relative; overflow: hidden; backdrop-filter: blur(4px);
@@ -61,9 +116,27 @@
         .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin-bottom: 30px; }
         .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin-bottom: 30px; }
         .card { background: rgba(0, 0, 0, 0.3); border: 1px solid rgba(201, 169, 97, 0.2); border-radius: 10px; padding: 20px; transition: all 0.3s; }
-        .card:hover { border-color: #c9a961; box-shadow: 0 0 20px rgba(201, 169, 97, 0.1); }
+        .card:hover { border-color: #c9a961; box-shadow: 0 0 20px rgba(201,169,97,0.1); }
         .card h4 { font-size: 1.2em; margin-bottom: 15px; color: #c9a961; letter-spacing: 2px; }
 
+        /* ===== БАЛАНС ===== */
+        .balance-amount { font-size: 3.5em; text-align: center; padding: 10px 0; }
+        .balance-label { text-align: center; font-size: 1em; color: rgba(201,169,97,0.6); letter-spacing: 4px; }
+        .balance-display { text-align: center; padding: 15px 0; }
+        .security-badge { display: inline-block; padding: 4px 14px; background: rgba(40, 167, 69, 0.15); border: 1px solid #28a745; border-radius: 20px; font-size: 0.8em; color: #28a745; margin-top: 8px; }
+
+        /* ===== ФОРМЫ ===== */
+        .form-group { margin-bottom: 16px; }
+        .form-group label { display: block; margin-bottom: 6px; font-size: 0.85em; letter-spacing: 2px; text-transform: uppercase; color: rgba(201,169,97,0.7); }
+        .form-group select, .form-group input, .form-group textarea {
+            width: 100%; padding: 10px 14px; background: rgba(0, 0, 0, 0.5); border: 2px solid rgba(201, 169, 97, 0.15);
+            border-radius: 8px; color: #c9a961; font-size: 1em; font-family: 'Times New Roman', serif; transition: all 0.3s;
+        }
+        .form-group textarea { min-height: 80px; resize: vertical; }
+        .form-group select:focus, .form-group input:focus, .form-group textarea:focus { outline: none; border-color: #c9a961; box-shadow: 0 0 10px rgba(201, 169, 97, 0.1); }
+        .form-group select option { background: #0a0a1a; color: #c9a961; }
+
+        /* ===== КНОПКИ ===== */
         .btn-3d {
             position: relative; display: inline-block; width: 100%; padding: 14px 24px; border: none; border-radius: 16px;
             font-family: 'Times New Roman', serif; font-size: 0.9em; font-weight: bold; letter-spacing: 3px; text-transform: uppercase;
@@ -89,25 +162,18 @@
             50% { box-shadow: 0 8px 48px rgba(201,169,97,0.6), 0 0 60px rgba(201,169,97,0.2), inset 0 1px 0 rgba(255,255,255,0.6), inset 0 -4px 0 rgba(0,0,0,0.2); }
         }
         .btn-3d:disabled { opacity: 0.4; cursor: not-allowed; transform: none; animation: none; }
-        .btn-3d.owned-btn { background: linear-gradient(145deg, rgba(40,167,69,0.9), rgba(30,130,50,0.95)); color: white; cursor: default; }
         .btn-3d-small { padding: 8px 16px; font-size: 0.7em; width: auto; border-radius: 12px; }
         .btn-3d-danger { background: linear-gradient(145deg, rgba(220,53,69,0.9), rgba(180,30,40,0.95)); color: white; }
-        .btn-3d-info {
-            background: linear-gradient(145deg, rgba(40, 167, 69, 0.8), rgba(30, 130, 50, 0.85));
-            color: white; box-shadow: 0 8px 32px rgba(40, 167, 69, 0.3); width: auto; padding: 10px 24px; font-size: 0.8em;
-        }
+        .btn-3d-info { background: linear-gradient(145deg, rgba(40, 167, 69, 0.8), rgba(30, 130, 50, 0.85)); color: white; box-shadow: 0 8px 32px rgba(40, 167, 69, 0.3); width: auto; padding: 10px 24px; font-size: 0.8em; }
         .btn-3d-info:hover { box-shadow: 0 12px 48px rgba(40, 167, 69, 0.5); }
 
-        .form-group { margin-bottom: 16px; }
-        .form-group label { display: block; margin-bottom: 6px; font-size: 0.85em; letter-spacing: 2px; text-transform: uppercase; color: rgba(201,169,97,0.7); }
-        .form-group select, .form-group input, .form-group textarea {
-            width: 100%; padding: 10px 14px; background: rgba(0, 0, 0, 0.5); border: 2px solid rgba(201, 169, 97, 0.15);
-            border-radius: 8px; color: #c9a961; font-size: 1em; font-family: 'Times New Roman', serif; transition: all 0.3s;
-        }
-        .form-group textarea { min-height: 80px; resize: vertical; }
-        .form-group select:focus, .form-group input:focus, .form-group textarea:focus { outline: none; border-color: #c9a961; box-shadow: 0 0 10px rgba(201, 169, 97, 0.1); }
-        .form-group select option { background: #0a0a1a; color: #c9a961; }
+        /* ===== СТАТИСТИКА ===== */
+        .stats-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-top: 15px; }
+        .stat-item { text-align: center; padding: 12px; background: rgba(0,0,0,0.3); border-radius: 6px; }
+        .stat-value { font-size: 1.8em; font-weight: bold; color: #c9a961; font-family: 'Courier New', monospace; }
+        .stat-label { font-size: 0.8em; color: rgba(201,169,97,0.6); margin-top: 4px; }
 
+        /* ===== ИСТОРИЯ ===== */
         .history-list { max-height: 400px; overflow-y: auto; }
         .history-item {
             padding: 12px 15px; margin-bottom: 8px; background: rgba(0, 0, 0, 0.3); border-left: 4px solid #c9a961;
@@ -122,11 +188,7 @@
         .history-status { font-size: 0.85em; font-weight: bold; }
         .status-pending { color: #ffc107; } .status-confirmed { color: #28a745; } .status-declined { color: #dc3545; } .status-escrow { color: #17a2b8; }
 
-        .stats-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-top: 15px; }
-        .stat-item { text-align: center; padding: 12px; background: rgba(0,0,0,0.3); border-radius: 6px; }
-        .stat-value { font-size: 1.8em; font-weight: bold; color: #c9a961; }
-        .stat-label { font-size: 0.8em; color: rgba(201,169,97,0.6); margin-top: 4px; }
-
+        /* ===== ГРАФИК ===== */
         .chart-container { padding: 20px; background: rgba(0, 0, 0, 0.3); border-radius: 10px; margin: 10px 0; position: relative; height: 150px; }
         .chart-bars { display: flex; align-items: flex-end; justify-content: space-between; height: 100%; gap: 8px; padding-bottom: 20px; }
         .chart-bar-wrapper { flex: 1; display: flex; flex-direction: column; align-items: center; height: 100%; justify-content: flex-end; }
@@ -134,37 +196,7 @@
         .chart-bar .bar-value { position: absolute; top: -18px; left: 50%; transform: translateX(-50%); font-size: 0.6em; color: rgba(201, 169, 97, 0.5); }
         .chart-label { font-size: 0.6em; color: rgba(201, 169, 97, 0.4); margin-top: 6px; text-align: center; }
 
-        .template-item {
-            display: flex; justify-content: space-between; align-items: center; padding: 14px;
-            background: rgba(0, 0, 0, 0.3); border: 1px solid rgba(201, 169, 97, 0.15); border-radius: 8px; margin-bottom: 10px; transition: all 0.3s;
-        }
-        .template-item:hover { border-color: #c9a961; background: rgba(201, 169, 97, 0.05); }
-        .template-item .icon { font-size: 1.5em; margin-right: 12px; }
-        .template-item .name { color: #f4e4d4; font-weight: bold; flex: 1; }
-        .template-item .amount { color: #c9a961; font-weight: bold; margin-right: 15px; font-family: 'Courier New', monospace; }
-
-        .deposit-item {
-            background: rgba(0, 0, 0, 0.2); border: 1px solid rgba(201, 169, 97, 0.1); border-radius: 8px;
-            padding: 15px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;
-        }
-        .deposit-item .info { flex: 1; }
-        .deposit-item .info .name { font-weight: bold; color: #f4e4d4; }
-        .deposit-item .info .detail { font-size: 0.85em; color: rgba(201,169,97,0.6); }
-
-        .ministry-card {
-            background: rgba(0, 0, 0, 0.4); border: 1px solid rgba(201, 169, 97, 0.3); border-radius: 12px;
-            padding: 20px; text-align: center; transition: all 0.4s; position: relative; overflow: hidden;
-        }
-        .ministry-card:hover { border-color: #c9a961; transform: translateY(-5px); box-shadow: 0 10px 30px rgba(201,169,97,0.15); }
-        .ministry-card.owned { border-color: #28a745; background: rgba(40, 167, 69, 0.05); }
-        .ministry-card.owned::after {
-            content: '✅ НАЗНАЧЕН'; position: absolute; top: 10px; right: -30px; background: #28a745; color: white;
-            padding: 5px 40px; font-size: 0.7em; font-weight: bold; transform: rotate(45deg); letter-spacing: 1px;
-        }
-        .ministry-icon { font-size: 2.5em; margin-bottom: 15px; }
-        .ministry-name { font-size: 1em; font-weight: bold; color: #f4e4d4; margin-bottom: 15px; min-height: 45px; display: flex; align-items: center; justify-content: center; }
-        .ministry-price { font-size: 1.5em; color: #c9a961; font-weight: bold; margin-bottom: 20px; }
-
+        /* ===== МАГАЗИН ===== */
         .shop-layout { display: grid; grid-template-columns: 260px 1fr; gap: 20px; }
         .shop-sidebar {
             background: rgba(0, 0, 0, 0.3); border: 1px solid rgba(201, 169, 97, 0.2); border-radius: 10px;
@@ -199,6 +231,7 @@
         }
         .product-btn:hover { background: linear-gradient(145deg, rgba(220,185,110,1), rgba(200,170,90,1)); box-shadow: 0 4px 12px rgba(201,169,97,0.3); }
 
+        /* ===== КОРЗИНА ===== */
         .cart-panel { background: rgba(201, 169, 97, 0.05); border: 2px solid rgba(201, 169, 97, 0.3); border-radius: 10px; padding: 20px; margin-top: 20px; }
         .cart-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 1px solid rgba(201,169,97,0.2); }
         .cart-title { font-size: 1.2em; color: #c9a961; letter-spacing: 2px; }
@@ -212,6 +245,7 @@
         .cart-item-remove:hover { background: rgba(220,53,69,0.1); border-color: #dc3545; }
         .cart-empty { text-align: center; padding: 20px; color: rgba(201,169,97,0.4); font-style: italic; }
 
+        /* ===== МОЙ МАГАЗИН ===== */
         .my-shop-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 15px; margin-bottom: 25px; }
         .my-shop-stat { background: rgba(0,0,0,0.3); border: 1px solid rgba(201,169,97,0.2); border-radius: 10px; padding: 18px; text-align: center; }
         .my-shop-stat .value { font-size: 2.2em; font-weight: bold; color: #c9a961; font-family: 'Courier New', monospace; }
@@ -229,18 +263,8 @@
         .my-product-meta strong { color: #c9a961; }
         .my-product-actions { display: flex; flex-direction: column; gap: 6px; min-width: 140px; }
         .my-product-price { text-align: center; font-size: 1.5em; font-weight: bold; color: #c9a961; font-family: 'Courier New', monospace; margin-bottom: 8px; }
-        
-        .empty-state { text-align: center; padding: 60px 20px; color: rgba(201,169,97,0.5); }
-        .empty-state .icon { font-size: 4em; margin-bottom: 15px; opacity: 0.5; }
-        .empty-state .title { font-size: 1.3em; margin-bottom: 10px; color: rgba(201,169,97,0.7); }
-        .empty-state .desc { font-size: 0.95em; max-width: 500px; margin: 0 auto; line-height: 1.6; }
-        
-        .sales-history-item { padding: 12px 15px; margin-bottom: 8px; background: rgba(0,0,0,0.3); border-left: 4px solid #28a745; border-radius: 6px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 6px; }
-        .sales-history-item .buyer { color: #f4e4d4; font-weight: bold; }
-        .sales-history-item .product { color: rgba(201,169,97,0.7); font-size: 0.9em; }
-        .sales-history-item .amount { color: #28a745; font-weight: bold; font-family: 'Courier New', monospace; }
-        .sales-history-item .time { color: rgba(201,169,97,0.5); font-size: 0.8em; }
 
+        /* ===== МОДАЛЬНОЕ ОКНО ===== */
         .modal-overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0, 0, 0, 0.85); z-index: 2000; justify-content: center; align-items: center; padding: 20px; animation: fadeIn 0.3s; }
         .modal-overlay.active { display: flex; }
         .modal {
@@ -252,13 +276,9 @@
         .escrow-step { display: flex; align-items: center; padding: 12px 15px; background: rgba(0,0,0,0.3); border-left: 3px solid rgba(201,169,97,0.2); border-radius: 6px; transition: all 0.4s; }
         .escrow-step.active { border-left-color: #ffc107; background: rgba(255,193,7,0.05); }
         .escrow-step.done { border-left-color: #28a745; background: rgba(40,167,69,0.05); }
-        .escrow-step-num {
-            width: 30px; height: 30px; border-radius: 50%; background: rgba(201,169,97,0.1); border: 2px solid rgba(201,169,97,0.3);
-            display: flex; align-items: center; justify-content: center; margin-right: 15px; font-weight: bold; color: #c9a961; flex-shrink: 0;
-        }
-        .escrow-step.active .escrow-step-num { background: rgba(255,193,7,0.2); border-color: #ffc107; animation: pulse 1.5s infinite; }
+        .escrow-step-num { width: 30px; height: 30px; border-radius: 50%; background: rgba(201,169,97,0.1); border: 2px solid rgba(201,169,97,0.3); display: flex; align-items: center; justify-content: center; margin-right: 15px; font-weight: bold; color: #c9a961; flex-shrink: 0; }
+        .escrow-step.active .escrow-step-num { background: rgba(255,193,7,0.2); border-color: #ffc107; }
         .escrow-step.done .escrow-step-num { background: rgba(40,167,69,0.2); border-color: #28a745; color: #28a745; }
-        @keyframes pulse { 0%, 100% { box-shadow: 0 0 0 0 rgba(255,193,7,0.4); } 50% { box-shadow: 0 0 0 8px rgba(255,193,7,0); } }
         .escrow-step-text { flex: 1; color: #f4e4d4; font-size: 0.95em; }
         .escrow-step-text .step-title { font-weight: bold; margin-bottom: 3px; }
         .escrow-step-text .step-detail { font-size: 0.85em; color: rgba(201,169,97,0.6); }
@@ -274,6 +294,7 @@
         .order-summary-total .label { color: #f4e4d4; font-weight: bold; }
         .order-summary-total .value { color: #c9a961; font-weight: bold; font-family: 'Courier New', monospace; }
 
+        /* ===== УВЕДОМЛЕНИЯ ===== */
         .notification {
             position: fixed; top: 20px; right: 20px; padding: 18px 24px; background: rgba(201, 169, 97, 0.95);
             color: #0a0a0a; border-radius: 12px; box-shadow: 0 5px 30px rgba(0, 0, 0, 0.6); z-index: 3000;
@@ -284,36 +305,41 @@
         @keyframes slideIn { from { transform: translateX(450px) scale(0.9); opacity: 0; } to { transform: translateX(0) scale(1); opacity: 1; } }
         .notification h3 { margin-bottom: 6px; font-size: 1.1em; letter-spacing: 2px; }
         .notification p { font-size: 0.9em; word-break: break-all; }
-        .security-badge { display: inline-block; padding: 4px 14px; background: rgba(40, 167, 69, 0.15); border: 1px solid #28a745; border-radius: 20px; font-size: 0.8em; color: #28a745; margin-top: 8px; }
 
+        /* ===== МИНИСТЕРСТВА ===== */
+        .ministry-card {
+            background: rgba(0, 0, 0, 0.4); border: 1px solid rgba(201, 169, 97, 0.3); border-radius: 12px;
+            padding: 20px; text-align: center; transition: all 0.4s; position: relative; overflow: hidden;
+        }
+        .ministry-card:hover { border-color: #c9a961; transform: translateY(-5px); box-shadow: 0 10px 30px rgba(201,169,97,0.15); }
+        .ministry-card.owned { border-color: #28a745; background: rgba(40, 167, 69, 0.05); }
+        .ministry-card.owned::after {
+            content: '✅ APPOINTED'; position: absolute; top: 10px; right: -30px; background: #28a745; color: white;
+            padding: 5px 40px; font-size: 0.7em; font-weight: bold; transform: rotate(45deg); letter-spacing: 1px;
+        }
+        .ministry-card.owned[data-ru]::after { content: '✅ НАЗНАЧЕН'; }
+        .ministry-icon { font-size: 2.5em; margin-bottom: 15px; }
+        .ministry-name { font-size: 1em; font-weight: bold; color: #f4e4d4; margin-bottom: 15px; min-height: 45px; display: flex; align-items: center; justify-content: center; }
+        .ministry-price { font-size: 1.5em; color: #c9a961; font-weight: bold; margin-bottom: 20px; }
+
+        /* ===== ТАБЛИЦЫ ===== */
         table { width: 100%; border-collapse: collapse; margin-top: 15px; background: rgba(0, 0, 0, 0.2); border-radius: 10px; overflow: hidden; }
         th, td { padding: 14px 18px; text-align: left; border-bottom: 1px solid rgba(201, 169, 97, 0.1); color: #f4e4d4; }
         th { background: rgba(201, 169, 97, 0.1); color: #c9a961; font-weight: bold; letter-spacing: 2px; text-transform: uppercase; font-size: 0.9em; }
         tr:hover { background: rgba(201, 169, 97, 0.05); }
 
+        /* ===== ПУТЬ ГРАЖДАНИНА ===== */
         .path-step { display: flex; justify-content: space-between; padding: 12px 18px; background: rgba(0,0,0,0.2); border-radius: 8px; margin-bottom: 6px; border-left: 3px solid rgba(201,169,97,0.2); transition: all 0.3s; }
         .path-step.active { border-left-color: #28a745; background: rgba(40,167,69,0.05); }
         .path-step .step-num { color: #c9a961; font-weight: bold; min-width: 30px; }
         .path-step .step-desc { flex: 1; color: #f4e4d4; }
-        .path-step .step-balance { color: #c9a961; font-weight: bold; }
+        .path-step .step-balance { color: #c9a961; font-weight: bold; font-family: 'Courier New', monospace; }
 
-        .balance-amount { font-size: 3.5em; text-align: center; padding: 10px 0; }
-        .balance-label { text-align: center; font-size: 1em; color: rgba(201,169,97,0.6); letter-spacing: 4px; }
-        .balance-display { text-align: center; padding: 15px 0; }
+        /* ===== КНОПКА ВОЗВРАТА ===== */
+        .back-home { margin-top: 40px; padding-top: 30px; border-top: 2px solid rgba(201,169,97,0.1); text-align: center; }
+        .back-home .btn-3d { width: auto; padding: 14px 40px; display: inline-block; }
 
-        /* ===== КНОПКА ВОЗВРАТА НА ГЛАВНУЮ ===== */
-        .back-home {
-            margin-top: 40px;
-            padding-top: 30px;
-            border-top: 2px solid rgba(201,169,97,0.1);
-            text-align: center;
-        }
-        .back-home .btn-3d {
-            width: auto;
-            padding: 14px 40px;
-            display: inline-block;
-        }
-
+        /* ===== АДАПТИВ ===== */
         @media (max-width: 768px) {
             .header h1 { font-size: 1.8em; letter-spacing: 4px; }
             .grid, .grid-2 { grid-template-columns: 1fr; }
@@ -321,163 +347,174 @@
             .tab-btn { border-bottom: 2px solid rgba(201,169,97,0.05); border-left: 3px solid transparent; text-align: left; }
             .tab-btn.active { border-bottom-color: rgba(201,169,97,0.05); border-left-color: #c9a961; }
             .stats-grid { grid-template-columns: 1fr 1fr; }
-            .history-item, .my-product-card { flex-direction: column; align-items: stretch; }
             .shop-layout { grid-template-columns: 1fr !important; }
             .shop-sidebar { position: static !important; }
             .my-product-actions { min-width: auto; }
             .my-shop-stats { grid-template-columns: 1fr 1fr; }
             .products-grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); }
             .back-home .btn-3d { width: 100%; }
+            .photo-frame { width: 95vw; height: auto; aspect-ratio: 16 / 9; }
         }
     </style>
 </head>
 <body>
 
+    <!-- ===== 3D GLASS LANGUAGE TOGGLE - RU/EN ===== -->
+    <div class="lang-toggle">
+        <button class="lang-btn" id="langBtn" type="button" aria-label="Switch language">
+            <span class="lang-text" id="langText">
+                <span class="lang-active">EN</span><span class="lang-separator">/</span><span>RU</span>
+            </span>
+        </button>
+    </div>
+
 <div class="container">
-    <!-- ШАПКА -->
+    <!-- ===== ШАПКА ===== -->
     <div class="header">
         <div class="header-logo">
             <div class="header-logo-frame"></div>
-            <img src="favicon.ico" alt="РКС">
+            <img src="favicon.ico" alt="RCS">
         </div>
-        <h1>РКС — Банк</h1>
-        <div class="subtitle">Республика Когнитивного Суверенитета</div>
+        <h1 data-ru="РКС — Банк" data-en="RCS — Bank">RCS — Bank</h1>
+        <div class="subtitle" data-ru="Республика Когнитивного Суверенитета" data-en="Republic of Cognitive Sovereignty">Republic of Cognitive Sovereignty</div>
         <div style="margin-top:15px; display:flex; gap:10px; justify-content:center; flex-wrap:wrap;">
-            <button class="btn-3d btn-3d-info" onclick="openInfo()" style="padding:10px 24px; font-size:0.8em;">📖 Как работает банк</button>
+            <button class="btn-3d btn-3d-info" onclick="openInfo()" style="padding:10px 24px; font-size:0.8em;" data-ru="📖 Как работает банк" data-en="📖 How the bank works">📖 How the bank works</button>
         </div>
+        
+        <!-- ОКНО ДЛЯ ФОТО -->
+        <div class="photo-frame">
+            <img src="rks-portrait.jpg" alt="RCS Emblem">
+        </div>
+        <div class="photo-caption" data-ru="Государственная Эмблема РКС" data-en="State Emblem of RCS">State Emblem of RCS</div>
     </div>
 
-    <!-- ВКЛАДКИ -->
+    <!-- ===== ВКЛАДКИ ===== -->
     <div class="tabs">
-        <button class="tab-btn active" data-tab="tab-bank">🏦 Банк</button>
-        <button class="tab-btn" data-tab="tab-shop">🛒 Магазин</button>
-        <button class="tab-btn" data-tab="tab-myshop">📦 Мой Магазин</button>
-        <button class="tab-btn" data-tab="tab-rules">📖 Экономика</button>
-        <button class="tab-btn" data-tab="tab-ministries">🏛️ Министерства</button>
+        <button class="tab-btn active" data-tab="tab-bank" data-ru="🏦 Банк" data-en="🏦 Bank">🏦 Bank</button>
+        <button class="tab-btn" data-tab="tab-shop" data-ru="🛒 Магазин" data-en="🛒 Shop">🛒 Shop</button>
+        <button class="tab-btn" data-tab="tab-myshop" data-ru="📦 Мой Магазин" data-en="📦 My Shop">📦 My Shop</button>
+        <button class="tab-btn" data-tab="tab-rules" data-ru="📖 Экономика" data-en="📖 Economy">📖 Economy</button>
+        <button class="tab-btn" data-tab="tab-ministries" data-ru="🏛️ Министерства" data-en="🏛️ Ministries">🏛️ Ministries</button>
     </div>
 
     <!-- ===== ВКЛАДКА: БАНК ===== -->
     <div class="tab-content active" id="tab-bank">
         <div class="grid">
             <div class="card" style="background: rgba(201,169,97,0.04); border-color: rgba(201,169,97,0.25);">
-                <h2 style="font-size:1.2em; text-align:center; letter-spacing:4px; margin-bottom:10px;">Ваш Счёт</h2>
+                <h2 style="font-size:1.2em; text-align:center; letter-spacing:4px; margin-bottom:10px;" data-ru="Ваш Счёт" data-en="Your Account">Your Account</h2>
                 <div class="balance-display">
                     <div class="balance-amount" id="balance" style="font-size:3.5em;">
-                        <span class="currency-icon" style="display:inline-block; width:36px; height:36px; vertical-align:middle; margin-right:4px;">
-                            <img src="favicon.ico" alt="РКС" style="width:100%; height:100%; object-fit:contain;">
+                        <span style="display:inline-block; width:36px; height:36px; vertical-align:middle; margin-right:4px;">
+                            <img src="favicon.ico" alt="RCS" style="width:100%; height:100%; object-fit:contain;">
                         </span>
                         1
                     </div>
-                    <div class="balance-label">ТРУДОЧАС</div>
-                    <div class="security-badge">🔒 AI-ЗАЩИЩЕНО</div>
+                    <div class="balance-label" data-ru="ТРУДОЧАС" data-en="LABOR HOUR">LABOR HOUR</div>
+                    <div class="security-badge" data-ru="🔒 AI-ЗАЩИЩЕНО" data-en="🔒 AI-PROTECTED">🔒 AI-PROTECTED</div>
                 </div>
                 <div class="user-info" style="margin-top:10px; padding-top:15px; border-top:1px solid rgba(201,169,97,0.15);">
-                    <p><strong>Владелец:</strong> Иванов Иван Иванович</p>
-                    <p><strong>ID:</strong> РКС-001</p>
-                    <p><strong>2FA:</strong> Включена</p>
+                    <p><strong data-ru="Владелец:" data-en="Owner:">Owner:</strong> <span id="userNameDisplay">Ivan Ivanov</span></p>
+                    <p><strong>ID:</strong> <span id="userIdDisplay">RCS-001</span></p>
                 </div>
                 <div style="margin-top:12px; display:flex; gap:8px; flex-wrap:wrap;">
-                    <button class="btn-3d btn-3d-small glow" onclick="generate2FA()">🔐 Сгенерировать 2FA</button>
-                    <button class="btn-3d btn-3d-small" onclick="printStatement()">🖨️ Выписка</button>
-                    <button class="btn-3d btn-3d-small btn-3d-info" onclick="openInfo()">📖 Описание</button>
+                    <button class="btn-3d btn-3d-small glow" onclick="generate2FA()" data-ru="🔐 Сгенерировать 2FA" data-en="🔐 Generate 2FA">🔐 Generate 2FA</button>
+                    <button class="btn-3d btn-3d-small" onclick="printStatement()" data-ru="🖨️ Выписка" data-en="🖨️ Statement">🖨️ Statement</button>
                 </div>
             </div>
 
             <div class="card" style="background: rgba(201,169,97,0.04); border-color: rgba(201,169,97,0.25);">
-                <h2 style="font-size:1.2em; text-align:center; letter-spacing:4px; margin-bottom:15px;">Новый Перевод</h2>
+                <h2 style="font-size:1.2em; text-align:center; letter-spacing:4px; margin-bottom:15px;" data-ru="Новый Перевод" data-en="New Transfer">New Transfer</h2>
                 <div class="form-group">
-                    <label>Получатель</label>
+                    <label data-ru="Получатель" data-en="Recipient">Recipient</label>
                     <select id="recipient">
-                        <option value="">Выберите получателя...</option>
-                        <option value="Петров П.П.">Петров П.П. (РКС-002)</option>
-                        <option value="Сидорова С.С.">Сидорова С.С. (РКС-003)</option>
-                        <option value="Волков В.В.">Волков В.В. (РКС-004)</option>
+                        <option value="" data-ru="Выберите получателя..." data-en="Select recipient...">Select recipient...</option>
+                        <option value="Petrov P.P.">Petrov P.P. (RCS-002)</option>
+                        <option value="Sidorova S.S.">Sidorova S.S. (RCS-003)</option>
+                        <option value="Volkov V.V.">Volkov V.V. (RCS-004)</option>
                     </select>
                 </div>
                 <div class="form-group">
-                    <label>Сумма (Трудочасов)</label>
-                    <input type="number" id="amount" min="1" max="5000" placeholder="Введите сумму..." />
+                    <label data-ru="Сумма (Трудочасов)" data-en="Amount (Labor Hours)">Amount (Labor Hours)</label>
+                    <input type="number" id="amount" min="1" max="5000" placeholder="Enter amount..." />
                 </div>
                 <div class="form-group">
-                    <label>ПИН-код</label>
+                    <label data-ru="ПИН-код" data-en="PIN code">PIN code</label>
                     <input type="password" id="pin" maxlength="4" placeholder="••••" />
                 </div>
                 <div class="form-group">
-                    <label>2FA-код</label>
-                    <input type="text" id="f2aInput" maxlength="6" placeholder="6 цифр" />
+                    <label data-ru="2FA-код" data-en="2FA code">2FA code</label>
+                    <input type="text" id="f2aInput" maxlength="6" placeholder="6 digits" />
                 </div>
-                <button class="btn-3d glow" onclick="initiateTransfer()">📤 Отправить Запрос</button>
+                <button class="btn-3d glow" onclick="initiateTransfer()" data-ru="📤 Отправить Запрос" data-en="📤 Send Request">📤 Send Request</button>
                 <div style="margin-top:12px; text-align:center; border-top:1px solid rgba(201,169,97,0.1); padding-top:12px;">
-                    <span style="font-size:0.75em; color:rgba(201,169,97,0.4);">Код 2FA: </span>
+                    <span style="font-size:0.75em; color:rgba(201,169,97,0.4);" data-ru="Код 2FA: " data-en="2FA Code: ">2FA Code: </span>
                     <span id="f2aDisplay" style="font-family:'Courier New',monospace; color:#28a745; font-size:1.1em; letter-spacing:4px;">– – – – – –</span>
                 </div>
             </div>
 
             <div class="card" style="background: rgba(201,169,97,0.04); border-color: rgba(201,169,97,0.25);">
-                <h2 style="font-size:1.2em; text-align:center; letter-spacing:4px; margin-bottom:12px;">Статистика</h2>
+                <h2 style="font-size:1.2em; text-align:center; letter-spacing:4px; margin-bottom:12px;" data-ru="Статистика" data-en="Statistics">Statistics</h2>
                 <div class="stats-grid">
-                    <div class="stat-item"><div class="stat-value" id="totalSent">0</div><div class="stat-label">Отправлено</div></div>
-                    <div class="stat-item"><div class="stat-value" id="totalReceived">0</div><div class="stat-label">Получено</div></div>
-                    <div class="stat-item"><div class="stat-value" id="pendingCount">0</div><div class="stat-label">Ожидает</div></div>
-                    <div class="stat-item"><div class="stat-value" id="totalCount">0</div><div class="stat-label">Всего операций</div></div>
+                    <div class="stat-item"><div class="stat-value" id="totalSent">0</div><div class="stat-label" data-ru="Отправлено" data-en="Sent">Sent</div></div>
+                    <div class="stat-item"><div class="stat-value" id="totalReceived">0</div><div class="stat-label" data-ru="Получено" data-en="Received">Received</div></div>
+                    <div class="stat-item"><div class="stat-value" id="pendingCount">0</div><div class="stat-label" data-ru="Ожидает" data-en="Pending">Pending</div></div>
+                    <div class="stat-item"><div class="stat-value" id="totalCount">0</div><div class="stat-label" data-ru="Всего операций" data-en="Total operations">Total operations</div></div>
                 </div>
                 <div style="margin-top:15px; display:flex; gap:8px; flex-wrap:wrap;">
-                    <button class="btn-3d btn-3d-small" onclick="filterHistory('all')">Все</button>
-                    <button class="btn-3d btn-3d-small" onclick="filterHistory('confirmed')">✅ Выполненные</button>
+                    <button class="btn-3d btn-3d-small" onclick="filterHistory('all')" data-ru="Все" data-en="All">All</button>
+                    <button class="btn-3d btn-3d-small" onclick="filterHistory('confirmed')" data-ru="✅ Выполненные" data-en="✅ Completed">✅ Completed</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid">
+            <div class="card" style="background: rgba(201,169,97,0.04); border-color: rgba(201,169,97,0.25);">
+                <h2 style="font-size:1.2em; text-align:center; letter-spacing:4px; margin-bottom:12px;" data-ru="История Операций" data-en="Transaction History">Transaction History</h2>
+                <div class="history-list" id="historyList">
+                    <div style="padding:15px; text-align:center; color:rgba(201,169,97,0.3);" data-ru="Нет операций" data-en="No operations">No operations</div>
                 </div>
             </div>
 
             <div class="card" style="background: rgba(201,169,97,0.04); border-color: rgba(201,169,97,0.25);">
-                <h2 style="font-size:1.2em; text-align:center; letter-spacing:4px; margin-bottom:12px;">История Операций</h2>
-                <div class="history-list" id="historyList">
-                    <div style="padding:15px; text-align:center; color:rgba(201,169,97,0.3);">Нет операций</div>
+                <h2 style="font-size:1.2em; text-align:center; letter-spacing:4px; margin-bottom:12px;" data-ru="📊 График баланса" data-en="📊 Balance Chart">📊 Balance Chart</h2>
+                <div class="chart-container">
+                    <div class="chart-bars" id="chartBars"></div>
                 </div>
+                <div style="text-align:center; font-size:0.8em; color:rgba(201,169,97,0.3); margin-top:6px;" data-ru="Последние 7 дней" data-en="Last 7 days">Last 7 days</div>
             </div>
-        </div>
-
-        <div class="section">
-            <h2>📊 График баланса</h2>
-            <div class="chart-container">
-                <div class="chart-bars" id="chartBars"></div>
-            </div>
-            <div style="text-align:center; font-size:0.8em; color:rgba(201,169,97,0.3); margin-top:6px;">Последние 7 дней</div>
         </div>
 
         <div class="grid-2">
             <div class="card">
-                <h2 style="font-size:1.1em; text-align:center; letter-spacing:3px; margin-bottom:15px;">💰 Вклады (Депозиты)</h2>
+                <h2 style="font-size:1.1em; text-align:center; letter-spacing:3px; margin-bottom:15px;" data-ru="💰 Вклады (Депозиты)" data-en="💰 Deposits">💰 Deposits</h2>
                 <div id="depositList">
-                    <div class="deposit-item">
-                        <div class="info"><div class="name">Сберегательный</div><div class="detail">5% годовых</div></div>
-                        <div><button class="btn-3d btn-3d-small" onclick="openDeposit('Сберегательный', 5)">Открыть</button></div>
+                    <div class="deposit-item" style="background:rgba(0,0,0,0.2); border:1px solid rgba(201,169,97,0.1); border-radius:8px; padding:15px; margin-bottom:12px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
+                        <div class="info"><div class="name" style="font-weight:bold;color:#f4e4d4;" data-ru="Сберегательный" data-en="Savings">Savings</div><div class="detail" style="font-size:0.85em;color:rgba(201,169,97,0.6);" data-ru="5% годовых" data-en="5% per annum">5% per annum</div></div>
+                        <div><button class="btn-3d btn-3d-small" onclick="openDeposit('Savings', 5)" data-ru="Открыть" data-en="Open">Open</button></div>
                     </div>
-                    <div class="deposit-item">
-                        <div class="info"><div class="name">Накопительный</div><div class="detail">7% годовых</div></div>
-                        <div><button class="btn-3d btn-3d-small" onclick="openDeposit('Накопительный', 7)">Открыть</button></div>
+                    <div class="deposit-item" style="background:rgba(0,0,0,0.2); border:1px solid rgba(201,169,97,0.1); border-radius:8px; padding:15px; margin-bottom:12px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
+                        <div class="info"><div class="name" style="font-weight:bold;color:#f4e4d4;" data-ru="Накопительный" data-en="Accumulative">Accumulative</div><div class="detail" style="font-size:0.85em;color:rgba(201,169,97,0.6);" data-ru="7% годовых" data-en="7% per annum">7% per annum</div></div>
+                        <div><button class="btn-3d btn-3d-small" onclick="openDeposit('Accumulative', 7)" data-ru="Открыть" data-en="Open">Open</button></div>
                     </div>
                 </div>
                 <div id="activeDeposits" style="margin-top:15px; border-top:1px solid rgba(201,169,97,0.1); padding-top:12px;">
-                    <p style="font-size:0.85em; color:rgba(201,169,97,0.4); text-align:center;">Активных вкладов нет</p>
+                    <p style="font-size:0.85em; color:rgba(201,169,97,0.4); text-align:center;" data-ru="Активных вкладов нет" data-en="No active deposits">No active deposits</p>
                 </div>
             </div>
 
             <div class="card">
-                <h2 style="font-size:1.1em; text-align:center; letter-spacing:3px; margin-bottom:15px;">📨 Популярные цифровые товары</h2>
-                <div class="template-item">
-                    <span class="icon">🎮</span><span class="name">Компьютерная игра (AAA)</span><span class="amount">100 ТЧ</span>
-                    <button class="btn-3d btn-3d-small" onclick="quickBuy('Компьютерная игра (AAA)', 100)">Купить</button>
+                <h2 style="font-size:1.1em; text-align:center; letter-spacing:3px; margin-bottom:15px;" data-ru="📨 Популярные цифровые товары" data-en="📨 Popular digital goods">📨 Popular digital goods</h2>
+                <div style="display:flex; justify-content:space-between; align-items:center; padding:12px; background:rgba(0,0,0,0.3); border:1px solid rgba(201,169,97,0.15); border-radius:8px; margin-bottom:10px;">
+                    <span style="font-size:1.2em;">🎮</span><span style="flex:1; margin:0 15px;" data-ru="Компьютерная игра (AAA)" data-en="Computer game (AAA)">Computer game (AAA)</span><span style="color:#c9a961; font-weight:bold;">100 LH</span>
+                    <button class="btn-3d btn-3d-small" onclick="quickBuy('Computer game (AAA)', 100)" data-ru="Купить" data-en="Buy">Buy</button>
                 </div>
-                <div class="template-item">
-                    <span class="icon">🎬</span><span class="name">Видео-ролик (1 мин)</span><span class="amount">1 ТЧ</span>
-                    <button class="btn-3d btn-3d-small" onclick="quickBuy('Видео-ролик (1 мин)', 1)">Купить</button>
+                <div style="display:flex; justify-content:space-between; align-items:center; padding:12px; background:rgba(0,0,0,0.3); border:1px solid rgba(201,169,97,0.15); border-radius:8px; margin-bottom:10px;">
+                    <span style="font-size:1.2em;">🎬</span><span style="flex:1; margin:0 15px;" data-ru="Видео-ролик (1 мин)" data-en="Video clip (1 min)">Video clip (1 min)</span><span style="color:#c9a961; font-weight:bold;">1 LH</span>
+                    <button class="btn-3d btn-3d-small" onclick="quickBuy('Video clip (1 min)', 1)" data-ru="Купить" data-en="Buy">Buy</button>
                 </div>
-                <div class="template-item">
-                    <span class="icon">📸</span><span class="name">Цифровое фото (4K)</span><span class="amount">1 ТЧ</span>
-                    <button class="btn-3d btn-3d-small" onclick="quickBuy('Цифровое фото (4K)', 1)">Купить</button>
-                </div>
-                <div class="template-item">
-                    <span class="icon">🎵</span><span class="name">Отдельный трек</span><span class="amount">1 ТЧ</span>
-                    <button class="btn-3d btn-3d-small" onclick="quickBuy('Отдельный трек', 1)">Купить</button>
+                <div style="display:flex; justify-content:space-between; align-items:center; padding:12px; background:rgba(0,0,0,0.3); border:1px solid rgba(201,169,97,0.15); border-radius:8px; margin-bottom:10px;">
+                    <span style="font-size:1.2em;">📸</span><span style="flex:1; margin:0 15px;" data-ru="Цифровое фото (4K)" data-en="Digital photo (4K)">Digital photo (4K)</span><span style="color:#c9a961; font-weight:bold;">1 LH</span>
+                    <button class="btn-3d btn-3d-small" onclick="quickBuy('Digital photo (4K)', 1)" data-ru="Купить" data-en="Buy">Buy</button>
                 </div>
             </div>
         </div>
@@ -486,35 +523,35 @@
     <!-- ===== ВКЛАДКА: МАГАЗИН ===== -->
     <div class="tab-content" id="tab-shop">
         <div class="section">
-            <h2>🛒 Магазин Цифровых Товаров</h2>
-            <p style="text-align:center; color:rgba(201,169,97,0.7); margin-bottom:25px; max-width:900px; margin-left:auto; margin-right:auto; line-height:1.7;">
-                Все цены в трудочасах (ТЧ). Покупка проходит через <strong style="color:#c9a961;">защищённую сделку (Escrow)</strong>: средства блокируются до подтверждения получения товара.
+            <h2 data-ru="🛒 Магазин Цифровых Товаров" data-en="🛒 Digital Goods Shop">🛒 Digital Goods Shop</h2>
+            <p style="text-align:center; color:rgba(201,169,97,0.7); margin-bottom:25px; max-width:900px; margin-left:auto; margin-right:auto; line-height:1.7;" data-ru="Все цены в трудочасах (ТЧ). Покупка проходит через защищённую сделку (Escrow): средства блокируются до подтверждения получения товара." data-en="All prices are in labor hours (LH). Purchases go through a secure Escrow transaction: funds are blocked until the goods are confirmed received.">
+                All prices are in labor hours (LH). Purchases go through a secure Escrow transaction: funds are blocked until the goods are confirmed received.
             </p>
 
             <div class="shop-layout">
                 <div class="shop-sidebar">
-                    <h3>📂 Категории</h3>
+                    <h3 data-ru="📂 Категории" data-en="📂 Categories">📂 Categories</h3>
                     <div id="categoryList"></div>
                 </div>
 
                 <div class="shop-main">
                     <div class="shop-header">
-                        <div class="shop-title" id="currentCategoryTitle">🎮 Развлечения и культура</div>
-                        <input type="text" class="shop-search" id="shopSearch" placeholder="🔍 Поиск товара..." oninput="renderProducts()">
+                        <div class="shop-title" id="currentCategoryTitle">🎮 Entertainment</div>
+                        <input type="text" class="shop-search" id="shopSearch" data-placeholder-ru="🔍 Поиск товара..." data-placeholder-en="🔍 Search goods..." placeholder="🔍 Search goods..." oninput="renderProducts()">
                     </div>
                     <div class="products-grid" id="productsGrid"></div>
 
                     <div class="cart-panel">
                         <div class="cart-header">
-                            <div class="cart-title">🛒 Корзина <span id="cartCount" style="color:rgba(201,169,97,0.5); font-size:0.8em;">(0)</span></div>
-                            <div class="cart-total">Итого: <span id="cartTotal">0</span> ТЧ</div>
+                            <div class="cart-title" data-ru="🛒 Корзина" data-en="🛒 Cart">🛒 Cart <span id="cartCount" style="color:rgba(201,169,97,0.5); font-size:0.8em;">(0)</span></div>
+                            <div class="cart-total"><span data-ru="Итого:" data-en="Total:">Total:</span> <span id="cartTotal">0</span> LH</div>
                         </div>
                         <div class="cart-items" id="cartItems">
-                            <div class="cart-empty">Корзина пуста. Добавьте товары из каталога.</div>
+                            <div class="cart-empty" data-ru="Корзина пуста. Добавьте товары из каталога." data-en="Cart is empty. Add items from the catalog.">Cart is empty. Add items from the catalog.</div>
                         </div>
                         <div style="display:flex; gap:10px; flex-wrap:wrap;">
-                            <button class="btn-3d" onclick="clearCart()" style="flex:1; background:linear-gradient(145deg, rgba(100,100,100,0.8), rgba(60,60,60,0.9)); color:#f4e4d4;">🗑️ Очистить</button>
-                            <button class="btn-3d glow" onclick="checkout()" style="flex:2;">💳 Оформить покупку</button>
+                            <button class="btn-3d" onclick="clearCart()" style="flex:1; background:linear-gradient(145deg, rgba(100,100,100,0.8), rgba(60,60,60,0.9)); color:#f4e4d4;" data-ru="🗑️ Очистить" data-en="🗑️ Clear">🗑️ Clear</button>
+                            <button class="btn-3d glow" onclick="checkout()" style="flex:2;" data-ru="💳 Оформить покупку" data-en="💳 Checkout">💳 Checkout</button>
                         </div>
                     </div>
                 </div>
@@ -525,60 +562,46 @@
     <!-- ===== ВКЛАДКА: МОЙ МАГАЗИН ===== -->
     <div class="tab-content" id="tab-myshop">
         <div class="section">
-            <h2>📦 Мой Магазин</h2>
-            <p style="text-align:center; color:rgba(201,169,97,0.7); margin-bottom:25px; max-width:900px; margin-left:auto; margin-right:auto; line-height:1.7;">
-                Выложите свой цифровой товар или услугу на продажу.
-            </p>
+            <h2 data-ru="📦 Мой Магазин" data-en="📦 My Shop">📦 My Shop</h2>
+            <p style="text-align:center; color:rgba(201,169,97,0.7); margin-bottom:25px; max-width:900px; margin-left:auto; margin-right:auto; line-height:1.7;" data-ru="Выложите свой цифровой товар или услугу на продажу." data-en="List your digital good or service for sale.">List your digital good or service for sale.</p>
 
             <div class="my-shop-stats">
-                <div class="my-shop-stat"><div class="value" id="myProductsCount">0</div><div class="label">Товаров на продаже</div></div>
-                <div class="my-shop-stat"><div class="value" id="mySalesCount">0</div><div class="label">Продаж совершено</div></div>
-                <div class="my-shop-stat"><div class="value" id="myTotalEarned">0</div><div class="label">Заработано ТЧ</div></div>
-                <div class="my-shop-stat"><div class="value" id="myRating">5.0</div><div class="label">Рейтинг продавца</div></div>
+                <div class="my-shop-stat"><div class="value" id="myProductsCount">0</div><div class="label" data-ru="Товаров на продаже" data-en="Items for sale">Items for sale</div></div>
+                <div class="my-shop-stat"><div class="value" id="mySalesCount">0</div><div class="label" data-ru="Продаж совершено" data-en="Sales made">Sales made</div></div>
+                <div class="my-shop-stat"><div class="value" id="myTotalEarned">0</div><div class="label" data-ru="Заработано ТЧ" data-en="Earned LH">Earned LH</div></div>
+                <div class="my-shop-stat"><div class="value" id="myRating">5.0</div><div class="label" data-ru="Рейтинг продавца" data-en="Seller rating">Seller rating</div></div>
             </div>
         </div>
 
         <div class="section">
-            <h2>➕ Выложить новый товар / услугу</h2>
+            <h2 data-ru="➕ Выложить новый товар / услугу" data-en="➕ List new good / service">➕ List new good / service</h2>
             <div class="grid-2">
                 <div>
-                    <div class="form-group"><label>Название</label><input type="text" id="newProductName" placeholder="Например: Моя компьютерная игра" maxlength="100" /></div>
+                    <div class="form-group"><label data-ru="Название" data-en="Name">Name</label><input type="text" id="newProductName" placeholder="e.g., My computer game" maxlength="100" /></div>
                     <div class="form-group">
-                        <label>Категория</label>
-                        <select id="newProductCategory">
-                            <option value="🎮 Развлечения и культура">🎮 Развлечения и культура</option>
-                            <option value="🎨 Искусство и творчество">🎨 Искусство и творчество</option>
-                            <option value="🎵 Музыка и звук">🎵 Музыка и звук</option>
-                            <option value="📚 Литература и образование">📚 Литература и образование</option>
-                            <option value="📱 Программы и приложения">📱 Программы и приложения</option>
-                            <option value="🌐 Интернет и облачные сервисы">🌐 Интернет и облачные сервисы</option>
-                            <option value="💼 Работа и бизнес">💼 Работа и бизнес</option>
-                            <option value="💬 Коммуникации и соцсети">💬 Коммуникации и соцсети</option>
-                            <option value="🧠 Саморазвитие и здоровье">🧠 Саморазвитие и здоровье</option>
-                            <option value="🛡️ Безопасность и приватность">🛡️ Безопасность и приватность</option>
-                            <option value="💡 Дополнительные случаи">💡 Дополнительные случаи</option>
-                        </select>
+                        <label data-ru="Категория" data-en="Category">Category</label>
+                        <select id="newProductCategory"></select>
                     </div>
-                    <div class="form-group"><label>Цена (Трудочасов)</label><input type="number" id="newProductPrice" min="1" max="10000" placeholder="Например: 100" /></div>
+                    <div class="form-group"><label data-ru="Цена (Трудочасов)" data-en="Price (Labor Hours)">Price (Labor Hours)</label><input type="number" id="newProductPrice" min="1" max="10000" placeholder="e.g., 100" /></div>
                 </div>
                 <div>
-                    <div class="form-group"><label>Описание</label><textarea id="newProductDesc" placeholder="Опишите ваш товар..." maxlength="500"></textarea></div>
-                    <div class="form-group"><label>Ссылка на файл</label><input type="text" id="newProductLink" placeholder="https://..." /></div>
-                    <div class="form-group"><label>Иконка (эмодзи)</label><input type="text" id="newProductIcon" value="📦" maxlength="2" /></div>
+                    <div class="form-group"><label data-ru="Описание" data-en="Description">Description</label><textarea id="newProductDesc" placeholder="Describe your good..." maxlength="500"></textarea></div>
+                    <div class="form-group"><label data-ru="Ссылка на файл" data-en="File link">File link</label><input type="text" id="newProductLink" placeholder="https://..." /></div>
+                    <div class="form-group"><label data-ru="Иконка (эмодзи)" data-en="Icon (emoji)">Icon (emoji)</label><input type="text" id="newProductIcon" value="📦" maxlength="2" /></div>
                 </div>
             </div>
             <div style="text-align:center; margin-top:15px;">
-                <button class="btn-3d glow" onclick="addMyProduct()" style="max-width:400px; margin:0 auto;">📤 Опубликовать товар</button>
+                <button class="btn-3d glow" onclick="addMyProduct()" style="max-width:400px; margin:0 auto;" data-ru="📤 Опубликовать товар" data-en="📤 Publish good">📤 Publish good</button>
             </div>
         </div>
 
         <div class="section">
-            <h2>📋 Мои товары и услуги</h2>
+            <h2 data-ru="📋 Мои товары и услуги" data-en="📋 My goods and services">📋 My goods and services</h2>
             <div id="myProductsList"></div>
         </div>
 
         <div class="section">
-            <h2>💰 История продаж</h2>
+            <h2 data-ru="💰 История продаж" data-en="💰 Sales history">💰 Sales history</h2>
             <div id="salesHistoryList"></div>
         </div>
     </div>
@@ -586,61 +609,41 @@
     <!-- ===== ВКЛАДКА: ЭКОНОМИКА ===== -->
     <div class="tab-content" id="tab-rules">
         <div class="section">
-            <h2>1. Принципы Цифровой Экономики</h2>
+            <h2 data-ru="1. Принципы Цифровой Экономики" data-en="1. Principles of Digital Economy">1. Principles of Digital Economy</h2>
             <div class="grid">
-                <div class="card"><h4>Эмиссия</h4><p>Только за реальный цифровой труд</p></div>
-                <div class="card"><h4>Обеспечение</h4><p>Каждый ТЧ обеспечен часом работы</p></div>
-                <div class="card"><h4>Копирование</h4><p>Бесплатно. Цена платится только за оригинальный труд</p></div>
-                <div class="card"><h4>Защита</h4><p>AI проверяет уникальность и авторство</p></div>
+                <div class="card"><h4 data-ru="Эмиссия" data-en="Emission">Emission</h4><p data-ru="Только за реальный цифровой труд" data-en="Only for real digital labor">Only for real digital labor</p></div>
+                <div class="card"><h4 data-ru="Обеспечение" data-en="Backing">Backing</h4><p data-ru="Каждый ТЧ обеспечен часом работы" data-en="Each LH is backed by an hour of work">Each LH is backed by an hour of work</p></div>
+                <div class="card"><h4 data-ru="Копирование" data-en="Copying">Copying</h4><p data-ru="Бесплатно. Цена платится только за оригинальный труд" data-en="Free. Price is paid only for original labor">Free. Price is paid only for original labor</p></div>
+                <div class="card"><h4 data-ru="Защита" data-en="Protection">Protection</h4><p data-ru="AI проверяет уникальность и авторство" data-en="AI checks uniqueness and authorship">AI checks uniqueness and authorship</p></div>
             </div>
         </div>
 
         <div class="section">
-            <h2>2. Таблица Наград (Цифровой мир)</h2>
+            <h2 data-ru="2. Таблица Наград (Цифровой мир)" data-en="2. Reward Table (Digital world)">2. Reward Table (Digital world)</h2>
             <table>
-                <thead><tr><th>Действие</th><th>Награда (ТЧ)</th><th>Условие</th></tr></thead>
+                <thead><tr><th data-ru="Действие" data-en="Action">Action</th><th data-ru="Награда (ТЧ)" data-en="Reward (LH)">Reward (LH)</th></tr></thead>
                 <tbody>
-                    <tr><td>Разработка компьютерной игры</td><td>100</td><td>Рабочий билд</td></tr>
-                    <tr><td>Создание и монтаж видео</td><td>20</td><td>Уникальный контент</td></tr>
-                    <tr><td>Художественная фотография</td><td>1</td><td>Обработка, композиция</td></tr>
-                    <tr><td>Написание чистого кода</td><td>10</td><td>За 1000 строк кода</td></tr>
-                    <tr><td>Поиск уязвимости (Bug Bounty)</td><td>50</td><td>Подтверждено Министерством</td></tr>
+                    <tr><td data-ru="Разработка компьютерной игры" data-en="Computer game development">Computer game development</td><td>100</td></tr>
+                    <tr><td data-ru="Создание и монтаж видео" data-en="Video creation and editing">Video creation and editing</td><td>20</td></tr>
+                    <tr><td data-ru="Художественная фотография" data-en="Artistic photography">Artistic photography</td><td>1</td></tr>
+                    <tr><td data-ru="Написание чистого кода" data-en="Writing clean code">Writing clean code</td><td>10</td></tr>
                 </tbody>
             </table>
         </div>
 
         <div class="section">
-            <h2>3. Симулятор Пути Гражданина</h2>
+            <h2 data-ru="3. Симулятор Пути Гражданина" data-en="3. Citizen Path Simulator">3. Citizen Path Simulator</h2>
             <div style="background:rgba(0,0,0,0.2); border-radius:12px; padding:20px;">
                 <div id="pathSteps">
-                    <div class="path-step" id="step1"><div class="step-num">1</div><div class="step-desc">Зарегистрировался в РКС</div><div class="step-balance">1 ТЧ</div></div>
-                    <div class="path-step" id="step2"><div class="step-num">2</div><div class="step-desc">Привёл друга в РКС</div><div class="step-balance">+1 ТЧ</div></div>
-                    <div class="path-step" id="step3"><div class="step-num">3</div><div class="step-desc">Написал программу учёта</div><div class="step-balance">+100 ТЧ</div></div>
-                    <div class="path-step" id="step4"><div class="step-num">4</div><div class="step-desc">Написал ещё 10 программ</div><div class="step-balance">+1000 ТЧ</div></div>
-                    <div class="path-step" id="step5"><div class="step-num">5</div><div class="step-desc">Привёл 100 новых людей</div><div class="step-balance">+100 ТЧ</div></div>
-                    <div class="path-step" id="step6"><div class="step-num">6</div><div class="step-desc">Создал 2 картины (по 500 ТЧ)</div><div class="step-balance">+1000 ТЧ</div></div>
-                    <div class="path-step" id="step7"><div class="step-num">7</div><div class="step-desc">ИТОГО заработал</div><div class="step-balance">2 202 ТЧ</div></div>
-                    <div class="path-step" id="step8"><div class="step-num">8</div><div class="step-desc">Продолжает работать и копить</div><div class="step-balance">→ 100 000 ТЧ</div></div>
-                    <div class="path-step" id="step9"><div class="step-num">9</div><div class="step-desc">Вносит 100 000 ТЧ в казну</div><div class="step-balance">БАЛЛОТИРУЕТСЯ</div></div>
+                    <div class="path-step" id="step1"><div class="step-num">1</div><div class="step-desc" data-ru="Зарегистрировался в РКС" data-en="Registered in RCS">Registered in RCS</div><div class="step-balance">1 LH</div></div>
+                    <div class="path-step" id="step2"><div class="step-num">2</div><div class="step-desc" data-ru="Привёл друга в РКС" data-en="Brought a friend to RCS">Brought a friend to RCS</div><div class="step-balance">+1 LH</div></div>
+                    <div class="path-step" id="step3"><div class="step-num">3</div><div class="step-desc" data-ru="Написал программу учёта" data-en="Wrote an accounting program">Wrote an accounting program</div><div class="step-balance">+100 LH</div></div>
+                    <div class="path-step" id="step4"><div class="step-num">4</div><div class="step-desc" data-ru="Написал ещё 10 программ" data-en="Wrote 10 more programs">Wrote 10 more programs</div><div class="step-balance">+1000 LH</div></div>
+                    <div class="path-step" id="step5"><div class="step-num">5</div><div class="step-desc" data-ru="Привёл 100 новых людей" data-en="Brought 100 new people">Brought 100 new people</div><div class="step-balance">+100 LH</div></div>
+                    <div class="path-step" id="step6"><div class="step-num">6</div><div class="step-desc" data-ru="Создал 2 картины (по 500 ТЧ)" data-en="Created 2 paintings (500 LH each)">Created 2 paintings (500 LH each)</div><div class="step-balance">+1000 LH</div></div>
+                    <div class="path-step" id="step7"><div class="step-num">7</div><div class="step-desc" data-ru="ИТОГО заработал" data-en="TOTAL earned">TOTAL earned</div><div class="step-balance">2 202 LH</div></div>
                 </div>
-                <button class="btn-3d glow" onclick="simulatePath()" style="margin-top:20px;">▶ Запустить Симуляцию</button>
-            </div>
-        </div>
-
-        <div class="section">
-            <h2>4. Калькулятор Президентства</h2>
-            <div style="background:rgba(0,0,0,0.3); border-radius:12px; padding:25px;">
-                <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:15px;">
-                    <div><label>Людей привести</label><input type="number" id="presPeople" min="0" value="0" oninput="calculatePresidency()"></div>
-                    <div><label>Программ написать</label><input type="number" id="presPrograms" min="0" value="0" oninput="calculatePresidency()"></div>
-                    <div><label>Шедевров создать</label><input type="number" id="presArt" min="0" value="0" oninput="calculatePresidency()"></div>
-                    <div><label>Соревнований выиграть</label><input type="number" id="presSports" min="0" value="0" oninput="calculatePresidency()"></div>
-                </div>
-                <div style="text-align:center; padding:20px;">
-                    <div class="total" id="presTotal" style="font-size:2.5em;">0</div>
-                    <div style="font-size:1em; color:rgba(201,169,97,0.6); letter-spacing:3px;">ТЧ НАКОПЛЕНО ИЗ 100 000</div>
-                    <div class="progress" id="presProgress" style="font-size:1.2em; color:#28a745;">0%</div>
-                </div>
+                <button class="btn-3d glow" onclick="simulatePath()" style="margin-top:20px;" data-ru="▶ Запустить Симуляцию" data-en="▶ Run Simulation">▶ Run Simulation</button>
             </div>
         </div>
     </div>
@@ -648,11 +651,11 @@
     <!-- ===== ВКЛАДКА: МИНИСТЕРСТВА ===== -->
     <div class="tab-content" id="tab-ministries">
         <div class="section">
-            <h2>🏛️ Цифровое Управление</h2>
-            <p style="text-align:center; font-size:1.4em; margin-bottom:10px; color:#f4e4d4; font-style:italic;">«Главная задача — человек реализовал свой потенциал в цифровой среде»</p>
+            <h2 data-ru="🏛️ Цифровое Управление" data-en="🏛️ Digital Governance">🏛️ Digital Governance</h2>
+            <p style="text-align:center; font-size:1.4em; margin-bottom:10px; color:#f4e4d4; font-style:italic;" data-ru="«Главная задача — человек реализовал свой потенциал в цифровой среде»" data-en="&quot;The main task is for a person to realize their potential in the digital environment&quot;">"The main task is for a person to realize their potential in the digital environment"</p>
             <div style="text-align:center; margin-bottom:25px; padding:15px; background:rgba(201,169,97,0.05); border-radius:12px; border:1px solid rgba(201,169,97,0.2);">
-                <span style="font-size:1.1em;">Стоимость назначения на пост Министра:</span><br>
-                <span style="font-size:2.2em; font-weight:bold; color:#c9a961;">50 000 Трудочасов</span>
+                <span style="font-size:1.1em;" data-ru="Стоимость назначения на пост Министра:" data-en="Cost of appointment to the post of Minister:">Cost of appointment to the post of Minister:</span><br>
+                <span style="font-size:2.2em; font-weight:bold; color:#c9a961;" data-ru="50 000 Трудочасов" data-en="50,000 Labor Hours">50,000 Labor Hours</span>
             </div>
             <div class="grid" id="ministriesGrid" style="grid-template-columns:repeat(auto-fit, minmax(260px,1fr)); gap:18px;"></div>
         </div>
@@ -660,158 +663,110 @@
 
     <!-- ===== КНОПКА ВОЗВРАТА НА ГЛАВНУЮ ===== -->
     <div class="back-home">
-        <button class="btn-3d btn-3d-small" onclick="goToMainPage()" style="width: auto; padding: 14px 40px; display: inline-block;">
-            ← Вернуться к проектам
-        </button>
+        <button class="btn-3d" onclick="goToMainPage()" style="width: auto; padding: 14px 40px; display: inline-block;" data-ru="← Вернуться к проектам" data-en="← Back to projects">← Back to projects</button>
     </div>
 
 </div>
 
-<!-- МОДАЛЬНОЕ ОКНО ESCROW -->
+<!-- ===== МОДАЛЬНОЕ ОКНО ESCROW ===== -->
 <div class="modal-overlay" id="escrowModal">
     <div class="modal">
-        <h2 id="modalTitle">💳 Оформление покупки</h2>
+        <h2 id="modalTitle" data-ru="💳 Оформление покупки" data-en="💳 Purchase Processing">💳 Purchase Processing</h2>
         <div id="modalContent"></div>
     </div>
 </div>
 
-<!-- ОКНО ОПИСАНИЯ -->
+<!-- ===== ОКНО ОПИСАНИЯ ===== -->
 <div class="modal-overlay" id="infoModal">
     <div class="modal" style="max-width:900px;">
-        <h2>🏦 РКС — Банк</h2>
-        <p style="text-align:center; color:rgba(255,255,255,0.6); margin-bottom:20px;">Республика Когнитивного Суверенитета</p>
-        <h3 style="color:#c9a961;">📋 Что такое РКС — Банк?</h3>
-        <p style="color:rgba(255,255,255,0.8); line-height:1.7;">РКС — Банк — это <strong>цифровая банковская система</strong>, построенная на принципе <strong>«1 час труда = 1 Трудочас (ТЧ)»</strong>.</p>
-        <h3 style="color:#c9a961;">🔑 Ключевые принципы</h3>
+        <h2 data-ru="🏦 РКС — Банк" data-en="🏦 RCS — Bank">🏦 RCS — Bank</h2>
+        <p style="text-align:center; color:rgba(255,255,255,0.6); margin-bottom:20px;" data-ru="Республика Когнитивного Суверенитета" data-en="Republic of Cognitive Sovereignty">Republic of Cognitive Sovereignty</p>
+        <h3 style="color:#c9a961;" data-ru="📋 Что такое РКС — Банк?" data-en="📋 What is RCS — Bank?">📋 What is RCS — Bank?</h3>
+        <p style="color:rgba(255,255,255,0.8); line-height:1.7;" data-ru="РКС — Банк — это цифровая банковская система, построенная на принципе «1 час труда = 1 Трудочас (ТЧ)»." data-en="RCS — Bank is a digital banking system built on the principle of &quot;1 hour of labor = 1 Labor Hour (LH)&quot;.">RCS — Bank is a digital banking system built on the principle of "1 hour of labor = 1 Labor Hour (LH)".</p>
+        <h3 style="color:#c9a961;" data-ru="🔑 Ключевые принципы" data-en="🔑 Key principles">🔑 Key principles</h3>
         <div style="display:grid; grid-template-columns:1fr 1fr; gap:15px; margin:10px 0;">
             <div style="background:rgba(0,0,0,0.3); border:1px solid rgba(201,169,97,0.1); border-radius:10px; padding:15px; text-align:center;">
                 <div style="font-size:2em; color:#c9a961; font-weight:bold;">1:1</div>
-                <div style="font-size:0.8em; color:rgba(255,255,255,0.5);">1 час труда = 1 Трудочас</div>
+                <div style="font-size:0.8em; color:rgba(255,255,255,0.5);" data-ru="1 час труда = 1 Трудочас" data-en="1 hour of labor = 1 Labor Hour">1 hour of labor = 1 Labor Hour</div>
             </div>
             <div style="background:rgba(0,0,0,0.3); border:1px solid rgba(201,169,97,0.1); border-radius:10px; padding:15px; text-align:center;">
                 <div style="font-size:2em; color:#c9a961; font-weight:bold;">⚖️</div>
-                <div style="font-size:0.8em; color:rgba(255,255,255,0.5);">Равенство всех профессий</div>
+                <div style="font-size:0.8em; color:rgba(255,255,255,0.5);" data-ru="Равенство всех профессий" data-en="Equality of all professions">Equality of all professions</div>
             </div>
         </div>
-        <h3 style="color:#c9a961;">🏛️ Структура системы</h3>
-        <ul style="color:rgba(255,255,255,0.8); line-height:1.7; padding-left:20px;">
-            <li><strong style="color:#c9a961;">🏦 Банк</strong> — баланс, переводы, вклады, история, график.</li>
-            <li><strong style="color:#c9a961;">🛒 Магазин</strong> — цифровые товары с Escrow-сделкой.</li>
-            <li><strong style="color:#c9a961;">📦 Мой Магазин</strong> — продажа своих товаров.</li>
-            <li><strong style="color:#c9a961;">📖 Экономика</strong> — правила, награды, симуляторы.</li>
-            <li><strong style="color:#c9a961;">🏛️ Министерства</strong> — 22 должности.</li>
-        </ul>
-        <button class="btn-3d" onclick="closeInfo()" style="margin-top:20px;">✕ Закрыть</button>
+        <button class="btn-3d" onclick="closeInfo()" style="margin-top:20px;" data-ru="✕ Закрыть" data-en="✕ Close">✕ Close</button>
     </div>
 </div>
 
 <script>
     // ============================================================
-    // 1. ВКЛАДКИ И МОДАЛКИ
+    // 1. ПЕРЕВОДЫ И СОСТОЯНИЕ
     // ============================================================
-    document.querySelectorAll('.tab-btn').forEach(btn => {
-        btn.addEventListener('click', function() {
-            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-            this.classList.add('active');
-            document.querySelectorAll('.tab-content').forEach(tc => tc.classList.remove('active'));
-            document.getElementById(this.dataset.tab).classList.add('active');
-        });
-    });
-
-    function openInfo() { document.getElementById('infoModal').classList.add('active'); document.body.style.overflow = 'hidden'; }
-    function closeInfo() { document.getElementById('infoModal').classList.remove('active'); document.body.style.overflow = ''; }
-    document.getElementById('infoModal').addEventListener('click', function(e) { if (e.target === this) closeInfo(); });
-    document.addEventListener('keydown', function(e) { if (e.key === 'Escape') closeInfo(); });
-
-    // ============================================================
-    // 2. КНОПКА ВОЗВРАТА НА ГЛАВНУЮ
-    // ============================================================
-    function goToMainPage() {
-        var currentUrl = window.location.href;
-        var pathParts = currentUrl.split('/');
-        pathParts.pop();
-        var lastPart = pathParts[pathParts.length - 1];
-        var subfolders = ['constitution', 'passport', 'bank', 'money', 'projects', 'chat'];
-        if (subfolders.includes(lastPart)) {
-            pathParts.pop();
+    let currentLang = 'en';
+    const TRANSLATIONS = {
+        en: {
+            welcome: '🎉 Welcome to RCS!', welcomeMsg: 'You have been credited with 1 Labor Hour for registering.',
+            error: '❌ Error', selectRecipient: 'Select recipient', enterAmount: 'Enter amount', insufficientFunds: 'Insufficient funds',
+            invalidPin: 'Invalid PIN code', f2aExpired: '2FA period has expired', invalidF2a: 'Invalid 2FA code',
+            requestSent: '⏳ Request sent', awaitingConfirmation: ' is awaiting confirmation...',
+            transferConfirmed: '✅ Transfer confirmed', received: ' received ', transferDeclined: '❌ Transfer declined', fundsReturned: 'Funds returned',
+            min100: 'Minimum 100 LH', depositOpened: '✅ Deposit opened', on: ' on ', at: ' at ',
+            depositClosed: '💰 Deposit closed', returned: 'Returned ', congratulations: '🎉 Congratulations!',
+            appointedHead: 'You have been appointed head of: ', notEnoughFunds: '❌ Insufficient funds', requires: 'Requires 50,000 LH. You have: ',
+            addedToCart: '✅ Added to cart', cartCleared: '🗑️ Cart cleared', emptyCart: '❌ Cart is empty', addBeforeCheckout: 'Add items before checkout',
+            need: 'Need ', youHave: ', you have ', invalidPinEscrow: '❌ Invalid PIN code', f2aExpiredEscrow: '❌ 2FA code expired', generateNew: 'Generate a new code',
+            fundsBlocked: '🔒 Funds blocked', frozenOnEscrow: ' LH frozen on escrow account', itemTransferred: '📦 Item transferred',
+            checkAndConfirm: 'Check the contents and confirm receipt', dealCompleted: '✅ Deal completed', lhTransferredToSeller: 'LH transferred to the seller. Thank you for your purchase!',
+            disputeOpened: '⚠️ Dispute opened', fundsReturnedToAccount: ' LH returned to your account', errorFillFields: '❌ Error',
+            fillAllFieldsCorrectly: 'Fill all fields correctly', aiChecking: '🔍 AI Bank check...', analyzing: 'Analyzing uniqueness and security...',
+            productPublished: '✅ Product published!', availableInCatalog: ' is available in the general catalog.',
+            productActivated: '✅ Product activated', productDeactivated: '⏸️ Product removed from sale', productDeleted: '🗑️ Product deleted',
+            saleError: '❌ Error', productNotActive: 'Product is not active', newSale: '💰 New sale!', boughtFor: ' bought "', forLH: '" for ',
+            noOps: 'No operations', confirmed: '✅ Confirmed', declined: '❌ Declined', escrow: '🔒 Frozen', pending: '⏳ Pending',
+            popupError: '❌ Error', allowPopups: 'Allow pop-up windows'
+        },
+        ru: {
+            welcome: '🎉 Добро пожаловать в РКС!', welcomeMsg: 'Вам начислен 1 Трудочас за регистрацию.',
+            error: '❌ Ошибка', selectRecipient: 'Выберите получателя', enterAmount: 'Введите сумму', insufficientFunds: 'Недостаточно средств',
+            invalidPin: 'Неверный ПИН-код', f2aExpired: 'Срок 2FA истёк', invalidF2a: 'Неверный 2FA-код',
+            requestSent: '⏳ Запрос отправлен', awaitingConfirmation: ' ожидает подтверждения...',
+            transferConfirmed: '✅ Перевод подтверждён', received: ' получил ', transferDeclined: '❌ Перевод отклонён', fundsReturned: 'Средства возвращены',
+            min100: 'Минимум 100 ТЧ', depositOpened: '✅ Вклад открыт', on: ' на ', at: ' под ',
+            depositClosed: '💰 Вклад закрыт', returned: 'Возвращено ', congratulations: '🎉 Поздравляем!',
+            appointedHead: 'Вы назначены главой: ', notEnoughFunds: '❌ Недостаточно средств', requires: 'Требуется 50 000 ТЧ. У вас: ',
+            addedToCart: '✅ Добавлено в корзину', cartCleared: '🗑️ Корзина очищена', emptyCart: '❌ Корзина пуста', addBeforeCheckout: 'Добавьте товары перед покупкой',
+            need: 'Нужно ', youHave: ', у вас ', invalidPinEscrow: '❌ Неверный ПИН-код', f2aExpiredEscrow: '❌ 2FA-код истёк', generateNew: 'Сгенерируйте новый код',
+            fundsBlocked: '🔒 Средства заблокированы', frozenOnEscrow: ' ТЧ заморожены на эскроу-счёте', itemTransferred: '📦 Товар передан',
+            checkAndConfirm: 'Проверьте содержимое и подтвердите получение', dealCompleted: '✅ Сделка завершена', lhTransferredToSeller: 'ТЧ переведены продавцу. Спасибо за покупку!',
+            disputeOpened: '⚠️ Спор открыт', fundsReturnedToAccount: ' ТЧ возвращены на ваш счёт', errorFillFields: '❌ Ошибка',
+            fillAllFieldsCorrectly: 'Заполните все поля корректно', aiChecking: '🔍 Проверка ИИ-банком...', analyzing: 'Анализ уникальности и безопасности...',
+            productPublished: '✅ Товар опубликован!', availableInCatalog: ' доступен в общем каталоге.',
+            productActivated: '✅ Товар активирован', productDeactivated: '⏸️ Товар снят с продажи', productDeleted: '🗑️ Товар удалён',
+            saleError: '❌ Ошибка', productNotActive: 'Товар не активен', newSale: '💰 Новая продажа!', boughtFor: ' купил "', forLH: '" за ',
+            noOps: 'Нет операций', confirmed: '✅ Подтверждено', declined: '❌ Отклонено', escrow: '🔒 Заморожено', pending: '⏳ Ожидает',
+            popupError: '❌ Ошибка', allowPopups: 'Разрешите всплывающие окна'
         }
-        pathParts.push('index.html');
-        window.location.href = pathParts.join('/');
-    }
-
-    // ============================================================
-    // 3. КАТАЛОГ ТОВАРОВ (ПОЛНЫЙ)
-    // ============================================================
-    const catalog = {
-        "🎮 Развлечения и культура": [
-            ["Компьютерная игра (AAA)", 100], ["Инди-игра", 40], ["Игровое дополнение (DLC)", 20],
-            ["Игровой скин", 5], ["Подписка на MMO", 30], ["Внутриигровая валюта", 10],
-            ["Фильм (HD)", 15], ["Фильм (4K)", 20], ["Короткометражка", 5],
-            ["Видео-клип", 2], ["Видео-ролик (1 мин)", 1], ["Аниме-сериал", 20],
-            ["Мультфильм", 12], ["Стриминг-подписка", 20], ["Концерт (трансляция)", 10]
-        ],
-        "🎨 Искусство и творчество": [
-            ["Цифровая картина (стандарт)", 15], ["Цифровая картина (премиум)", 30], ["Живопись (оцифрованная)", 20],
-            ["Картина маслом", 25], ["Акварель (скан)", 15], ["Графика (цифра)", 10],
-            ["Портрет на заказ", 20], ["NFT-изображение", 15], ["NFT-коллекция (10 шт)", 120],
-            ["3D-модель", 10], ["3D-персонаж", 25], ["Анимация (5 сек)", 8],
-            ["Анимация (30 сек)", 30], ["Арт-комплект (10 работ)", 50], ["Дизайн персонажа", 20],
-            ["Концепт-арт", 12], ["Комикс", 10], ["Графический роман", 25],
-            ["Создание логотипа (типовой)", 25], ["Создание логотипа (уникальный)", 50]
-        ],
-        "🎵 Музыка и звук": [
-            ["Музыкальный альбом (10 треков)", 5], ["Отдельный трек", 1], ["Сборник (50 треков)", 20],
-            ["Библиотека звуков (100 шт)", 10], ["Саундтрек", 8], ["Подписка на стриминг", 10],
-            ["Подкаст (эпизод)", 5], ["Подкаст-серия (10 эпизодов)", 40], ["Аудиокнига", 15],
-            ["Звуковой эффект", 1], ["Пакет звуков (50 шт)", 15]
-        ],
-        "📚 Литература и образование": [
-            ["Электронная книга", 10], ["Научно-популярная книга", 12], ["Учебник / справочник", 25],
-            ["Научная статья", 5], ["Поэтический сборник", 8], ["Сценарий", 15],
-            ["Онлайн-курс (полный)", 50], ["Отдельный урок", 5], ["Вебинар (1-2 часа)", 15],
-            ["Мастер-класс", 10], ["Сертификация", 30], ["Тренинг (полный)", 40]
-        ],
-        "📱 Программы и приложения": [
-            ["Мобильное приложение (игра)", 30], ["Мобильное приложение (утилита)", 20], ["Программа для ПК (стандарт)", 50],
-            ["Программа для ПК (профессиональная)", 100], ["Специализированный софт", 150],
-            ["Подписка на софт (месяц)", 10], ["Плагин для браузера", 5],
-            ["Шаблон для сайта", 15], ["Скрипт / бот", 10]
-        ],
-        "🌐 Интернет и облачные сервисы": [
-            ["Облачное хранилище (100 ГБ, месяц)", 8], ["Облачное хранилище (1 ТБ, месяц)", 20], ["Домен (.com) на год", 10],
-            ["Хостинг (базовый, месяц)", 12], ["Хостинг (VPS, месяц)", 30], ["VPN-подписка (месяц)", 10],
-            ["Анонимайзер", 12], ["SSL-сертификат (год)", 20]
-        ],
-        "💼 Работа и бизнес": [
-            ["Создание сайта (типовой)", 100], ["Создание сайта (интернет-магазин)", 200],
-            ["Создание сайта (корпоративный)", 150], ["Настройка CRM", 80],
-            ["Настройка сервера", 100], ["Написание скрипта", 30],
-            ["Интеграция API", 50], ["Бизнес-план (типовой)", 40], ["Бизнес-план (индивидуальный)", 80]
-        ],
-        "💬 Коммуникации и соцсети": [
-            ["Аватар", 1], ["Анимированный аватар", 2], ["Оформление профиля", 5], ["Набор стикеров", 2],
-            ["Создание чат-бота", 20], ["Настройка Telegram-бота", 15], ["Аналитика соцсетей", 10], ["SMM-стратегия", 50]
-        ],
-        "🧠 Саморазвитие и здоровье": [
-            ["Медитация (аудио)", 3], ["Курс медитации (10 сессий)", 25], ["Трекер привычек", 5],
-            ["План тренировок", 15], ["Фитнес-программа", 10], ["Дневник питания", 8],
-            ["Консультация психолога (онлайн, час)", 30], ["Языковой курс (полный)", 50],
-            ["Языковой урок", 8], ["Тренажёр мозга", 5]
-        ],
-        "🛡️ Безопасность и приватность": [
-            ["Антивирус (лицензия, год)", 30], ["Антивирус (лицензия, месяц)", 5], ["Менеджер паролей (год)", 15],
-            ["Шифрование файлов", 10], ["2FA-аутентификатор", 1], ["Резервное копирование (100 ГБ, месяц)", 10]
-        ],
-        "💡 Дополнительные случаи": [
-            ["Цифровой подарок", 1], ["Доступ к закрытому контенту", 15], ["Участие в розыгрыше", 3],
-            ["Виртуальный мерч", 1], ["Премиум-доступ", 5], ["Доступ к архиву", 10], ["Персонализированная база данных", 40]
-        ]
     };
+    function t(key) { return TRANSLATIONS[currentLang][key] || key; }
 
     // ============================================================
-    // 4. МИНИСТЕРСТВА (22)
+    // 2. СОСТОЯНИЕ
     // ============================================================
-    const ministriesList = [
+    let balance = 1;
+    let historyData = [];
+    let historyFilter = 'all';
+    let activeDeposits = [];
+    let current2FA = '';
+    let ownedMinistries = new Set();
+    let balanceHistory = [1];
+    let f2aExpiry = 0;
+    let currentCategory = '';
+    let cart = [];
+    let myProducts = [];
+    let salesHistory = [];
+
+    const ministryIcons = ["⚙️", "🛡️", "🏢", "🧠", "💻", "🔌", "🌐", "☁️", "🗄️", "🎨", "🤖", "⚛️", "📡", "🎓", "📜", "🪙", "📏", "🔓", "⚖️", "📢", "💾", "🚚"];
+    const ministriesListRU = [
         "Министерство системного администрирования", "Министерство кибербезопасности и шифрования",
         "Министерство цифровой инфраструктуры", "Министерство искусственного интеллекта",
         "Министерство разработки ПО", "Министерство аппаратного обеспечения",
@@ -824,31 +779,47 @@
         "Министерство компьютерной этики", "Министерство цифровых коммуникаций",
         "Министерство резервного копирования", "Министерство логистики"
     ];
-    const ministryIcons = ["⚙️", "🛡️", "🏢", "🧠", "💻", "🔌", "🌐", "☁️", "🗄️", "🎨", "🤖", "⚛️", "📡", "🎓", "📜", "🪙", "📏", "🔓", "⚖️", "📢", "💾", "🚚"];
+    const ministriesListEN = [
+        "Ministry of System Administration", "Ministry of Cybersecurity and Encryption",
+        "Ministry of Digital Infrastructure", "Ministry of Artificial Intelligence",
+        "Ministry of Software Development", "Ministry of Hardware",
+        "Ministry of Networks and Protocols", "Ministry of Cloud Computing",
+        "Ministry of Databases", "Ministry of User Interfaces",
+        "Ministry of Robotics", "Ministry of Quantum Technologies",
+        "Ministry of Internet of Things", "Ministry of Digital Education",
+        "Ministry of Electronic Document Management", "Ministry of Digital Economy",
+        "Ministry of Technical Supervision", "Ministry of Open Data",
+        "Ministry of Computer Ethics", "Ministry of Digital Communications",
+        "Ministry of Backup", "Ministry of Logistics"
+    ];
+    function getMinistries() { return currentLang === 'ru' ? ministriesListRU : ministriesListEN; }
+
+    // ===== КАТАЛОГ =====
+    const catalogRU = {
+        "🎮 Entertainment": [["Computer game (AAA)", 100], ["Indie game", 40], ["Game DLC", 20], ["Game skin", 5], ["MMO subscription", 30], ["In-game currency", 10], ["Movie (HD)", 15], ["Movie (4K)", 20]],
+        "🎨 Art": [["Digital painting", 15], ["NFT image", 15], ["3D model", 10], ["Animation (5 sec)", 8], ["Comic", 10]],
+        "🎵 Music": [["Music album", 5], ["Single track", 1], ["Soundtrack", 8], ["Audiobook", 15]],
+        "📚 Literature": [["E-book", 10], ["Textbook", 25], ["Scientific article", 5], ["Online course (full)", 50]],
+        "💻 Software": [["Mobile app (game)", 30], ["PC program", 50], ["Browser plugin", 5], ["Script / bot", 10]],
+        "☁️ Cloud": [["Cloud storage (100 GB)", 8], ["Domain (.com)", 10], ["Hosting (basic)", 12], ["VPN subscription", 10]]
+    };
+    const catalogEN = {
+        "🎮 Entertainment": [["Computer game (AAA)", 100], ["Indie game", 40], ["Game DLC", 20], ["Game skin", 5], ["MMO subscription", 30], ["In-game currency", 10], ["Movie (HD)", 15], ["Movie (4K)", 20]],
+        "🎨 Art": [["Digital painting", 15], ["NFT image", 15], ["3D model", 10], ["Animation (5 sec)", 8], ["Comic", 10]],
+        "🎵 Music": [["Music album", 5], ["Single track", 1], ["Soundtrack", 8], ["Audiobook", 15]],
+        "📚 Literature": [["E-book", 10], ["Textbook", 25], ["Scientific article", 5], ["Online course (full)", 50]],
+        "💻 Software": [["Mobile app (game)", 30], ["PC program", 50], ["Browser plugin", 5], ["Script / bot", 10]],
+        "☁️ Cloud": [["Cloud storage (100 GB)", 8], ["Domain (.com)", 10], ["Hosting (basic)", 12], ["VPN subscription", 10]]
+    };
+    function getCatalog() { return currentLang === 'ru' ? catalogRU : catalogEN; }
 
     // ============================================================
-    // 5. СОСТОЯНИЕ
-    // ============================================================
-    let balance = 1;
-    let historyData = [];
-    let historyFilter = 'all';
-    let activeDeposits = [];
-    let current2FA = '';
-    let ownedMinistries = new Set();
-    let balanceHistory = [1];
-    let f2aExpiry = 0;
-    let currentCategory = Object.keys(catalog)[0];
-    let cart = [];
-    let myProducts = [];
-    let salesHistory = [];
-
-    // ============================================================
-    // 6. СОХРАНЕНИЕ / ЗАГРУЗКА (С ПЕРВЫМ ЗАПУСКОМ)
+    // 3. ЗАГРУЗКА / СОХРАНЕНИЕ
     // ============================================================
     function loadData() {
-        const saved = localStorage.getItem('rks_bank_data_v2');
-        if (saved) {
-            try {
+        try {
+            const saved = localStorage.getItem('rks_bank_data_v2');
+            if (saved) {
                 const data = JSON.parse(saved);
                 balance = data.balance ?? 1;
                 historyData = data.historyData || [];
@@ -857,11 +828,13 @@
                 balanceHistory = data.balanceHistory || [1];
                 myProducts = data.myProducts || [];
                 salesHistory = data.salesHistory || [];
-            } catch (e) { console.warn('Ошибка загрузки', e); resetToDefault(); }
-        } else {
-            resetToDefault();
-        }
-        if (balanceHistory.length === 0) balanceHistory = [balance];
+                cart = data.cart || [];
+                if (balanceHistory.length === 0) balanceHistory = [balance];
+            } else {
+                resetToDefault();
+            }
+        } catch (e) { resetToDefault(); }
+        syncWithPassport();
         updateAll();
     }
 
@@ -869,37 +842,50 @@
         balance = 1;
         const now = new Date();
         const timeStr = now.toTimeString().slice(0, 5);
-        historyData = [{ 
-            id: 0, 
-            time: timeStr, 
-            from: 'Государство РКС', 
-            to: 'Вы (Регистрация)', 
-            amount: 1, 
-            status: 'confirmed' 
-        }];
+        historyData = [{ id: 0, time: timeStr, from: currentLang === 'ru' ? 'Государство РКС' : 'RCS State', to: currentLang === 'ru' ? 'Вы (Регистрация)' : 'You (Registration)', amount: 1, status: 'confirmed' }];
         balanceHistory = [1];
         activeDeposits = [];
         ownedMinistries = new Set();
         myProducts = [];
         salesHistory = [];
-        showNotification('🎉 Добро пожаловать в РКС!', 'Вам начислен 1 Трудочас за регистрацию в системе.');
+        cart = [];
+        showNotification(t('welcome'), t('welcomeMsg'), false, true);
+    }
+
+    function syncWithPassport() {
+        try {
+            const citizenData = localStorage.getItem('rks_citizen');
+            if (citizenData) {
+                const citizen = JSON.parse(citizenData);
+                if (citizen.balance !== undefined) balance = citizen.balance;
+                document.getElementById('userNameDisplay').textContent = citizen.fullName || 'Ivan Ivanov';
+                document.getElementById('userIdDisplay').textContent = citizen.id || 'RCS-001';
+            }
+        } catch (e) {}
     }
 
     function saveData() {
         try {
             localStorage.setItem('rks_bank_data_v2', JSON.stringify({
-                balance: balance,
-                historyData, activeDeposits, ownedMinistries: Array.from(ownedMinistries),
+                balance, historyData, activeDeposits, ownedMinistries: Array.from(ownedMinistries),
                 balanceHistory, myProducts, salesHistory, cart
             }));
-        } catch (e) { console.warn('Ошибка сохранения', e); }
+            try {
+                const citizenData = localStorage.getItem('rks_citizen');
+                if (citizenData) {
+                    const citizen = JSON.parse(citizenData);
+                    citizen.balance = balance;
+                    localStorage.setItem('rks_citizen', JSON.stringify(citizen));
+                }
+            } catch (e) {}
+        } catch (e) {}
     }
 
     // ============================================================
-    // 7. ГРАФИК И ОБНОВЛЕНИЕ UI
+    // 4. ГРАФИК И ОБНОВЛЕНИЕ UI
     // ============================================================
     function renderChart() {
-        const days = ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'];
+        const days = currentLang === 'ru' ? ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'] : ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
         const values = balanceHistory.length < 7 ? [...Array(7 - balanceHistory.length).fill(balanceHistory[0] || 1), ...balanceHistory] : balanceHistory.slice(-7);
         const max = Math.max(...values, 1) * 1.2;
         const container = document.getElementById('chartBars');
@@ -928,7 +914,7 @@
     function updateBalance() {
         const el = document.getElementById('balance');
         if (!el) return;
-        el.innerHTML = `<span class="currency-icon" style="display:inline-block; width:36px; height:36px; vertical-align:middle; margin-right:4px;"><img src="favicon.ico" alt="РКС" style="width:100%; height:100%; object-fit:contain;"></span>${balance}`;
+        el.innerHTML = `<span style="display:inline-block; width:36px; height:36px; vertical-align:middle; margin-right:4px;"><img src="favicon.ico" alt="RCS" style="width:100%; height:100%; object-fit:contain;"></span>${balance}`;
     }
 
     function getFilteredHistory() { return historyFilter === 'all' ? historyData : historyData.filter(h => h.status === historyFilter); }
@@ -938,22 +924,22 @@
         if (!list) return;
         const filtered = getFilteredHistory();
         if (filtered.length === 0) {
-            list.innerHTML = '<div style="padding:15px; text-align:center; color:rgba(201,169,97,0.3);">Нет операций</div>';
+            list.innerHTML = `<div style="padding:15px; text-align:center; color:rgba(201,169,97,0.3);">${t('noOps')}</div>`;
             return;
         }
         list.innerHTML = filtered.map(item => {
             let statusText = '', statusClass = '';
-            if (item.status === 'confirmed') { statusText = '✅ Подтверждено'; statusClass = 'status-confirmed'; }
-            else if (item.status === 'declined') { statusText = '❌ Отклонено'; statusClass = 'status-declined'; }
-            else if (item.status === 'escrow') { statusText = '🔒 Заморожено'; statusClass = 'status-escrow'; }
-            else { statusText = '⏳ Ожидает'; statusClass = 'status-pending'; }
-            return `<div class="history-item ${item.status}"><div class="history-time">${item.time}</div><div class="history-details">${item.from} → ${item.to} • ${item.amount} ТЧ</div><div class="history-status ${statusClass}">${statusText}</div></div>`;
+            if (item.status === 'confirmed') { statusText = t('confirmed'); statusClass = 'status-confirmed'; }
+            else if (item.status === 'declined') { statusText = t('declined'); statusClass = 'status-declined'; }
+            else if (item.status === 'escrow') { statusText = t('escrow'); statusClass = 'status-escrow'; }
+            else { statusText = t('pending'); statusClass = 'status-pending'; }
+            return `<div class="history-item ${item.status}"><div class="history-time">${item.time}</div><div class="history-details">${item.from} → ${item.to} • ${item.amount} LH</div><div class="history-status ${statusClass}">${statusText}</div></div>`;
         }).join('');
     }
 
     function updateStats() {
-        const sent = historyData.filter(h => h.from === 'Иванов И.И.' && (h.status === 'confirmed' || h.status === 'escrow')).reduce((s, h) => s + h.amount, 0);
-        const received = historyData.filter(h => h.to === 'Вы' && h.status === 'confirmed').reduce((s, h) => s + h.amount, 0);
+        const sent = historyData.filter(h => h.from === 'Ivan Ivanov' && (h.status === 'confirmed' || h.status === 'escrow')).reduce((s, h) => s + h.amount, 0);
+        const received = historyData.filter(h => h.to.includes('You') && h.status === 'confirmed').reduce((s, h) => s + h.amount, 0);
         const pending = historyData.filter(h => h.status === 'pending' || h.status === 'escrow').length;
         document.getElementById('totalSent').textContent = sent;
         document.getElementById('totalReceived').textContent = received;
@@ -965,11 +951,12 @@
 
     function updateAll() {
         updateBalance(); updateHistory(); updateStats(); renderChart();
-        renderDeposits(); renderMinistries(); renderMyShop(); saveData();
+        renderDeposits(); renderMinistries(); renderMyShop(); renderCategories(); renderProducts(); renderCart();
+        saveData();
     }
 
     // ============================================================
-    // 8. 2FA И ПЕРЕВОД
+    // 5. 2FA И ПЕРЕВОД
     // ============================================================
     function generate2FA() {
         current2FA = String(Math.floor(100000 + Math.random() * 900000));
@@ -980,9 +967,9 @@
         const timer = setInterval(() => {
             timeLeft--;
             if (timeLeft > 0 && display) display.textContent = current2FA;
-            else { if (display) display.textContent = 'ИСТЁК'; clearInterval(timer); }
+            else { if (display) display.textContent = currentLang === 'ru' ? 'ИСТЁК' : 'EXPIRED'; clearInterval(timer); }
         }, 1000);
-        showNotification('🔐 2FA-код сгенерирован', `Действует 60 секунд: ${current2FA}`);
+        showNotification('🔐 2FA', `${currentLang === 'ru' ? 'Действует 60 секунд: ' : 'Valid for 60s: '}${current2FA}`, false, true);
     }
 
     function initiateTransfer() {
@@ -991,54 +978,55 @@
         const pin = document.getElementById('pin').value;
         const f2a = document.getElementById('f2aInput').value;
 
-        if (!recipient) { showNotification('❌ Ошибка', 'Выберите получателя'); return; }
-        if (!amount || amount < 1) { showNotification('❌ Ошибка', 'Введите сумму'); return; }
-        if (amount > balance) { showNotification('❌ Ошибка', 'Недостаточно средств'); return; }
-        if (pin !== '1234') { showNotification('❌ Ошибка', 'Неверный ПИН-код'); return; }
-        if (Date.now() > f2aExpiry || !current2FA) { showNotification('❌ Ошибка', 'Срок 2FA истёк'); return; }
-        if (f2a !== current2FA) { showNotification('❌ Ошибка', 'Неверный 2FA-код'); return; }
+        if (!recipient) { showNotification(t('error'), t('selectRecipient'), true); return; }
+        if (!amount || amount < 1) { showNotification(t('error'), t('enterAmount'), true); return; }
+        if (amount > balance) { showNotification(t('error'), t('insufficientFunds'), true); return; }
+        if (pin !== '1234') { showNotification(t('error'), t('invalidPin'), true); return; }
+        if (Date.now() > f2aExpiry || !current2FA) { showNotification(t('error'), t('f2aExpired'), true); return; }
+        if (f2a !== current2FA) { showNotification(t('error'), t('invalidF2a'), true); return; }
 
         balance -= amount; updateBalance();
         const timeStr = new Date().toTimeString().slice(0, 5);
-        historyData.unshift({ id: Date.now(), time: timeStr, from: 'Иванов И.И.', to: recipient, amount, status: 'pending' });
+        historyData.unshift({ id: Date.now(), time: timeStr, from: 'Ivan Ivanov', to: recipient, amount, status: 'pending' });
 
         document.getElementById('recipient').value = ''; document.getElementById('amount').value = '';
         document.getElementById('pin').value = ''; document.getElementById('f2aInput').value = '';
         current2FA = ''; document.getElementById('f2aDisplay').textContent = '– – – – – –';
 
-        showNotification('⏳ Запрос отправлен', `${recipient} ожидает подтверждения...`);
+        showNotification(t('requestSent'), recipient + t('awaitingConfirmation'), false, true);
         recordBalance();
 
         setTimeout(() => {
             const confirmed = Math.random() > 0.15;
             if (confirmed) {
                 historyData[0].status = 'confirmed';
-                showNotification('✅ Перевод подтверждён', `${recipient} получил ${amount} ТЧ`);
+                showNotification(t('transferConfirmed'), recipient + t('received') + amount + ' LH');
             } else {
                 historyData[0].status = 'declined'; balance += amount; updateBalance();
-                showNotification('❌ Перевод отклонён', 'Средства возвращены'); recordBalance();
+                showNotification(t('transferDeclined'), t('fundsReturned'), true);
+                recordBalance();
             }
             updateHistory(); updateStats(); renderChart(); saveData();
         }, 2000);
     }
 
     // ============================================================
-    // 9. ВКЛАДЫ И МИНИСТЕРСТВА
+    // 6. ВКЛАДЫ
     // ============================================================
     function openDeposit(name, rate) {
-        if (balance < 100) { showNotification('❌ Ошибка', 'Минимум 100 ТЧ'); return; }
+        if (balance < 100) { showNotification(t('error'), t('min100'), true); return; }
         const amount = Math.min(1000, balance);
         balance -= amount; updateBalance();
         activeDeposits.push({ name, rate, amount, date: new Date().toLocaleDateString() });
         renderDeposits(); recordBalance();
-        showNotification('✅ Вклад открыт', `${name} на ${amount} ТЧ под ${rate}%`);
+        showNotification(t('depositOpened'), name + t('on') + amount + ' LH' + t('at') + rate + '%');
     }
 
     function renderDeposits() {
         const container = document.getElementById('activeDeposits');
         if (!container) return;
-        if (activeDeposits.length === 0) { container.innerHTML = '<p style="font-size:0.85em; color:rgba(201,169,97,0.3); text-align:center;">Активных вкладов нет</p>'; return; }
-        container.innerHTML = activeDeposits.map((d, idx) => `<div class="deposit-item"><div class="info"><div class="name">${d.name}</div><div class="detail">${d.amount} ТЧ · ${d.rate}% · ${d.date}</div></div><button class="btn-3d btn-3d-small" onclick="closeDeposit(${idx})">Закрыть</button></div>`).join('');
+        if (activeDeposits.length === 0) { container.innerHTML = `<p style="font-size:0.85em; color:rgba(201,169,97,0.3); text-align:center;">${currentLang === 'ru' ? 'Активных вкладов нет' : 'No active deposits'}</p>`; return; }
+        container.innerHTML = activeDeposits.map((d, idx) => `<div class="deposit-item" style="background:rgba(0,0,0,0.2); border:1px solid rgba(201,169,97,0.1); border-radius:8px; padding:15px; margin-bottom:12px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;"><div class="info"><div class="name" style="font-weight:bold;color:#f4e4d4;">${d.name}</div><div class="detail" style="font-size:0.85em;color:rgba(201,169,97,0.6);">${d.amount} LH · ${d.rate}% · ${d.date}</div></div><button class="btn-3d btn-3d-small" onclick="closeDeposit(${idx})">${currentLang === 'ru' ? 'Закрыть' : 'Close'}</button></div>`).join('');
     }
 
     function closeDeposit(idx) {
@@ -1046,18 +1034,23 @@
         const interest = Math.floor(dep.amount * dep.rate / 100);
         balance += dep.amount + interest; activeDeposits.splice(idx, 1);
         updateBalance(); renderDeposits(); recordBalance();
-        showNotification('💰 Вклад закрыт', `Возвращено ${dep.amount + interest} ТЧ`);
+        showNotification(t('depositClosed'), t('returned') + (dep.amount + interest) + ' LH');
     }
 
+    // ============================================================
+    // 7. МИНИСТЕРСТВА
+    // ============================================================
     function renderMinistries() {
         const grid = document.getElementById('ministriesGrid');
         if (!grid) return;
+        const list = getMinistries();
         grid.innerHTML = '';
-        ministriesList.forEach((name, idx) => {
+        list.forEach((name, idx) => {
             const owned = ownedMinistries.has(idx);
             const card = document.createElement('div');
             card.className = `ministry-card ${owned ? 'owned' : ''}`;
-            card.innerHTML = `<div class="ministry-icon">${ministryIcons[idx]}</div><div class="ministry-name">${name}</div><div class="ministry-price">50 000 ТЧ</div><button class="btn-3d ${owned ? 'owned-btn' : 'glow'}" onclick="buyMinistry(${idx})" ${owned ? 'disabled' : ''}>${owned ? '✅ ВЫ НАЗНАЧЕНЫ' : '🏛️ НАЗНАЧИТЬСЯ'}</button>`;
+            card.setAttribute('data-ru', '✅ НАЗНАЧЕН');
+            card.innerHTML = `<div class="ministry-icon">${ministryIcons[idx]}</div><div class="ministry-name">${name}</div><div class="ministry-price">50 000 LH</div><button class="btn-3d ${owned ? 'btn-3d-small' : 'glow'}" onclick="buyMinistry(${idx})" ${owned ? 'disabled' : ''}>${owned ? (currentLang === 'ru' ? '✅ ВЫ НАЗНАЧЕНЫ' : '✅ APPOINTED') : (currentLang === 'ru' ? '🏛️ НАЗНАЧИТЬСЯ' : '🏛️ APPOINT')}</button>`;
             grid.appendChild(card);
         });
     }
@@ -1067,22 +1060,25 @@
         if (balance >= 50000) {
             balance -= 50000; ownedMinistries.add(idx);
             updateBalance(); renderMinistries(); recordBalance();
-            showNotification('🎉 Поздравляем!', `Вы назначены главой: ${ministriesList[idx]}`);
+            showNotification(t('congratulations'), t('appointedHead') + getMinistries()[idx]);
         } else {
-            showNotification('❌ Недостаточно средств', `Требуется 50 000 ТЧ. У вас: ${balance} ТЧ.`, true);
+            showNotification(t('notEnoughFunds'), t('requires') + balance + ' LH.', true);
         }
     }
 
     // ============================================================
-    // 10. МАГАЗИН И КОРЗИНА
+    // 8. МАГАЗИН И КОРЗИНА
     // ============================================================
     function renderCategories() {
         const container = document.getElementById('categoryList');
         if (!container) return;
-        container.innerHTML = Object.keys(catalog).map(cat => {
-            const count = catalog[cat].length;
-            const isActive = cat === currentCategory ? 'active' : '';
-            return `<button class="category-btn ${isActive}" onclick="selectCategory('${cat.replace(/'/g, "\\'")}')"><span class="cat-count">${count}</span> ${cat}</button>`;
+        const cat = getCatalog();
+        const keys = Object.keys(cat);
+        if (keys.length > 0 && !currentCategory) currentCategory = keys[0];
+        container.innerHTML = keys.map(c => {
+            const count = cat[c].length;
+            const isActive = c === currentCategory ? 'active' : '';
+            return `<button class="category-btn ${isActive}" onclick="selectCategory('${c.replace(/'/g, "\\'")}')"><span class="cat-count">${count}</span> ${c}</button>`;
         }).join('');
     }
 
@@ -1097,31 +1093,33 @@
         const search = (document.getElementById('shopSearch')?.value || '').toLowerCase();
         if (!grid) return;
 
-        let items = catalog[currentCategory] || [];
+        let items = [];
+        const cat = getCatalog();
         if (search) {
-            items = [];
-            Object.keys(catalog).forEach(cat => {
-                catalog[cat].forEach(([name, price]) => { if (name.toLowerCase().includes(search)) items.push([name, price]); });
+            Object.keys(cat).forEach(c => {
+                cat[c].forEach(([name, price]) => { if (name.toLowerCase().includes(search)) items.push([name, price]); });
             });
+        } else {
+            items = cat[currentCategory] || [];
         }
 
-        if (items.length === 0) { grid.innerHTML = '<div style="grid-column:1/-1; text-align:center; padding:40px; color:rgba(201,169,97,0.4);">Товары не найдены</div>'; return; }
+        if (items.length === 0) { grid.innerHTML = `<div style="grid-column:1/-1; text-align:center; padding:40px; color:rgba(201,169,97,0.4);">${currentLang === 'ru' ? 'Товары не найдены' : 'No goods found'}</div>`; return; }
 
         grid.innerHTML = items.map(([name, price]) => {
-            const icon = currentCategory.split(' ')[0];
+            const icon = currentCategory.split(' ')[0] || '📦';
             const safeName = name.replace(/'/g, "\\'");
-            return `<div class="product-card"><div class="product-icon">${icon}</div><div class="product-name">${name}</div><div class="product-price">${price} ТЧ</div><button class="product-btn" onclick="addToCart('${safeName}', ${price})">🛒 В корзину</button></div>`;
+            return `<div class="product-card"><div class="product-icon">${icon}</div><div class="product-name">${name}</div><div class="product-price">${price} LH</div><button class="product-btn" onclick="addToCart('${safeName}', ${price})">🛒 ${currentLang === 'ru' ? 'В корзину' : 'Add to cart'}</button></div>`;
         }).join('');
     }
 
     function addToCart(name, price) {
         cart.push({ name, price, id: Date.now() + Math.random() });
         renderCart();
-        showNotification('✅ Добавлено в корзину', `${name} · ${price} ТЧ`);
+        showNotification(t('addedToCart'), `${name} · ${price} LH`);
     }
 
     function removeFromCart(id) { cart = cart.filter(item => item.id !== id); renderCart(); }
-    function clearCart() { if (cart.length === 0) return; cart = []; renderCart(); showNotification('🗑️ Корзина очищена', ''); }
+    function clearCart() { if (cart.length === 0) return; cart = []; renderCart(); showNotification(t('cartCleared'), ''); }
 
     function renderCart() {
         const container = document.getElementById('cartItems');
@@ -1130,7 +1128,7 @@
         if (!container) return;
 
         if (cart.length === 0) {
-            container.innerHTML = '<div class="cart-empty">Корзина пуста. Добавьте товары из каталога.</div>';
+            container.innerHTML = `<div class="cart-empty">${currentLang === 'ru' ? 'Корзина пуста. Добавьте товары из каталога.' : 'Cart is empty. Add items from the catalog.'}</div>`;
             if (countEl) countEl.textContent = '(0)';
             if (totalEl) totalEl.textContent = '0';
             return;
@@ -1140,11 +1138,11 @@
         if (countEl) countEl.textContent = `(${cart.length})`;
         if (totalEl) totalEl.textContent = total.toLocaleString();
 
-        container.innerHTML = cart.map(item => `<div class="cart-item"><div class="cart-item-info"><div class="cart-item-name">${item.name}</div><div class="cart-item-price">${item.price} ТЧ</div></div><button class="cart-item-remove" onclick="removeFromCart(${item.id})">✕</button></div>`).join('');
+        container.innerHTML = cart.map(item => `<div class="cart-item"><div class="cart-item-info"><div class="cart-item-name">${item.name}</div><div class="cart-item-price">${item.price} LH</div></div><button class="cart-item-remove" onclick="removeFromCart(${item.id})">✕</button></div>`).join('');
     }
 
     function quickBuy(name, price) {
-        if (price > balance) { showNotification('❌ Недостаточно средств', `Нужно ${price} ТЧ, у вас ${balance} ТЧ`, true); return; }
+        if (price > balance) { showNotification(t('notEnoughFunds'), t('need') + price + ' LH' + t('youHave') + balance + ' LH', true); return; }
         cart = [{ name, price, id: Date.now() }];
         renderCart();
         document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
@@ -1155,50 +1153,50 @@
     }
 
     function checkout() {
-        if (cart.length === 0) { showNotification('❌ Корзина пуста', 'Добавьте товары перед покупкой'); return; }
+        if (cart.length === 0) { showNotification(t('emptyCart'), t('addBeforeCheckout'), true); return; }
         const total = cart.reduce((sum, item) => sum + item.price, 0);
-        if (total > balance) { showNotification('❌ Недостаточно средств', `Нужно ${total} ТЧ, у вас ${balance} ТЧ`, true); return; }
+        if (total > balance) { showNotification(t('notEnoughFunds'), t('need') + total + ' LH' + t('youHave') + balance + ' LH', true); return; }
         showEscrowModal();
     }
 
     // ============================================================
-    // 11. ESCROW (БЕЗОПАСНАЯ СДЕЛКА)
+    // 9. ESCROW
     // ============================================================
     function showEscrowModal() {
         const total = cart.reduce((sum, item) => sum + item.price, 0);
         const modal = document.getElementById('escrowModal');
         const content = document.getElementById('modalContent');
 
-        const itemsList = cart.map(item => `<div class="order-summary-item"><span class="label">${item.name}</span><span class="value">${item.price} ТЧ</span></div>`).join('');
+        const itemsList = cart.map(item => `<div class="order-summary-item"><span class="label">${item.name}</span><span class="value">${item.price} LH</span></div>`).join('');
 
         content.innerHTML = `
             <div class="order-summary">
-                <h3 style="color:#c9a961; margin-bottom:10px; font-size:1em; letter-spacing:2px;">📋 СОСТАВ ЗАКАЗА</h3>
+                <h3 style="color:#c9a961; margin-bottom:10px; font-size:1em; letter-spacing:2px;">📋 ${currentLang === 'ru' ? 'СОСТАВ ЗАКАЗА' : 'ORDER COMPOSITION'}</h3>
                 ${itemsList}
-                <div class="order-summary-total"><span class="label">ИТОГО К СПИСАНИЮ:</span><span class="value">${total} ТЧ</span></div>
-                <div style="margin-top:10px; font-size:0.8em; color:rgba(201,169,97,0.5); text-align:center;">Ваш текущий баланс: ${balance} ТЧ · После покупки: ${balance - total} ТЧ</div>
+                <div class="order-summary-total"><span class="label">${currentLang === 'ru' ? 'ИТОГО К СПИСАНИЮ:' : 'TOTAL TO DEBIT:'}</span><span class="value">${total} LH</span></div>
+                <div style="margin-top:10px; font-size:0.8em; color:rgba(201,169,97,0.5); text-align:center;">${currentLang === 'ru' ? `Ваш текущий баланс: ${balance} ТЧ · После покупки: ${balance - total} ТЧ` : `Your current balance: ${balance} LH · After purchase: ${balance - total} LH`}</div>
             </div>
             <div class="escrow-steps" id="escrowSteps">
-                <div class="escrow-step" id="step-1"><div class="escrow-step-num">1</div><div class="escrow-step-text"><div class="step-title">Подтверждение покупки</div><div class="step-detail">Введите ПИН-код и 2FA</div></div></div>
-                <div class="escrow-step" id="step-2"><div class="escrow-step-num">2</div><div class="escrow-step-text"><div class="step-title">Блокировка средств (Escrow)</div><div class="step-detail">Банк замораживает ${total} ТЧ</div></div></div>
-                <div class="escrow-step" id="step-3"><div class="escrow-step-num">3</div><div class="escrow-step-text"><div class="step-title">Передача товара</div><div class="step-detail">Продавец передаёт цифровой контент</div></div></div>
-                <div class="escrow-step" id="step-4"><div class="escrow-step-num">4</div><div class="escrow-step-text"><div class="step-title">Подтверждение получения</div><div class="step-detail">Вы проверяете товар и подтверждаете</div></div></div>
-                <div class="escrow-step" id="step-5"><div class="escrow-step-num">5</div><div class="escrow-step-text"><div class="step-title">Перевод средств продавцу</div><div class="step-detail">ТЧ зачисляются на счёт продавца</div></div></div>
+                <div class="escrow-step" id="step-1"><div class="escrow-step-num">1</div><div class="escrow-step-text"><div class="step-title">${currentLang === 'ru' ? 'Подтверждение покупки' : 'Purchase confirmation'}</div><div class="step-detail">${currentLang === 'ru' ? 'Введите ПИН-код и 2FA' : 'Enter PIN code and 2FA'}</div></div></div>
+                <div class="escrow-step" id="step-2"><div class="escrow-step-num">2</div><div class="escrow-step-text"><div class="step-title">${currentLang === 'ru' ? 'Блокировка средств (Escrow)' : 'Fund blocking (Escrow)'}</div><div class="step-detail">${currentLang === 'ru' ? `Банк замораживает ${total} ТЧ` : `Bank freezes ${total} LH`}</div></div></div>
+                <div class="escrow-step" id="step-3"><div class="escrow-step-num">3</div><div class="escrow-step-text"><div class="step-title">${currentLang === 'ru' ? 'Передача товара' : 'Goods transfer'}</div><div class="step-detail">${currentLang === 'ru' ? 'Продавец передаёт цифровой контент' : 'Seller transfers digital content'}</div></div></div>
+                <div class="escrow-step" id="step-4"><div class="escrow-step-num">4</div><div class="escrow-step-text"><div class="step-title">${currentLang === 'ru' ? 'Подтверждение получения' : 'Receipt confirmation'}</div><div class="step-detail">${currentLang === 'ru' ? 'Вы проверяете товар и подтверждаете' : 'You check the goods and confirm'}</div></div></div>
+                <div class="escrow-step" id="step-5"><div class="escrow-step-num">5</div><div class="escrow-step-text"><div class="step-title">${currentLang === 'ru' ? 'Перевод средств продавцу' : 'Payout to seller'}</div><div class="step-detail">${currentLang === 'ru' ? 'ТЧ зачисляются на счёт продавца' : 'LH are credited to the seller\'s account'}</div></div></div>
             </div>
             <div id="escrowForm">
-                <div class="form-group"><label>ПИН-код</label><input type="password" id="escrowPin" maxlength="4" placeholder="••••" /></div>
-                <div class="form-group"><label>2FA-код</label><input type="text" id="escrow2FA" maxlength="6" placeholder="6 цифр" />
-                    <div style="margin-top:6px; font-size:0.8em; color:rgba(201,169,97,0.5);">Текущий 2FA: <span id="escrow2FADisplay" style="color:#28a745; font-family:'Courier New',monospace;">${current2FA || '– – – – – –'}</span></div>
+                <div class="form-group"><label>${currentLang === 'ru' ? 'ПИН-код' : 'PIN code'}</label><input type="password" id="escrowPin" maxlength="4" placeholder="••••" /></div>
+                <div class="form-group"><label>${currentLang === 'ru' ? '2FA-код' : '2FA code'}</label><input type="text" id="escrow2FA" maxlength="6" placeholder="6 digits" />
+                    <div style="margin-top:6px; font-size:0.8em; color:rgba(201,169,97,0.5);">${currentLang === 'ru' ? 'Текущий 2FA: ' : 'Current 2FA: '}<span id="escrow2FADisplay" style="color:#28a745; font-family:'Courier New',monospace;">${current2FA || '– – – – – –'}</span></div>
                 </div>
                 <div class="modal-actions">
-                    <button class="btn-3d btn-3d-danger" onclick="closeEscrowModal()">Отмена</button>
-                    <button class="btn-3d glow" onclick="processEscrow()">🔐 Подтвердить и заблокировать</button>
+                    <button class="btn-3d btn-3d-danger" onclick="closeEscrowModal()">${currentLang === 'ru' ? 'Отмена' : 'Cancel'}</button>
+                    <button class="btn-3d glow" onclick="processEscrow()">${currentLang === 'ru' ? '🔐 Подтвердить и заблокировать' : '🔐 Confirm and block'}</button>
                 </div>
             </div>
             <div id="escrowProgress" style="display:none;">
                 <div class="modal-actions">
-                    <button class="btn-3d" id="btnConfirmReceive" onclick="confirmReceive()" style="display:none;">✅ Товар получен — перевести продавцу</button>
-                    <button class="btn-3d btn-3d-danger" id="btnOpenDispute" onclick="openDispute()" style="display:none;">⚠️ Открыть спор (возврат)</button>
+                    <button class="btn-3d" id="btnConfirmReceive" onclick="confirmReceive()" style="display:none;">✅ ${currentLang === 'ru' ? 'Товар получен — перевести продавцу' : 'Goods received — pay seller'}</button>
+                    <button class="btn-3d btn-3d-danger" id="btnOpenDispute" onclick="openDispute()" style="display:none;">⚠️ ${currentLang === 'ru' ? 'Открыть спор (возврат)' : 'Open dispute (refund)'}</button>
                 </div>
             </div>
         `;
@@ -1212,9 +1210,9 @@
         const f2a = document.getElementById('escrow2FA').value;
         const total = cart.reduce((sum, item) => sum + item.price, 0);
 
-        if (pin !== '1234') { showNotification('❌ Неверный ПИН-код', '', true); return; }
-        if (Date.now() > f2aExpiry || !current2FA) { showNotification('❌ 2FA-код истёк', 'Сгенерируйте новый код', true); return; }
-        if (f2a !== current2FA) { showNotification('❌ Неверный 2FA-код', '', true); return; }
+        if (pin !== '1234') { showNotification(t('invalidPinEscrow'), '', true); return; }
+        if (Date.now() > f2aExpiry || !current2FA) { showNotification(t('f2aExpiredEscrow'), t('generateNew'), true); return; }
+        if (f2a !== current2FA) { showNotification(t('invalidF2a'), '', true); return; }
 
         document.getElementById('step-1').classList.add('done');
         document.getElementById('step-1').querySelector('.escrow-step-num').textContent = '✓';
@@ -1225,14 +1223,14 @@
             setTimeout(() => {
                 balance -= total; updateBalance();
                 const timeStr = new Date().toTimeString().slice(0, 5);
-                const orderName = cart.length === 1 ? cart[0].name : `Заказ из ${cart.length} товаров`;
-                historyData.unshift({ id: Date.now(), time: timeStr, from: 'Иванов И.И.', to: `Магазин (${orderName})`, amount: total, status: 'escrow', cart: [...cart] });
+                const orderName = cart.length === 1 ? cart[0].name : `Order of ${cart.length} items`;
+                historyData.unshift({ id: Date.now(), time: timeStr, from: 'Ivan Ivanov', to: `Shop (${orderName})`, amount: total, status: 'escrow', cart: [...cart] });
                 updateHistory(); updateStats(); recordBalance();
 
                 document.getElementById('step-2').classList.remove('active');
                 document.getElementById('step-2').classList.add('done');
                 document.getElementById('step-2').querySelector('.escrow-step-num').textContent = '✓';
-                showNotification('🔒 Средства заблокированы', `${total} ТЧ заморожены на эскроу-счёте`, false, true);
+                showNotification(t('fundsBlocked'), total + t('frozenOnEscrow'), false, true);
 
                 setTimeout(() => {
                     document.getElementById('step-3').classList.add('active');
@@ -1245,7 +1243,7 @@
                             document.getElementById('escrowProgress').style.display = 'block';
                             document.getElementById('btnConfirmReceive').style.display = 'inline-block';
                             document.getElementById('btnOpenDispute').style.display = 'inline-block';
-                            showNotification('📦 Товар передан', 'Проверьте содержимое и подтвердите получение', false, true);
+                            showNotification(t('itemTransferred'), t('checkAndConfirm'), false, true);
                         }, 800);
                     }, 1200);
                 }, 800);
@@ -1266,7 +1264,7 @@
                 document.getElementById('step-5').classList.add('done');
                 document.getElementById('step-5').querySelector('.escrow-step-num').textContent = '✓';
                 updateHistory(); updateStats(); saveData();
-                showNotification('✅ Сделка завершена', 'ТЧ переведены продавцу. Спасибо за покупку!');
+                showNotification(t('dealCompleted'), t('lhTransferredToSeller'));
                 setTimeout(() => { cart = []; renderCart(); closeEscrowModal(); }, 1500);
             }, 1000);
         }, 500);
@@ -1278,12 +1276,12 @@
         const lastOrder = historyData.find(h => h.status === 'escrow');
         if (lastOrder) lastOrder.status = 'declined';
         updateHistory(); updateStats(); recordBalance();
-        showNotification('⚠️ Спор открыт', `Средства ${total} ТЧ возвращены на ваш счёт`, true);
+        showNotification(t('disputeOpened'), total + t('fundsReturnedToAccount'), true);
         setTimeout(() => { cart = []; renderCart(); closeEscrowModal(); }, 1500);
     }
 
     // ============================================================
-    // 12. МОЙ МАГАЗИН (С УВЕЛИЧЕНИЕМ БАЛАНСА)
+    // 10. МОЙ МАГАЗИН
     // ============================================================
     function addMyProduct() {
         const name = document.getElementById('newProductName').value.trim();
@@ -1293,16 +1291,16 @@
         const link = document.getElementById('newProductLink').value.trim();
         const icon = document.getElementById('newProductIcon').value.trim() || '📦';
 
-        if (!name || !price || price < 1 || !desc || !link) { showNotification('❌ Ошибка', 'Заполните все поля корректно', true); return; }
+        if (!name || !price || price < 1 || !desc || !link) { showNotification(t('errorFillFields'), t('fillAllFieldsCorrectly'), true); return; }
 
-        showNotification('🔍 Проверка ИИ-банком...', 'Анализ уникальности и безопасности...', false, true);
+        showNotification(t('aiChecking'), t('analyzing'), false, true);
         setTimeout(() => {
-            myProducts.push({ id: Date.now(), name, category, price, desc, link, icon, active: true, createdAt: new Date().toLocaleString('ru-RU'), views: 0, sales: 0 });
+            myProducts.push({ id: Date.now(), name, category, price, desc, link, icon, active: true, createdAt: new Date().toLocaleString(), views: 0, sales: 0 });
             saveData(); renderMyShop();
             document.getElementById('newProductName').value = ''; document.getElementById('newProductPrice').value = '';
             document.getElementById('newProductDesc').value = ''; document.getElementById('newProductLink').value = '';
             document.getElementById('newProductIcon').value = '📦';
-            showNotification('✅ Товар опубликован!', `${name} доступен в общем каталоге.`);
+            showNotification(t('productPublished'), name + t('availableInCatalog'));
         }, 1500);
     }
 
@@ -1311,51 +1309,34 @@
         if (!product) return;
         product.active = !product.active;
         saveData(); renderMyShop();
-        showNotification(product.active ? '✅ Товар активирован' : '⏸️ Товар снят с продажи', product.name);
+        showNotification(product.active ? t('productActivated') : t('productDeactivated'), product.name);
     }
 
     function deleteMyProduct(id) {
-        if (!confirm('Удалить этот товар?')) return;
+        if (!confirm(currentLang === 'ru' ? 'Удалить этот товар?' : 'Delete this product?')) return;
         myProducts = myProducts.filter(p => p.id !== id);
         saveData(); renderMyShop();
-        showNotification('🗑️ Товар удалён', '');
+        showNotification(t('productDeleted'), '');
     }
 
     function simulateSale(id) {
         const product = myProducts.find(p => p.id === id);
-        if (!product || !product.active) { showNotification('❌ Ошибка', 'Товар не активен', true); return; }
+        if (!product || !product.active) { showNotification(t('saleError'), t('productNotActive'), true); return; }
         
-        const buyers = ['Петров П.П.', 'Сидорова С.С.', 'Волков В.В.', 'Смирнов С.С.', 'Кузнецов К.К.'];
+        const buyers = currentLang === 'ru' ? ['Петров П.П.', 'Сидорова С.С.', 'Волков В.В.', 'Смирнов С.С.'] : ['Petrov P.P.', 'Sidorova S.S.', 'Volkov V.V.', 'Smirnov S.S.'];
         const buyer = buyers[Math.floor(Math.random() * buyers.length)];
         
         product.sales++;
         product.views += Math.floor(Math.random() * 10) + 1;
+        balance += product.price; updateBalance();
         
-        // === БАЛАНС УВЕЛИЧИВАЕТСЯ ПРИ ПРОДАЖЕ ===
-        balance += product.price;
-        updateBalance();
-        
-        salesHistory.unshift({ 
-            id: Date.now(), 
-            productId: product.id, 
-            productName: product.name, 
-            buyer, 
-            amount: product.price, 
-            time: new Date().toLocaleString('ru-RU') 
-        });
+        salesHistory.unshift({ id: Date.now(), productId: product.id, productName: product.name, buyer, amount: product.price, time: new Date().toLocaleString() });
         
         const timeStr = new Date().toTimeString().slice(0, 5);
-        historyData.unshift({ 
-            id: Date.now(), 
-            time: timeStr, 
-            from: buyer, 
-            to: 'Вы (продажа)', 
-            amount: product.price, 
-            status: 'confirmed' 
-        });
+        historyData.unshift({ id: Date.now(), time: timeStr, from: buyer, to: currentLang === 'ru' ? 'Вы (продажа)' : 'You (sale)', amount: product.price, status: 'confirmed' });
         
         updateHistory(); updateStats(); recordBalance(); saveData(); renderMyShop();
-        showNotification('💰 Новая продажа!', `${buyer} купил "${product.name}" за ${product.price} ТЧ`);
+        showNotification(t('newSale'), buyer + t('boughtFor') + product.name + t('forLH') + product.price + ' LH');
     }
 
     function renderMyShop() {
@@ -1370,7 +1351,7 @@
         const list = document.getElementById('myProductsList');
         if (!list) return;
         if (myProducts.length === 0) {
-            list.innerHTML = `<div class="empty-state"><div class="icon">📦</div><div class="title">У вас пока нет товаров</div><div class="desc">Заполните форму выше, чтобы выложить свой первый цифровой товар.</div></div>`;
+            list.innerHTML = `<div class="empty-state" style="text-align:center; padding:40px; color:rgba(201,169,97,0.5);"><div class="icon" style="font-size:3em; margin-bottom:10px;">📦</div><div class="title" style="font-size:1.1em; margin-bottom:8px;">${currentLang === 'ru' ? 'У вас пока нет товаров' : 'You have no products yet'}</div><div class="desc" style="font-size:0.9em; color:rgba(201,169,97,0.3);">${currentLang === 'ru' ? 'Заполните форму выше, чтобы выложить свой первый цифровой товар.' : 'Fill out the form above to list your first digital product.'}</div></div>`;
         } else {
             list.innerHTML = myProducts.map(p => `
                 <div class="my-product-card ${p.active ? '' : 'inactive'}">
@@ -1380,14 +1361,14 @@
                         <div class="my-product-desc">${p.desc}</div>
                         <div class="my-product-meta">
                             <span>📂 ${p.category}</span><span>👁️ ${p.views}</span><span>💰 ${p.sales}</span>
-                            <span>📅 ${p.createdAt}</span><span>${p.active ? '🟢 Активен' : '⏸️ Снят'}</span>
+                            <span>📅 ${p.createdAt}</span><span>${p.active ? (currentLang === 'ru' ? '🟢 Активен' : '🟢 Active') : (currentLang === 'ru' ? '⏸️ Снят' : '⏸️ Inactive')}</span>
                         </div>
                     </div>
                     <div class="my-product-actions">
-                        <div class="my-product-price">${p.price} ТЧ</div>
-                        <button class="btn-3d btn-3d-small" onclick="simulateSale(${p.id})" ${p.active ? '' : 'disabled'}>🎲 Продажа</button>
-                        <button class="btn-3d btn-3d-small" onclick="toggleMyProduct(${p.id})">${p.active ? '⏸️ Снять' : '▶️ Активировать'}</button>
-                        <button class="btn-3d btn-3d-small btn-3d-danger" onclick="deleteMyProduct(${p.id})">🗑️ Удалить</button>
+                        <div class="my-product-price">${p.price} LH</div>
+                        <button class="btn-3d btn-3d-small" onclick="simulateSale(${p.id})" ${p.active ? '' : 'disabled'}>🎲 ${currentLang === 'ru' ? 'Продажа' : 'Sale'}</button>
+                        <button class="btn-3d btn-3d-small" onclick="toggleMyProduct(${p.id})">${p.active ? (currentLang === 'ru' ? '⏸️ Снять' : '⏸️ Deactivate') : (currentLang === 'ru' ? '▶️ Активировать' : '▶️ Activate')}</button>
+                        <button class="btn-3d btn-3d-small btn-3d-danger" onclick="deleteMyProduct(${p.id})">🗑️ ${currentLang === 'ru' ? 'Удалить' : 'Delete'}</button>
                     </div>
                 </div>
             `).join('');
@@ -1396,14 +1377,14 @@
         const salesList = document.getElementById('salesHistoryList');
         if (!salesList) return;
         if (salesHistory.length === 0) {
-            salesList.innerHTML = `<div class="empty-state"><div class="icon">💰</div><div class="title">Продаж пока не было</div><div class="desc">Как только кто-то купит ваш товар, здесь появится запись.</div></div>`;
+            salesList.innerHTML = `<div class="empty-state" style="text-align:center; padding:40px; color:rgba(201,169,97,0.5);"><div class="icon" style="font-size:3em; margin-bottom:10px;">💰</div><div class="title" style="font-size:1.1em; margin-bottom:8px;">${currentLang === 'ru' ? 'Продаж пока не было' : 'No sales yet'}</div><div class="desc" style="font-size:0.9em; color:rgba(201,169,97,0.3);">${currentLang === 'ru' ? 'Как только кто-то купит ваш товар, здесь появится запись.' : 'As soon as someone buys your product, a record will appear here.'}</div></div>`;
         } else {
-            salesList.innerHTML = salesHistory.map(s => `<div class="sales-history-item"><div><div class="buyer">${s.buyer}</div><div class="product">${s.productName}</div></div><div style="text-align:right;"><div class="amount">+${s.amount} ТЧ</div><div class="time">${s.time}</div></div></div>`).join('');
+            salesList.innerHTML = salesHistory.map(s => `<div class="sales-history-item" style="padding:12px 15px; margin-bottom:8px; background:rgba(0,0,0,0.3); border-left:4px solid #28a745; border-radius:6px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:6px;"><div><div class="buyer" style="color:#f4e4d4;font-weight:bold;">${s.buyer}</div><div class="product" style="color:rgba(201,169,97,0.7);font-size:0.9em;">${s.productName}</div></div><div style="text-align:right;"><div class="amount" style="color:#28a745;font-weight:bold;font-family:'Courier New',monospace;">+${s.amount} LH</div><div class="time" style="color:rgba(201,169,97,0.5);font-size:0.8em;">${s.time}</div></div></div>`).join('');
         }
     }
 
     // ============================================================
-    // 13. ЭКОНОМИКА И УТИЛИТЫ
+    // 11. ЭКОНОМИКА И УТИЛИТЫ
     // ============================================================
     function simulatePath() {
         const steps = document.querySelectorAll('.path-step');
@@ -1412,25 +1393,13 @@
         const interval = setInterval(() => { if (i < steps.length) { steps[i].classList.add('active'); i++; } else { clearInterval(interval); } }, 700);
     }
 
-    function calculatePresidency() {
-        const p = parseInt(document.getElementById('presPeople').value) || 0;
-        const pr = parseInt(document.getElementById('presPrograms').value) || 0;
-        const a = parseInt(document.getElementById('presArt').value) || 0;
-        const s = parseInt(document.getElementById('presSports').value) || 0;
-        const total = (p * 1) + (pr * 100) + (a * 500) + (s * 1000);
-        const progress = Math.min((total / 100000) * 100, 100);
-        document.getElementById('presTotal').textContent = total.toLocaleString();
-        const el = document.getElementById('presProgress');
-        if (progress >= 100) { el.textContent = '🎉 100% — МОЖНО БАЛЛОТИРОВАТЬСЯ!'; el.style.color = '#28a745'; }
-        else { el.textContent = progress.toFixed(2) + '%'; el.style.color = '#c9a961'; }
-    }
-
     function printStatement() {
         const printWindow = window.open('', '_blank');
-        if (!printWindow) { showNotification('❌ Ошибка', 'Разрешите всплывающие окна'); return; }
+        if (!printWindow) { showNotification(t('popupError'), t('allowPopups'), true); return; }
         const filtered = getFilteredHistory();
         const rows = filtered.map(h => `<tr><td>${h.time}</td><td>${h.from}</td><td>${h.to}</td><td style="text-align:right;">${h.amount}</td><td>${h.status === 'confirmed' ? '✅' : h.status === 'declined' ? '❌' : h.status === 'escrow' ? '🔒' : '⏳'}</td></tr>`).join('');
-        printWindow.document.write(`<html><head><title>Выписка РКС</title><style>body { font-family: 'Times New Roman', serif; padding: 40px; color: #0a0a0a; } h1 { text-align: center; } table { width: 100%; border-collapse: collapse; margin-top: 30px; } th, td { padding: 12px; border-bottom: 1px solid #ccc; text-align: left; } th { background: #f0e8d0; }</style></head><body><h1>РКС — Банк · Выписка</h1><p><strong>Владелец:</strong> Иванов Иван Иванович | <strong>Баланс:</strong> ${balance} ТЧ</p><table><tr><th>Время</th><th>От</th><th>Кому</th><th style="text-align:right;">Сумма</th><th>Статус</th></tr>${rows}</table></body></html>`);
+        const title = currentLang === 'ru' ? 'Выписка РКС' : 'RCS Statement';
+        printWindow.document.write(`<html><head><title>${title}</title><style>body{font-family:'Times New Roman',serif;padding:40px;color:#0a0a0a;}h1{text-align:center;}table{width:100%;border-collapse:collapse;margin-top:30px;}th,td{padding:12px;border-bottom:1px solid #ccc;text-align:left;}th{background:#f0e8d0;}</style></head><body><h1>RCS — Bank · ${title}</h1><p><strong>${currentLang === 'ru' ? 'Владелец:' : 'Owner:'}</strong> Ivan Ivanov | <strong>${currentLang === 'ru' ? 'Баланс:' : 'Balance:'}</strong> ${balance} LH</p><table><tr><th>${currentLang === 'ru' ? 'Время' : 'Time'}</th><th>${currentLang === 'ru' ? 'От' : 'From'}</th><th>${currentLang === 'ru' ? 'Кому' : 'To'}</th><th style="text-align:right;">${currentLang === 'ru' ? 'Сумма' : 'Amount'}</th><th>${currentLang === 'ru' ? 'Статус' : 'Status'}</th></tr>${rows}</table></body></html>`);
         printWindow.document.close();
         setTimeout(() => { printWindow.print(); }, 500);
     }
@@ -1446,21 +1415,119 @@
     }
 
     // ============================================================
-    // 14. ЗАПУСК
+    // 12. ВКЛАДКИ И МОДАЛКИ
     // ============================================================
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            this.classList.add('active');
+            document.querySelectorAll('.tab-content').forEach(tc => tc.classList.remove('active'));
+            document.getElementById(this.dataset.tab).classList.add('active');
+        });
+    });
+
+    function openInfo() { document.getElementById('infoModal').classList.add('active'); document.body.style.overflow = 'hidden'; }
+    function closeInfo() { document.getElementById('infoModal').classList.remove('active'); document.body.style.overflow = ''; }
+    document.getElementById('infoModal').addEventListener('click', function(e) { if (e.target === this) closeInfo(); });
+    document.addEventListener('keydown', function(e) { if (e.key === 'Escape') closeInfo(); });
+    document.getElementById('escrowModal').addEventListener('click', function(e) { if (e.target === this) closeEscrowModal(); });
+
+    // ============================================================
+    // 13. ВОЗВРАТ НА ГЛАВНУЮ
+    // ============================================================
+    function goToMainPage() {
+        var currentUrl = window.location.href;
+        var pathParts = currentUrl.split('/');
+        pathParts.pop();
+        var lastPart = pathParts[pathParts.length - 1];
+        var subfolders = ['constitution', 'passport', 'bank', 'money', 'projects', 'chat'];
+        if (subfolders.includes(lastPart)) { pathParts.pop(); }
+        pathParts.push('index.html');
+        window.location.href = pathParts.join('/');
+    }
+
+    // ============================================================
+    // 14. ЯЗЫК
+    // ============================================================
+    function updateLangDisplay() {
+        const langTextEl = document.getElementById('langText');
+        if (currentLang === 'en') {
+            langTextEl.innerHTML = '<span class="lang-active">EN</span><span class="lang-separator">/</span><span>RU</span>';
+        } else {
+            langTextEl.innerHTML = '<span>EN</span><span class="lang-separator">/</span><span class="lang-active">RU</span>';
+        }
+    }
+
+    function applyLang(lang) {
+        currentLang = lang;
+        document.documentElement.setAttribute('lang', lang);
+
+        document.querySelectorAll('[data-ru][data-en]').forEach(el => {
+            if (el.children.length === 0) {
+                el.textContent = el.getAttribute('data-' + lang);
+            } else {
+                el.innerHTML = el.getAttribute('data-' + lang);
+            }
+        });
+        document.querySelectorAll('[data-placeholder-ru][data-placeholder-en]').forEach(el => {
+            el.placeholder = el.getAttribute('data-placeholder-' + lang);
+        });
+
+        const titleEl = document.querySelector('title');
+        if (titleEl) {
+            titleEl.textContent = lang === 'ru' ? 'РКС — Банк' : 'RCS — Bank';
+        }
+
+        // Обновляем динамический контент
+        currentCategory = Object.keys(getCatalog())[0];
+        renderCategories();
+        renderProducts();
+        renderCart();
+        renderMinistries();
+        renderMyShop();
+        
+        const catSelect = document.getElementById('newProductCategory');
+        if (catSelect) {
+            catSelect.innerHTML = Object.keys(getCatalog()).map(c => `<option value="${c}">${c}</option>`).join('');
+        }
+
+        updateLangDisplay();
+        try { localStorage.setItem('rks-lang', lang); } catch (e) {}
+    }
+
+    document.getElementById('langBtn').addEventListener('click', () => {
+        applyLang(currentLang === 'en' ? 'ru' : 'en');
+    });
+
+    // ============================================================
+    // 15. ЗАПУСК
+    // ============================================================
+    try {
+        const savedLang = localStorage.getItem('rks-lang');
+        if (savedLang === 'ru' || savedLang === 'en') {
+            currentLang = savedLang;
+        }
+    } catch (e) {}
+
+    // Инициализация категорий
+    currentCategory = Object.keys(getCatalog())[0];
+    const catSelect = document.getElementById('newProductCategory');
+    if (catSelect) {
+        catSelect.innerHTML = Object.keys(getCatalog()).map(c => `<option value="${c}">${c}</option>`).join('');
+    }
+
     loadData();
-    renderCategories();
-    renderProducts();
-    renderCart();
+
+    // Применяем язык
+    applyLang(currentLang);
+
     setInterval(saveData, 10000);
     setTimeout(generate2FA, 500);
 
-    document.getElementById('escrowModal').addEventListener('click', function(e) { if (e.target === this) closeEscrowModal(); });
-
-    console.log('🏦 РКС Банк загружен');
-    console.log('💰 Текущий баланс:', balance);
-    console.log('🌍 Товаров в каталоге:', Object.values(catalog).reduce((s, arr) => s + arr.length, 0));
-    console.log('📦 Моих товаров:', myProducts.length);
+    console.log('🏦 RCS Bank loaded');
+    console.log('💰 Current balance:', balance);
+    console.log('🌍 Goods in catalog:', Object.values(getCatalog()).reduce((s, arr) => s + arr.length, 0));
+    console.log('📦 My products:', myProducts.length);
 </script>
 </body>
 </html>
