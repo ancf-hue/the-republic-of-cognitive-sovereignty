@@ -1,10 +1,10 @@
 
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>РКС — Проекты граждан</title>
+    <title>RCS — Citizens' Projects</title>
     <link rel="icon" href="favicon.ico" type="image/x-icon">
     <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
     <style>
@@ -218,6 +218,8 @@
             border-radius: 10px;
             transition: all 0.3s;
             box-shadow: 0 4px 15px rgba(201,169,97,0.2);
+            border: none;
+            cursor: pointer;
         }
         .project-card .project-link:hover {
             background: linear-gradient(145deg, #f4e4d4, #c9a961);
@@ -256,13 +258,34 @@
             margin-bottom: 0;
         }
 
-        /* ===== КНОПКА ВОЗВРАТА ===== */
-        .back-section {
+        /* ===== НЕ ВЕРИФИЦИРОВАН ===== */
+        .not-verified-message {
             text-align: center;
-            margin-top: 20px;
-            padding-top: 30px;
-            border-top: 1px solid rgba(201,169,97,0.15);
+            padding: 40px 20px;
+            background: rgba(201,169,97,0.05);
+            border: 2px solid rgba(201,169,97,0.15);
+            border-radius: 16px;
         }
+        .not-verified-message .icon {
+            font-size: 4em;
+            display: block;
+            margin-bottom: 15px;
+            opacity: 0.5;
+        }
+        .not-verified-message h2 {
+            color: #c9a961;
+            margin-bottom: 10px;
+            font-size: 1.8em;
+            letter-spacing: 4px;
+        }
+        .not-verified-message p {
+            color: rgba(201,169,97,0.6);
+            font-size: 1em;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        /* ===== КНОПКИ ===== */
         .btn-3d {
             position: relative;
             display: inline-block;
@@ -298,6 +321,84 @@
             border-color: #c9a961;
         }
 
+        /* ===== МОДАЛЬНОЕ ОКНО ===== */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.85);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            backdrop-filter: blur(8px);
+        }
+        .modal-overlay.active { display: flex; }
+        .modal {
+            background: linear-gradient(135deg, #0a0a2a, #0f0f3a);
+            border: 2px solid #c9a961;
+            border-radius: 20px;
+            padding: 30px;
+            max-width: 600px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(201,169,97,0.3);
+        }
+        .modal h2 {
+            text-align: center;
+            color: #c9a961;
+            letter-spacing: 4px;
+            margin-bottom: 20px;
+        }
+        .modal .form-group { margin-bottom: 16px; }
+        .modal .form-group label {
+            display: block;
+            font-size: 0.75em;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: rgba(201,169,97,0.5);
+            margin-bottom: 6px;
+        }
+        .modal .form-group input,
+        .modal .form-group textarea {
+            width: 100%;
+            padding: 10px 14px;
+            background: rgba(0,0,0,0.4);
+            border: 2px solid rgba(201,169,97,0.15);
+            border-radius: 8px;
+            color: #f4e4d4;
+            font-family: 'Times New Roman', serif;
+            font-size: 1em;
+            transition: all 0.3s;
+        }
+        .modal .form-group input:focus,
+        .modal .form-group textarea:focus {
+            outline: none;
+            border-color: #c9a961;
+            box-shadow: 0 0 15px rgba(201,169,97,0.1);
+        }
+        .modal .form-group textarea { min-height: 80px; resize: vertical; }
+        .modal-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+        .modal-actions .btn-3d {
+            flex: 1;
+            min-width: 120px;
+            padding: 14px 24px;
+        }
+
+        /* ===== КНОПКА ВОЗВРАТА ===== */
+        .back-section {
+            text-align: center;
+            margin-top: 20px;
+            padding-top: 30px;
+            border-top: 1px solid rgba(201,169,97,0.15);
+        }
+
         /* ===== АДАПТИВ ===== */
         @media (max-width: 650px) {
             .container { padding: 25px 16px 30px; border-radius: 18px; }
@@ -309,123 +410,442 @@
             .section-header h2 { font-size: 1.3em; letter-spacing: 3px; }
             .projects-grid { grid-template-columns: 1fr; }
             .btn-3d { width: 100%; text-align: center; }
+            .modal { padding: 20px; }
+            .modal-actions .btn-3d { min-width: 100%; }
+        }
+
+        /* ===== 3D GLASS LANGUAGE TOGGLE BUTTON - RU/EN FORMAT ===== */
+        .lang-toggle {
+            position: fixed;
+            top: 25px;
+            right: 25px;
+            z-index: 1000;
+            perspective: 800px;
+        }
+
+        .lang-btn {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 12px 24px;
+            min-width: 120px;
+            height: 52px;
+            border: none;
+            border-radius: 16px;
+            cursor: pointer;
+            font-family: 'Times New Roman', serif;
+            font-size: 1em;
+            font-weight: bold;
+            letter-spacing: 2px;
+            color: #f5e6a8;
+            text-shadow: 0 0 8px rgba(201, 169, 97, 0.9);
+
+            background: linear-gradient(135deg,
+                rgba(255, 255, 255, 0.15) 0%,
+                rgba(201, 169, 97, 0.10) 40%,
+                rgba(255, 255, 255, 0.05) 100%);
+            backdrop-filter: blur(14px) saturate(180%);
+            -webkit-backdrop-filter: blur(14px) saturate(180%);
+
+            border-top: 1px solid rgba(255, 255, 255, 0.4);
+            border-left: 1px solid rgba(255, 255, 255, 0.25);
+            border-right: 1px solid rgba(0, 0, 0, 0.35);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.5);
+
+            box-shadow:
+                0 10px 25px rgba(0, 0, 0, 0.55),
+                0 0 25px rgba(201, 169, 97, 0.35),
+                inset 0 1px 0 rgba(255, 255, 255, 0.35),
+                inset 0 -2px 6px rgba(0, 0, 0, 0.25);
+
+            transform: rotateX(12deg) rotateY(-6deg) translateZ(0);
+            transform-style: preserve-3d;
+            transition: transform 0.35s ease, box-shadow 0.35s ease, filter 0.35s ease;
+
+            animation: glassGlow 3.5s ease-in-out infinite;
+        }
+
+        @keyframes glassGlow {
+            0%, 100% {
+                box-shadow:
+                    0 10px 25px rgba(0, 0, 0, 0.55),
+                    0 0 25px rgba(201, 169, 97, 0.35),
+                    inset 0 1px 0 rgba(255, 255, 255, 0.35),
+                    inset 0 -2px 6px rgba(0, 0, 0, 0.25);
+            }
+            50% {
+                box-shadow:
+                    0 10px 25px rgba(0, 0, 0, 0.55),
+                    0 0 45px rgba(201, 169, 97, 0.75),
+                    0 0 80px rgba(201, 169, 97, 0.25),
+                    inset 0 1px 0 rgba(255, 255, 255, 0.45),
+                    inset 0 -2px 6px rgba(0, 0, 0, 0.25);
+            }
+        }
+
+        .lang-btn::before {
+            content: '';
+            position: absolute;
+            top: 3px;
+            left: 8%;
+            right: 8%;
+            height: 35%;
+            background: linear-gradient(180deg,
+                rgba(255, 255, 255, 0.55) 0%,
+                rgba(255, 255, 255, 0) 100%);
+            border-radius: 14px 14px 50% 50%;
+            pointer-events: none;
+        }
+
+        .lang-btn:hover {
+            transform: rotateX(6deg) rotateY(-3deg) translateZ(10px) scale(1.05);
+            filter: brightness(1.15);
+        }
+
+        .lang-btn:active {
+            transform: rotateX(14deg) rotateY(-8deg) translateZ(-5px) scale(0.98);
+            box-shadow:
+                0 5px 15px rgba(0, 0, 0, 0.6),
+                0 0 20px rgba(201, 169, 97, 0.4),
+                inset 0 1px 0 rgba(255, 255, 255, 0.25),
+                inset 0 -2px 6px rgba(0, 0, 0, 0.35);
+        }
+
+        .lang-text {
+            font-weight: 900;
+            letter-spacing: 3px;
+        }
+
+        .lang-active {
+            color: #ffd700;
+            text-shadow: 0 0 12px rgba(255, 215, 0, 0.9);
+        }
+
+        .lang-separator {
+            color: rgba(201, 169, 97, 0.5);
+            font-weight: 300;
         }
     </style>
 </head>
 <body>
+
+    <!-- ===== 3D GLASS LANGUAGE TOGGLE - RU/EN ===== -->
+    <div class="lang-toggle">
+        <button class="lang-btn" id="langBtn" type="button" aria-label="Switch language">
+            <span class="lang-text" id="langText">
+                <span class="lang-active">EN</span><span class="lang-separator">/</span><span>RU</span>
+            </span>
+        </button>
+    </div>
 
     <div class="container">
         <!-- ЛОГОТИП И НАЗВАНИЕ -->
         <div class="logo-center">
             <div class="logo-wrapper">
                 <div class="logo-frame"></div>
-                <img src="favicon.ico" alt="РКС">
+                <img src="favicon.ico" alt="RCS">
             </div>
-            <div class="logo-title">РКС</div>
-            <div class="logo-sub">Республика Когнитивного Суверенитета</div>
+            <div class="logo-title">RCS</div>
+            <div class="logo-sub" data-ru="Республика Когнитивного Суверенитета" data-en="Republic of Cognitive Sovereignty">Republic of Cognitive Sovereignty</div>
         </div>
 
         <!-- ОКНО ДЛЯ ФОТО 800x450 -->
         <div class="photo-frame">
-            <img src="rks-portrait.jpg" alt="Эмблема РКС">
+            <img src="rks-portrait.jpg" alt="State Emblem of RCS">
         </div>
-        <div class="photo-caption">Государственная Эмблема РКС</div>
+        <div class="photo-caption" data-ru="Государственная Эмблема РКС" data-en="State Emblem of RCS">State Emblem of RCS</div>
 
-        <!-- ЗАГОЛОВОК СЕКЦИИ -->
-        <div class="section-header">
-            <h2>🚀 Проекты граждан</h2>
-            <p>Платформа для демонстрации инновационных разработок резидентов РКС</p>
-        </div>
-
-        <!-- СЕТКА ПРОЕКТОВ -->
-        <div class="projects-grid">
-
-            <!-- ПРОЕКТ 1: ANCF-HUE -->
-            <div class="project-card">
-                <div class="project-icon">🌐</div>
-                <h3>ANCF-HUE</h3>
-                <p class="project-desc">
-                    Инновационный веб-проект гражданина РКС. Платформа, разработанная с применением передовых технологий для решения актуальных задач цифрового пространства.
-                </p>
-                <div class="project-tech">
-                    <span class="tech-tag">HTML5</span>
-                    <span class="tech-tag">JavaScript</span>
-                    <span class="tech-tag">Web</span>
-                </div>
-                <a href="https://ancf-hue.github.io/" target="_blank" rel="noopener noreferrer" class="project-link">
-                    Открыть проект ↗
-                </a>
-            </div>
-
-            <!-- ПРОЕКТ 2: ЗАГЛУШКА (для примера) -->
-            <div class="project-card">
-                <div class="project-icon">🤖</div>
-                <h3>AI-Верификатор</h3>
-                <p class="project-desc">
-                    Система локальной проверки подлинности цифрового контента с использованием легковесных нейросетей. Работает полностью в браузере без отправки данных на сервер.
-                </p>
-                <div class="project-tech">
-                    <span class="tech-tag">TensorFlow Lite</span>
-                    <span class="tech-tag">WebGL</span>
-                    <span class="tech-tag">AI</span>
-                </div>
-                <a href="#" class="project-link" onclick="alert('Проект в разработке'); return false;">
-                    Скоро ↗
-                </a>
-            </div>
-
-            <!-- КАРТОЧКА "ДОБАВИТЬ ПРОЕКТ" -->
-            <div class="project-card add-project" onclick="alert('Форма добавления проекта будет доступна после верификации гражданина РКС.')">
-                <div class="add-icon">+</div>
-                <h3>Добавить свой проект</h3>
-                <p class="project-desc">
-                    Вы программист, дизайнер или исследователь? Представьте свою разработку сообществу РКС.
-                </p>
-            </div>
-
-        </div>
+        <!-- ===== КОНТЕНТ (динамический) ===== -->
+        <div id="mainContent"></div>
 
         <!-- ===== КНОПКА ВОЗВРАТА НА ГЛАВНУЮ ===== -->
         <div class="back-section">
-            <button class="btn-3d secondary" onclick="goToMainPage()">
-                ← Вернуться к проектам
+            <button class="btn-3d secondary" onclick="goToMainPage()" data-ru="← Вернуться к проектам" data-en="← Back to Main">
+                ← Back to Main
             </button>
         </div>
 
     </div>
 
-    <!-- ===== УНИВЕРСАЛЬНЫЙ JavaScript (РАБОТАЕТ В ЛЮБОЙ ПАПКЕ) ===== -->
+    <!-- ===== МОДАЛЬНОЕ ОКНО ДЛЯ ДОБАВЛЕНИЯ ПРОЕКТА ===== -->
+    <div class="modal-overlay" id="addProjectModal">
+        <div class="modal">
+            <h2 data-ru="Добавить проект" data-en="Add Project">Add Project</h2>
+            <div class="form-group">
+                <label data-ru="Название" data-en="Title">Title</label>
+                <input type="text" id="projectTitle" data-placeholder-ru="Название вашего проекта" data-placeholder-en="Your project title" placeholder="Your project title">
+            </div>
+            <div class="form-group">
+                <label data-ru="Описание" data-en="Description">Description</label>
+                <textarea id="projectDesc" data-placeholder-ru="Опишите ваш проект" data-placeholder-en="Describe your project" placeholder="Describe your project"></textarea>
+            </div>
+            <div class="form-group">
+                <label data-ru="Технологии" data-en="Technologies">Technologies</label>
+                <input type="text" id="projectTech" data-placeholder-ru="React, Python, AI, ..." data-placeholder-en="React, Python, AI, ..." placeholder="React, Python, AI, ...">
+            </div>
+            <div class="form-group">
+                <label data-ru="Ссылка" data-en="Link">Link</label>
+                <input type="text" id="projectLink" placeholder="https://...">
+            </div>
+            <div class="modal-actions">
+                <button class="btn-3d secondary" onclick="closeAddProjectModal()" data-ru="Отмена" data-en="Cancel">Cancel</button>
+                <button class="btn-3d" onclick="saveProject()" data-ru="Опубликовать" data-en="Publish">Publish</button>
+            </div>
+        </div>
+    </div>
+
     <script>
+        // ===== ГЛОБАЛЬНЫЕ ПЕРЕМЕННЫЕ =====
+        let currentLang = 'en';
+        let projects = [];
+
+        // ===== ЗАГРУЗКА ДАННЫХ =====
+        function loadProjects() {
+            try {
+                const saved = localStorage.getItem('rks_projects');
+                if (saved) {
+                    projects = JSON.parse(saved);
+                } else {
+                    // Демо-проекты
+                    const author = JSON.parse(localStorage.getItem('rks_citizen') || '{"fullName":"Citizen"}').fullName || 'Citizen';
+                    projects = [
+                        {
+                            id: 1,
+                            title: 'AI Content Verifier',
+                            desc: 'A local system for verifying the authenticity of digital content using lightweight neural networks. Runs entirely in the browser without sending data to a server.',
+                            tech: ['TensorFlow Lite', 'WebGL', 'AI'],
+                            link: '#',
+                            author: author
+                        },
+                        {
+                            id: 2,
+                            title: 'RCS Chat',
+                            desc: 'Decentralized communication platform for RCS citizens with end-to-end encryption and cognitive security features.',
+                            tech: ['WebRTC', 'Encryption', 'P2P'],
+                            link: '#',
+                            author: 'Petrov P.P.'
+                        }
+                    ];
+                    saveProjects();
+                }
+            } catch (e) {
+                projects = [];
+            }
+        }
+
+        function saveProjects() {
+            try {
+                localStorage.setItem('rks_projects', JSON.stringify(projects));
+            } catch (e) {}
+        }
+
+        // ===== ПРОВЕРКА ПАСПОРТА =====
+        function isVerified() {
+            return localStorage.getItem('rks_verified') === 'true';
+        }
+
+        // ===== ОТОБРАЖЕНИЕ =====
+        function renderProjects() {
+            const container = document.getElementById('mainContent');
+            const verified = isVerified();
+
+            if (!verified) {
+                container.innerHTML = `
+                    <div class="not-verified-message">
+                        <span class="icon">🔒</span>
+                        <h2 data-ru="Требуется верификация" data-en="Verification Required">Verification Required</h2>
+                        <p data-ru="Для просмотра и публикации проектов необходимо пройти верификацию личности в разделе Паспорт." 
+                           data-en="To view and publish projects, you need to verify your identity in the Passport section.">
+                           To view and publish projects, you need to verify your identity in the Passport section.
+                        </p>
+                        <a href="../passport/index.html" class="btn-3d" data-ru="Пройти верификацию" data-en="Go to Passport">Go to Passport</a>
+                    </div>
+                `;
+                return;
+            }
+
+            let html = `
+                <div class="section-header">
+                    <h2 data-ru="🚀 Проекты граждан" data-en="🚀 Citizens' Projects">🚀 Citizens' Projects</h2>
+                    <p data-ru="Платформа для демонстрации инновационных разработок резидентов РКС" 
+                       data-en="A platform for showcasing innovative developments by RCS residents">
+                       A platform for showcasing innovative developments by RCS residents
+                    </p>
+                </div>
+                <div class="projects-grid">
+            `;
+
+            // Карточки проектов
+            projects.forEach(proj => {
+                const techHtml = proj.tech.map(t => `<span class="tech-tag">${t}</span>`).join('');
+                const icon = proj.icon || '🚀';
+                html += `
+                    <div class="project-card">
+                        <div class="project-icon">${icon}</div>
+                        <h3>${proj.title}</h3>
+                        <p class="project-desc">${proj.desc}</p>
+                        <div class="project-tech">${techHtml}</div>
+                        <div style="font-size:0.7em; color:rgba(201,169,97,0.4); margin-bottom:10px; text-align:center;">by ${proj.author}</div>
+                        <a href="${proj.link}" class="project-link" data-ru="Подробнее ↗" data-en="Learn More ↗">Learn More ↗</a>
+                    </div>
+                `;
+            });
+
+            // Карточка "Добавить проект"
+            html += `
+                <div class="project-card add-project" onclick="openAddProjectModal()">
+                    <div class="add-icon">+</div>
+                    <h3 data-ru="Добавить свой проект" data-en="Add Your Project">Add Your Project</h3>
+                    <p class="project-desc" data-ru="Вы программист, дизайнер или исследователь? Представьте свою разработку сообществу РКС."
+                       data-en="Are you a programmer, designer, or researcher? Present your development to the RCS community.">
+                       Are you a programmer, designer, or researcher? Present your development to the RCS community.
+                    </p>
+                </div>
+            `;
+
+            html += `</div>`;
+            container.innerHTML = html;
+        }
+
+        // ===== МОДАЛЬНОЕ ОКНО =====
+        function openAddProjectModal() {
+            if (!isVerified()) {
+                showNotification(
+                    currentLang === 'ru' ? '🔒 Требуется верификация' : '🔒 Verification Required',
+                    currentLang === 'ru' ? 'Пройдите верификацию в разделе Паспорт' : 'Verify your identity in the Passport section'
+                );
+                return;
+            }
+            document.getElementById('addProjectModal').classList.add('active');
+            document.getElementById('projectTitle').value = '';
+            document.getElementById('projectDesc').value = '';
+            document.getElementById('projectTech').value = '';
+            document.getElementById('projectLink').value = '';
+        }
+
+        function closeAddProjectModal() {
+            document.getElementById('addProjectModal').classList.remove('active');
+        }
+
+        function saveProject() {
+            const title = document.getElementById('projectTitle').value.trim();
+            const desc = document.getElementById('projectDesc').value.trim();
+            const techStr = document.getElementById('projectTech').value.trim();
+            const link = document.getElementById('projectLink').value.trim();
+
+            if (!title || !desc) {
+                showNotification(
+                    currentLang === 'ru' ? '❌ Ошибка' : '❌ Error',
+                    currentLang === 'ru' ? 'Заполните название и описание' : 'Fill in title and description'
+                );
+                return;
+            }
+
+            const tech = techStr ? techStr.split(',').map(s => s.trim()).filter(s => s) : [];
+            const author = JSON.parse(localStorage.getItem('rks_citizen') || '{"fullName":"Citizen"}').fullName || 'Citizen';
+
+            projects.push({
+                id: Date.now(),
+                title: title,
+                desc: desc,
+                tech: tech,
+                link: link || '#',
+                author: author,
+                icon: '🚀'
+            });
+
+            saveProjects();
+            renderProjects();
+            closeAddProjectModal();
+            showNotification(
+                currentLang === 'ru' ? '✅ Проект опубликован!' : '✅ Project published!',
+                `${title} ${currentLang === 'ru' ? 'добавлен в каталог проектов' : 'added to the projects catalog'}`
+            );
+        }
+
+        // ===== УВЕДОМЛЕНИЯ =====
+        function showNotification(title, message) {
+            const n = document.createElement('div');
+            n.style.cssText = `
+                position: fixed; top: 85px; right: 20px; padding: 14px 22px;
+                background: rgba(201,169,97,0.95); color: #0a0a0a;
+                border-radius: 12px; box-shadow: 0 5px 30px rgba(0,0,0,0.6);
+                z-index: 2000; max-width: 350px; font-weight: bold;
+                animation: slideIn 0.4s cubic-bezier(0.25,0.46,0.45,0.94);
+            `;
+            n.innerHTML = `<h3 style="margin-bottom:3px; font-size:1em; letter-spacing:2px;">${title}</h3><p style="font-size:0.85em;">${message}</p>`;
+            document.body.appendChild(n);
+            setTimeout(() => { if (n.parentNode) n.remove(); }, 4000);
+        }
+
+        // Добавляем анимацию в head
+        const styleAnim = document.createElement('style');
+        styleAnim.textContent = `
+            @keyframes slideIn {
+                from { transform: translateX(400px); opacity: 0; }
+                to { transform: translateX(0); opacity: 1; }
+            }
+        `;
+        document.head.appendChild(styleAnim);
+
+        // ===== ВОЗВРАТ НА ГЛАВНУЮ =====
         function goToMainPage() {
-            // Получаем текущий URL
             var currentUrl = window.location.href;
-            
-            // Разбиваем URL на части
             var pathParts = currentUrl.split('/');
-            
-            // Удаляем последнюю часть (имя файла)
             pathParts.pop();
-            
-            // Проверяем, не является ли последняя часть подпапкой
             var lastPart = pathParts[pathParts.length - 1];
-            var subfolders = ['constitution', 'passport', 'bank', 'money', 'projects'];
-            
-            // Если мы в одной из подпапок, поднимаемся ещё на уровень выше
+            var subfolders = ['constitution', 'passport', 'bank', 'money', 'projects', 'chat'];
             if (subfolders.includes(lastPart)) {
                 pathParts.pop();
             }
-            
-            // Добавляем index.html
             pathParts.push('index.html');
-            
-            // Собираем URL обратно
-            var mainPageUrl = pathParts.join('/');
-            
-            // Переходим на главную страницу
-            window.location.href = mainPageUrl;
+            window.location.href = pathParts.join('/');
         }
 
-        // Простая анимация появления карточек при загрузке
+        // ===== ЯЗЫК =====
+        function updateLangDisplay() {
+            const langTextEl = document.getElementById('langText');
+            if (currentLang === 'en') {
+                langTextEl.innerHTML = '<span class="lang-active">EN</span><span class="lang-separator">/</span><span>RU</span>';
+            } else {
+                langTextEl.innerHTML = '<span>EN</span><span class="lang-separator">/</span><span class="lang-active">RU</span>';
+            }
+        }
+
+        function applyLang(lang) {
+            currentLang = lang;
+            document.documentElement.setAttribute('lang', lang);
+
+            document.querySelectorAll('[data-ru][data-en]').forEach(el => {
+                el.textContent = el.getAttribute('data-' + lang);
+            });
+            document.querySelectorAll('[data-placeholder-ru][data-placeholder-en]').forEach(el => {
+                el.placeholder = el.getAttribute('data-placeholder-' + lang);
+            });
+
+            const titleEl = document.querySelector('title');
+            if (titleEl) {
+                titleEl.textContent = lang === 'ru' ? 'РКС — Проекты граждан' : 'RCS — Citizens\' Projects';
+            }
+
+            renderProjects();
+            updateLangDisplay();
+
+            try { localStorage.setItem('rks-lang', lang); } catch (e) {}
+        }
+
+        document.getElementById('langBtn').addEventListener('click', () => {
+            applyLang(currentLang === 'en' ? 'ru' : 'en');
+        });
+
+        // Закрытие модалки по клику вне
+        document.getElementById('addProjectModal').addEventListener('click', function(e) {
+            if (e.target === this) closeAddProjectModal();
+        });
+
+        // ===== АНИМАЦИЯ ПОЯВЛЕНИЯ КАРТОЧЕК =====
         document.addEventListener('DOMContentLoaded', () => {
             const cards = document.querySelectorAll('.project-card');
             cards.forEach((card, index) => {
@@ -438,7 +858,17 @@
                 }, 150 * index);
             });
         });
-    </script>
 
+        // ===== ЗАПУСК =====
+        try {
+            const savedLang = localStorage.getItem('rks-lang');
+            if (savedLang === 'ru' || savedLang === 'en') {
+                currentLang = savedLang;
+            }
+        } catch (e) {}
+
+        loadProjects();
+        applyLang(currentLang);
+    </script>
 </body>
 </html>
