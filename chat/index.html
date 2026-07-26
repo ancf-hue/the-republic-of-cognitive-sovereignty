@@ -1,13 +1,14 @@
+
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>РКС — Диалог</title>
+    <title>RCS — Dialogue</title>
     <link rel="icon" href="favicon.ico" type="image/x-icon">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        
+
         body {
             font-family: 'Times New Roman', serif;
             background: linear-gradient(135deg, #0a0a0a 0%, #0a0a2a 40%, #0f0f3a 100%);
@@ -16,706 +17,283 @@
             overflow: hidden;
         }
 
+        /* ===== 3D GLASS LANGUAGE TOGGLE BUTTON ===== */
+        .lang-toggle {
+            position: fixed; top: 25px; right: 25px; z-index: 2000; perspective: 800px;
+        }
+        .lang-btn {
+            position: relative; display: flex; align-items: center; justify-content: center; gap: 10px;
+            padding: 12px 24px; min-width: 120px; height: 52px; border: none; border-radius: 16px;
+            cursor: pointer; font-family: 'Times New Roman', serif; font-size: 1em; font-weight: bold;
+            letter-spacing: 2px; color: #f5e6a8; text-shadow: 0 0 8px rgba(201, 169, 97, 0.9);
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.15) 0%, rgba(201, 169, 97, 0.10) 40%, rgba(255, 255, 255, 0.05) 100%);
+            backdrop-filter: blur(14px) saturate(180%); -webkit-backdrop-filter: blur(14px) saturate(180%);
+            border-top: 1px solid rgba(255, 255, 255, 0.4); border-left: 1px solid rgba(255, 255, 255, 0.25);
+            border-right: 1px solid rgba(0, 0, 0, 0.35); border-bottom: 1px solid rgba(0, 0, 0, 0.5);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.55), 0 0 25px rgba(201, 169, 97, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.35), inset 0 -2px 6px rgba(0, 0, 0, 0.25);
+            transform: rotateX(12deg) rotateY(-6deg) translateZ(0); transform-style: preserve-3d;
+            transition: transform 0.35s ease, box-shadow 0.35s ease, filter 0.35s ease;
+            animation: glassGlow 3.5s ease-in-out infinite;
+        }
+        @keyframes glassGlow {
+            0%, 100% { box-shadow: 0 10px 25px rgba(0, 0, 0, 0.55), 0 0 25px rgba(201, 169, 97, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.35), inset 0 -2px 6px rgba(0, 0, 0, 0.25); }
+            50% { box-shadow: 0 10px 25px rgba(0, 0, 0, 0.55), 0 0 45px rgba(201, 169, 97, 0.75), 0 0 80px rgba(201, 169, 97, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.45), inset 0 -2px 6px rgba(0, 0, 0, 0.25); }
+        }
+        .lang-btn::before {
+            content: ''; position: absolute; top: 3px; left: 8%; right: 8%; height: 35%;
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.55) 0%, rgba(255, 255, 255, 0) 100%);
+            border-radius: 14px 14px 50% 50%; pointer-events: none;
+        }
+        .lang-btn:hover { transform: rotateX(6deg) rotateY(-3deg) translateZ(10px) scale(1.05); filter: brightness(1.15); }
+        .lang-btn:active {
+            transform: rotateX(14deg) rotateY(-8deg) translateZ(-5px) scale(0.98);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.6), 0 0 20px rgba(201, 169, 97, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.25), inset 0 -2px 6px rgba(0, 0, 0, 0.35);
+        }
+        .lang-text { font-weight: 900; letter-spacing: 3px; }
+        .lang-active { color: #ffd700; text-shadow: 0 0 12px rgba(255, 215, 0, 0.9); }
+        .lang-separator { color: rgba(201, 169, 97, 0.5); font-weight: 300; }
+
         /* ===== ШАПКА ===== */
         .top-header {
-            height: 70px;
-            background: rgba(10, 10, 20, 0.95);
-            border-bottom: 2px solid rgba(201, 169, 97, 0.2);
-            display: flex;
-            align-items: center;
-            padding: 0 20px;
-            gap: 15px;
-            position: relative;
-            z-index: 100;
+            height: 70px; background: rgba(10, 10, 20, 0.9); border-bottom: 1px solid rgba(201, 169, 97, 0.2);
+            display: flex; align-items: center; padding: 0 25px; gap: 20px; flex-shrink: 0;
+            backdrop-filter: blur(10px);
         }
-        
-        .back-to-main {
-            color: #c9a961;
-            text-decoration: none;
-            font-size: 1.5em;
-            padding: 8px 12px;
-            border-radius: 10px;
-            transition: all 0.3s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border: 1px solid rgba(201, 169, 97, 0.2);
+        .top-header .back-to-main {
+            font-size: 1.5em; color: rgba(201,169,97,0.5); text-decoration: none; transition: all 0.3s;
+            padding: 8px; border-radius: 8px;
         }
-        .back-to-main:hover {
-            background: rgba(201, 169, 97, 0.15);
-            border-color: #c9a961;
-            transform: scale(1.1);
-        }
-
+        .top-header .back-to-main:hover { color: #c9a961; background: rgba(201,169,97,0.1); }
         .top-header .logo-mini {
-            width: 45px; height: 45px;
-            position: relative;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            position: relative; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center;
         }
-        .top-header .logo-mini img {
-            width: 35px; height: 35px;
-            z-index: 2;
-            filter: drop-shadow(0 0 8px rgba(255,255,255,0.3));
-        }
+        .top-header .logo-mini img { width: 28px; height: 28px; z-index: 2; position: relative; }
         .top-header .logo-mini-frame {
-            position: absolute;
-            width: 45px; height: 45px;
-            border: 2px solid transparent;
-            border-radius: 10px;
+            position: absolute; width: 40px; height: 40px; border: 2px solid transparent; border-radius: 10px;
             animation: rotateFrame 8s linear infinite, rainbowGlow 4s ease-in-out infinite;
         }
         @keyframes rotateFrame { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
         @keyframes rainbowGlow {
-            0%, 100% { border-color: #ff0000; box-shadow: 0 0 15px rgba(255,0,0,0.5); }
+            0% { border-color: #ff0000; box-shadow: 0 0 15px rgba(255,0,0,0.5); }
             20% { border-color: #ffff00; box-shadow: 0 0 15px rgba(255,255,0,0.5); }
             40% { border-color: #00ff00; box-shadow: 0 0 15px rgba(0,255,0,0.5); }
             60% { border-color: #00ffff; box-shadow: 0 0 15px rgba(0,255,255,0.5); }
             80% { border-color: #ff00ff; box-shadow: 0 0 15px rgba(255,0,255,0.5); }
         }
-        .top-header .title {
-            font-size: 1.2em;
-            letter-spacing: 4px;
-            text-transform: uppercase;
-            color: #c9a961;
-            text-shadow: 0 0 15px rgba(201,169,97,0.3);
-        }
-        .top-header .search-box {
-            margin-left: auto;
-            position: relative;
-        }
+        .top-header .title { font-size: 1.2em; letter-spacing: 4px; text-transform: uppercase; color: #c9a961; text-shadow: 0 0 15px rgba(201,169,97,0.3); }
+        .top-header .search-box { margin-left: auto; position: relative; }
         .top-header .search-box input {
-            width: 250px;
-            padding: 8px 15px 8px 35px;
-            background: rgba(0,0,0,0.4);
-            border: 1px solid rgba(201,169,97,0.2);
-            border-radius: 20px;
-            color: #c9a961;
-            font-family: inherit;
-            font-size: 0.9em;
-            outline: none;
-            transition: all 0.3s;
+            width: 250px; padding: 8px 15px 8px 35px; background: rgba(0,0,0,0.4); border: 1px solid rgba(201,169,97,0.2); border-radius: 20px;
+            color: #c9a961; font-family: inherit; font-size: 0.9em; outline: none; transition: all 0.3s;
         }
-        .top-header .search-box input:focus {
-            border-color: #c9a961;
-            width: 300px;
-            box-shadow: 0 0 15px rgba(201,169,97,0.2);
-        }
-        .top-header .search-box::before {
-            content: '🔍';
-            position: absolute;
-            left: 12px;
-            top: 50%;
-            transform: translateY(-50%);
-            font-size: 0.9em;
-            opacity: 0.5;
-        }
+        .top-header .search-box input:focus { border-color: #c9a961; width: 300px; box-shadow: 0 0 15px rgba(201,169,97,0.2); }
+        .top-header .search-box:before { content: '🔍'; position: absolute; left: 12px; top: 50%; transform: translateY(-50%); font-size: 0.9em; opacity: 0.5; }
+
         .user-badge {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 6px 14px;
-            background: rgba(201,169,97,0.08);
-            border: 1px solid rgba(201,169,97,0.2);
-            border-radius: 20px;
-            cursor: pointer;
-            transition: all 0.3s;
+            display: flex; align-items: center; gap: 10px; padding: 6px 14px;
+            background: rgba(201,169,97,0.08); border: 1px solid rgba(201,169,97,0.2); border-radius: 20px;
+            cursor: pointer; transition: all 0.3s;
         }
-        .user-badge:hover {
-            background: rgba(201,169,97,0.15);
-            border-color: #c9a961;
-        }
+        .user-badge:hover { background: rgba(201,169,97,0.15); border-color: #c9a961; }
         .user-avatar {
-            width: 32px; height: 32px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #c9a961, #8a7a4a);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #0a0a0a;
-            font-weight: bold;
-            font-size: 0.9em;
+            width: 32px; height: 32px; border-radius: 50%; background: linear-gradient(135deg, #c9a961, #8a7a4a);
+            display: flex; align-items: center; justify-content: center; color: #0a0a0a; font-weight: bold; font-size: 0.9em;
         }
-        .user-name {
-            color: #f4e4d4;
-            font-size: 0.9em;
-            letter-spacing: 1px;
-        }
-        .logout-btn {
-            background: none;
-            border: none;
-            color: rgba(201,169,97,0.5);
-            cursor: pointer;
-            font-size: 1em;
-            padding: 4px 8px;
-            transition: color 0.3s;
-        }
+        .user-name { color: #f4e4d4; font-size: 0.9em; letter-spacing: 1px; }
+        .logout-btn { background: none; border: none; color: rgba(201,169,97,0.5); cursor: pointer; font-size: 1em; padding: 4px 8px; transition: color 0.3s; }
         .logout-btn:hover { color: #dc3545; }
 
-        /* ===== ОСНОВНОЙ LAYOUT ===== */
-        .main-layout {
-            display: flex;
-            height: calc(100vh - 70px);
-        }
+        /* ===== ОСНОВНОЙ ЛАЙОТ ===== */
+        .main-layout { display: flex; height: calc(100vh - 70px); }
 
         /* ===== ЛЕВАЯ ПАНЕЛЬ: КАНАЛЫ ===== */
         .sidebar-left {
-            width: 260px;
-            background: rgba(10, 10, 20, 0.7);
-            border-right: 1px solid rgba(201, 169, 97, 0.15);
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
+            width: 260px; background: rgba(10, 10, 20, 0.7); border-right: 1px solid rgba(201, 169, 97, 0.15);
+            display: flex; flex-direction: column; overflow: hidden;
         }
-        .sidebar-header {
-            padding: 15px 20px;
-            border-bottom: 1px solid rgba(201, 169, 97, 0.1);
-            font-size: 0.85em;
-            letter-spacing: 3px;
-            text-transform: uppercase;
-            color: rgba(201,169,97,0.6);
-        }
-        .channels-list {
-            flex: 1;
-            overflow-y: auto;
-            padding: 10px;
-        }
+        .sidebar-header { padding: 15px 20px; border-bottom: 1px solid rgba(201, 169, 97, 0.1); font-size: 0.85em; letter-spacing: 3px; text-transform: uppercase; color: rgba(201,169,97,0.6); }
+        .channels-list { flex: 1; overflow-y: auto; padding: 10px; }
         .channels-list::-webkit-scrollbar { width: 4px; }
         .channels-list::-webkit-scrollbar-thumb { background: rgba(201,169,97,0.2); border-radius: 4px; }
-        
         .channel-item {
-            padding: 12px 15px;
-            margin-bottom: 4px;
-            border-radius: 8px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            transition: all 0.2s;
-            border: 1px solid transparent;
-            position: relative;
+            padding: 12px 15px; margin-bottom: 4px; border-radius: 8px; cursor: pointer;
+            display: flex; align-items: center; gap: 10px; transition: all 0.2s; border: 1px solid transparent;
         }
-        .channel-item:hover {
-            background: rgba(201,169,97,0.05);
-            border-color: rgba(201,169,97,0.15);
-        }
-        .channel-item.active {
-            background: rgba(201,169,97,0.12);
-            border-color: rgba(201,169,97,0.4);
-            box-shadow: 0 0 15px rgba(201,169,97,0.1);
-        }
+        .channel-item:hover { background: rgba(201,169,97,0.05); border-color: rgba(201,169,97,0.15); }
+        .channel-item.active { background: rgba(201,169,97,0.12); border-color: rgba(201,169,97,0.4); box-shadow: 0 0 15px rgba(201,169,97,0.1); }
         .channel-icon { font-size: 1.3em; }
-        .channel-name {
-            flex: 1;
-            color: rgba(244,228,212,0.8);
-            font-size: 0.95em;
-            letter-spacing: 1px;
-        }
+        .channel-name { flex: 1; color: rgba(244,228,212,0.8); font-size: 0.95em; letter-spacing: 1px; }
         .channel-item.active .channel-name { color: #f4e4d4; font-weight: bold; }
-        .channel-badge {
-            background: #c9a961;
-            color: #0a0a0a;
-            font-size: 0.7em;
-            font-weight: bold;
-            padding: 2px 7px;
-            border-radius: 10px;
-            min-width: 20px;
-            text-align: center;
-        }
+        .channel-badge { background: #c9a961; color: #0a0a0a; font-size: 0.7em; font-weight: bold; padding: 2px 7px; border-radius: 10px; min-width: 20px; text-align: center; }
 
         /* ===== ЦЕНТР: ЧАТ ===== */
         .chat-main {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            background: rgba(15, 15, 30, 0.4);
-            overflow: hidden;
+            flex: 1; display: flex; flex-direction: column; background: rgba(15, 15, 30, 0.4); overflow: hidden;
         }
         .chat-header {
-            padding: 15px 25px;
-            border-bottom: 1px solid rgba(201,169,97,0.15);
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            background: rgba(10,10,20,0.5);
+            padding: 15px 25px; border-bottom: 1px solid rgba(201,169,97,0.15); display: flex; align-items: center; gap: 15px;
+            background: rgba(10,10,20,0.5); flex-shrink: 0;
         }
-        .chat-header .channel-title {
-            font-size: 1.2em;
-            letter-spacing: 3px;
-            color: #f4e4d4;
-        }
-        .chat-header .channel-desc {
-            font-size: 0.8em;
-            color: rgba(201,169,97,0.5);
-            letter-spacing: 1px;
-        }
-        .chat-header .members-count {
-            margin-left: auto;
-            font-size: 0.8em;
-            color: rgba(201,169,97,0.6);
-            letter-spacing: 2px;
-        }
+        .chat-header .channel-title { font-size: 1.2em; letter-spacing: 3px; color: #f4e4d4; }
+        .chat-header .channel-desc { font-size: 0.8em; color: rgba(201,169,97,0.5); letter-spacing: 1px; }
+        .chat-header .members-count { margin-left: auto; font-size: 0.8em; color: rgba(201,169,97,0.6); letter-spacing: 2px; }
 
         .messages-area {
-            flex: 1;
-            overflow-y: auto;
-            padding: 20px 25px;
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
+            flex: 1; overflow-y: auto; padding: 20px 25px; display: flex; flex-direction: column; gap: 15px;
         }
         .messages-area::-webkit-scrollbar { width: 6px; }
         .messages-area::-webkit-scrollbar-thumb { background: rgba(201,169,97,0.2); border-radius: 4px; }
 
         .message {
-            display: flex;
-            gap: 12px;
-            padding: 10px 15px;
-            border-radius: 10px;
-            transition: background 0.2s;
+            display: flex; gap: 12px; padding: 10px 15px; border-radius: 10px; transition: background 0.2s;
             animation: messageIn 0.3s ease;
         }
-        @keyframes messageIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+        @keyframes messageIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         .message:hover { background: rgba(201,169,97,0.03); }
         .message-avatar {
-            width: 42px; height: 42px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #c9a961, #8a7a4a);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #0a0a0a;
-            font-weight: bold;
-            flex-shrink: 0;
-            box-shadow: 0 0 10px rgba(201,169,97,0.2);
+            width: 42px; height: 42px; border-radius: 50%; background: linear-gradient(135deg, #c9a961, #8a7a4a);
+            display: flex; align-items: center; justify-content: center; color: #0a0a0a; font-weight: bold; font-size: 1em; flex-shrink: 0;
         }
-        .message-body { flex: 1; min-width: 0; }
-        .message-header {
-            display: flex;
-            align-items: baseline;
-            gap: 10px;
-            margin-bottom: 4px;
-        }
-        .message-author {
-            color: #f4e4d4;
-            font-weight: bold;
-            font-size: 0.95em;
-            letter-spacing: 1px;
-        }
-        .message-time {
-            color: rgba(201,169,97,0.4);
-            font-size: 0.75em;
-            letter-spacing: 1px;
-        }
-        .message-text {
-            color: rgba(244,228,212,0.85);
-            font-size: 0.95em;
-            line-height: 1.5;
-            word-wrap: break-word;
-        }
-        .message-reactions {
-            display: flex;
-            gap: 6px;
-            margin-top: 8px;
-            flex-wrap: wrap;
-        }
+        .message-body { flex: 1; }
+        .message-header { display: flex; gap: 12px; align-items: center; margin-bottom: 4px; flex-wrap: wrap; }
+        .message-author { color: #f4e4d4; font-weight: bold; font-size: 0.95em; }
+        .message-time { color: rgba(201,169,97,0.4); font-size: 0.75em; }
+        .message-text { color: rgba(244, 228, 212, 0.85); line-height: 1.5; word-wrap: break-word; }
+        .message-reactions { display: flex; gap: 6px; margin-top: 6px; flex-wrap: wrap; }
         .reaction {
-            padding: 3px 10px;
-            background: rgba(201,169,97,0.08);
-            border: 1px solid rgba(201,169,97,0.2);
-            border-radius: 15px;
-            font-size: 0.8em;
-            cursor: pointer;
-            transition: all 0.2s;
-            display: flex;
-            align-items: center;
-            gap: 4px;
+            background: rgba(201,169,97,0.1); border: 1px solid rgba(201,169,97,0.15); border-radius: 12px;
+            padding: 2px 8px; font-size: 0.85em; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; gap: 4px;
         }
-        .reaction:hover {
-            background: rgba(201,169,97,0.15);
-            border-color: #c9a961;
-        }
-        .reaction.active {
-            background: rgba(201,169,97,0.2);
-            border-color: #c9a961;
-        }
-        .reaction-count { color: #c9a961; font-weight: bold; }
+        .reaction:hover { background: rgba(201,169,97,0.2); border-color: #c9a961; }
+        .reaction-count { color: rgba(201,169,97,0.5); font-size: 0.8em; }
 
-        /* ===== ПОЛЕ ВВОДА ===== */
-        .input-area {
-            padding: 15px 25px;
-            border-top: 1px solid rgba(201,169,97,0.15);
-            background: rgba(10,10,20,0.5);
-        }
-        .input-wrapper {
-            display: flex;
-            gap: 10px;
-            align-items: flex-end;
-            background: rgba(0,0,0,0.4);
-            border: 1px solid rgba(201,169,97,0.2);
-            border-radius: 12px;
-            padding: 10px 15px;
-            transition: all 0.3s;
-        }
-        .input-wrapper:focus-within {
-            border-color: #c9a961;
-            box-shadow: 0 0 15px rgba(201,169,97,0.15);
-        }
+        .system-message { text-align: center; color: rgba(201,169,97,0.5); font-size: 0.85em; font-style: italic; padding: 10px; letter-spacing: 2px; }
+        .system-message .highlight { color: #c9a961; font-weight: bold; }
+
+        .input-area { padding: 15px 25px; border-top: 1px solid rgba(201,169,97,0.15); background: rgba(10,10,20,0.5); flex-shrink: 0; position: relative; }
+        .input-wrapper { display: flex; gap: 10px; align-items: flex-end; background: rgba(0,0,0,0.4); border: 1px solid rgba(201,169,97,0.2); border-radius: 12px; padding: 10px 15px; transition: all 0.3s; }
+        .input-wrapper:focus-within { border-color: #c9a961; box-shadow: 0 0 15px rgba(201,169,97,0.15); }
         .input-wrapper textarea {
-            flex: 1;
-            background: transparent;
-            border: none;
-            color: #f4e4d4;
-            font-family: inherit;
-            font-size: 1em;
-            resize: none;
-            outline: none;
-            max-height: 120px;
-            line-height: 1.5;
+            flex: 1; background: transparent; border: none; color: #f4e4d4; font-family: inherit; font-size: 1em;
+            resize: none; outline: none; max-height: 120px; line-height: 1.5;
         }
         .input-wrapper textarea::placeholder { color: rgba(201,169,97,0.3); }
         .emoji-btn, .send-btn {
-            background: none;
-            border: none;
-            cursor: pointer;
-            font-size: 1.3em;
-            padding: 4px 8px;
-            transition: transform 0.2s;
+            background: none; border: none; cursor: pointer; font-size: 1.3em; padding: 4px 8px; transition: transform 0.2s;
         }
         .emoji-btn:hover { transform: scale(1.2); }
         .send-btn {
-            background: linear-gradient(135deg, #c9a961, #8a7a4a);
-            color: #0a0a0a;
-            border-radius: 8px;
-            font-weight: bold;
-            padding: 8px 16px;
-            font-size: 0.9em;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            box-shadow: 0 4px 15px rgba(201,169,97,0.3);
-            transition: all 0.3s;
+            background: linear-gradient(135deg, #c9a961, #8a7a4a); color: #0a0a0a; border-radius: 8px;
+            font-weight: bold; padding: 8px 16px; font-size: 0.9em; letter-spacing: 2px; text-transform: uppercase;
+            box-shadow: 0 4px 15px rgba(201,169,97,0.3); transition: all 0.3s;
         }
-        .send-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(201,169,97,0.5);
-        }
-
-        /* ===== БОЛЬШАЯ ЗОЛОТАЯ КНОПКА ВОЗВРАТА ===== */
-        .back-projects-btn {
-            display: block;
-            width: 80%;
-            max-width: 420px;
-            margin: 30px auto 10px;
-            padding: 18px 30px;
-            background: linear-gradient(135deg, #c9a961 0%, #a8894a 50%, #8a7a4a 100%);
-            color: #0a0a0a;
-            text-decoration: none;
-            text-align: center;
-            font-family: 'Times New Roman', serif;
-            font-size: 1.05em;
-            font-weight: bold;
-            letter-spacing: 4px;
-            text-transform: uppercase;
-            border-radius: 12px;
-            border: none;
-            box-shadow: 
-                0 8px 25px rgba(201, 169, 97, 0.35),
-                0 0 40px rgba(201, 169, 97, 0.15),
-                inset 0 1px 0 rgba(255,255,255,0.2);
-            transition: all 0.3s ease;
-            cursor: pointer;
-        }
-        .back-projects-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 
-                0 12px 35px rgba(201, 169, 97, 0.5),
-                0 0 50px rgba(201, 169, 97, 0.25),
-                inset 0 1px 0 rgba(255,255,255,0.3);
-            background: linear-gradient(135deg, #d4b574 0%, #b8995a 50%, #9a8a5a 100%);
-        }
-        .back-projects-btn:active {
-            transform: translateY(-1px);
-        }
-
-        /* ===== ПРАВАЯ ПАНЕЛЬ: УЧАСТНИКИ ===== */
-        .sidebar-right {
-            width: 240px;
-            background: rgba(10, 10, 20, 0.7);
-            border-left: 1px solid rgba(201, 169, 97, 0.15);
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-        }
-        .members-header {
-            padding: 15px 20px;
-            border-bottom: 1px solid rgba(201, 169, 97, 0.1);
-            font-size: 0.85em;
-            letter-spacing: 3px;
-            text-transform: uppercase;
-            color: rgba(201,169,97,0.6);
-        }
-        .members-list {
-            flex: 1;
-            overflow-y: auto;
-            padding: 10px;
-        }
-        .members-list::-webkit-scrollbar { width: 4px; }
-        .members-list::-webkit-scrollbar-thumb { background: rgba(201,169,97,0.2); border-radius: 4px; }
-        
-        .member-item {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 8px 12px;
-            border-radius: 8px;
-            transition: background 0.2s;
-        }
-        .member-item:hover { background: rgba(201,169,97,0.05); }
-        .member-avatar {
-            width: 32px; height: 32px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #c9a961, #8a7a4a);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #0a0a0a;
-            font-weight: bold;
-            font-size: 0.8em;
-            position: relative;
-        }
-        .member-avatar::after {
-            content: '';
-            position: absolute;
-            bottom: 0; right: 0;
-            width: 10px; height: 10px;
-            background: #28a745;
-            border: 2px solid #0a0a0a;
-            border-radius: 50%;
-        }
-        .member-avatar.offline::after { background: #6c757d; }
-        .member-name {
-            color: rgba(244,228,212,0.8);
-            font-size: 0.9em;
-            letter-spacing: 1px;
-        }
-        .member-role {
-            font-size: 0.7em;
-            color: rgba(201,169,97,0.5);
-            letter-spacing: 1px;
-        }
+        .send-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(201,169,97,0.5); }
 
         /* ===== ЭМОДЗИ-ПАНЕЛЬ ===== */
         .emoji-panel {
-            position: absolute;
-            bottom: 80px;
-            left: 25px;
-            background: rgba(10,10,20,0.98);
-            border: 1px solid rgba(201,169,97,0.3);
-            border-radius: 12px;
-            padding: 10px;
-            display: none;
-            grid-template-columns: repeat(8, 1fr);
-            gap: 5px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.8);
-            z-index: 50;
+            position: absolute; bottom: 80px; left: 25px; background: rgba(10,10,20,0.98); border: 1px solid rgba(201,169,97,0.3);
+            border-radius: 12px; padding: 10px; display: none; grid-template-columns: repeat(8, 1fr); gap: 5px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.8); z-index: 50;
         }
         .emoji-panel.active { display: grid; }
-        .emoji-option {
-            font-size: 1.5em;
-            padding: 5px;
-            cursor: pointer;
-            border-radius: 6px;
-            text-align: center;
-            transition: all 0.2s;
+        .emoji-option { font-size: 1.5em; padding: 5px; cursor: pointer; border-radius: 6px; text-align: center; transition: all 0.2s; }
+        .emoji-option:hover { background: rgba(201,169,97,0.15); transform: scale(1.2); }
+
+        /* ===== ПРАВАЯ ПАНЕЛЬ: УЧАСТНИКИ ===== */
+        .sidebar-right {
+            width: 240px; background: rgba(10, 10, 20, 0.7); border-left: 1px solid rgba(201, 169, 97, 0.15);
+            display: flex; flex-direction: column; overflow: hidden;
         }
-        .emoji-option:hover {
-            background: rgba(201,169,97,0.15);
-            transform: scale(1.2);
+        .members-header { padding: 15px 20px; border-bottom: 1px solid rgba(201, 169, 97, 0.1); font-size: 0.85em; letter-spacing: 3px; text-transform: uppercase; color: rgba(201,169,97,0.6); }
+        .members-list { flex: 1; overflow-y: auto; padding: 10px; }
+        .members-list::-webkit-scrollbar { width: 4px; }
+        .members-list::-webkit-scrollbar-thumb { background: rgba(201,169,97,0.2); border-radius: 4px; }
+        .member-item { display: flex; align-items: center; gap: 10px; padding: 8px 12px; border-radius: 8px; transition: background 0.2s; }
+        .member-item:hover { background: rgba(201,169,97,0.05); }
+        .member-avatar {
+            width: 32px; height: 32px; border-radius: 50%; background: linear-gradient(135deg, #c9a961, #8a7a4a);
+            display: flex; align-items: center; justify-content: center; color: #0a0a0a; font-weight: bold; font-size: 0.8em;
+            position: relative; flex-shrink: 0;
         }
+        .member-avatar::after {
+            content: ''; position: absolute; bottom: 0; right: 0; width: 10px; height: 10px;
+            background: #28a745; border: 2px solid #0a0a0a; border-radius: 50%;
+        }
+        .member-avatar.offline::after { background: #6c757d; }
+        .member-name { color: rgba(244,228,212,0.8); font-size: 0.9em; letter-spacing: 1px; }
+        .member-role { font-size: 0.7em; color: rgba(201,169,97,0.5); letter-spacing: 1px; }
+
+        /* ===== БОЛЬШАЯ ЗОЛОТАЯ КНОПКА ВОЗВРАТА ===== */
+        .back-projects-btn {
+            display: block; width: 80%; max-width: 420px; margin: 20px auto 10px; padding: 18px 30px;
+            background: linear-gradient(135deg, #c9a961 0%, #a8894a 50%, #8a7a4a 100%);
+            color: #0a0a0a; text-decoration: none; text-align: center;
+            font-family: 'Times New Roman', serif; font-size: 1.05em; font-weight: bold;
+            letter-spacing: 4px; text-transform: uppercase; border-radius: 12px; border: none;
+            box-shadow: 0 8px 25px rgba(201, 169, 97, 0.35), 0 0 40px rgba(201, 169, 97, 0.15), inset 0 1px 0 rgba(255,255,255,0.2);
+            transition: all 0.3s ease; cursor: pointer;
+        }
+        .back-projects-btn:hover { transform: translateY(-3px); box-shadow: 0 12px 35px rgba(201, 169, 97, 0.5), 0 0 50px rgba(201, 169, 97, 0.25), inset 0 1px 0 rgba(255,255,255,0.3); background: linear-gradient(135deg, #d4b574 0%, #b8995a 50%, #9a8a5a 100%); }
+        .back-projects-btn:active { transform: translateY(-1px); }
 
         /* ===== МОДАЛЬНОЕ ОКНО ВХОДА ===== */
         .modal-overlay {
-            position: fixed;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(0,0,0,0.85);
-            backdrop-filter: blur(10px);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 1000;
-            overflow-y: auto;
-            padding: 20px;
+            position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.85); backdrop-filter: blur(10px);
+            display: flex; align-items: center; justify-content: center; z-index: 1000; overflow-y: auto; padding: 20px;
         }
         .modal-overlay.hidden { display: none; }
         .modal {
             background: linear-gradient(135deg, rgba(20,20,40,0.98), rgba(10,10,30,0.98));
-            border: 2px solid rgba(201,169,97,0.3);
-            border-radius: 20px;
-            padding: 30px 40px 40px;
-            width: 90%;
-            max-width: 480px;
-            box-shadow: 0 30px 80px rgba(0,0,0,0.8);
-            position: relative;
-            max-height: 95vh;
-            overflow-y: auto;
+            border: 2px solid rgba(201,169,97,0.3); border-radius: 20px; padding: 30px 40px 40px;
+            width: 90%; max-width: 480px; box-shadow: 0 30px 80px rgba(0,0,0,0.8); position: relative; max-height: 95vh; overflow-y: auto;
         }
-        .modal-wide {
-            max-width: 900px;
-            padding: 20px 30px 30px;
+        .modal-wide { max-width: 900px; padding: 20px 30px 30px; }
+        .modal:before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+            background: linear-gradient(90deg, #c9a961, #f4e4d4, #c9a961); border-radius: 20px 20px 0 0;
         }
-        .modal::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0;
-            height: 3px;
-            background: linear-gradient(90deg, #c9a961, #f4e4d4, #c9a961);
-            border-radius: 20px 20px 0 0;
-        }
-        .modal h2 {
-            text-align: center;
-            color: #c9a961;
-            font-size: 1.5em;
-            letter-spacing: 5px;
-            text-transform: uppercase;
-            margin-bottom: 8px;
-        }
-        .modal .subtitle {
-            text-align: center;
-            color: rgba(201,169,97,0.5);
-            font-size: 0.85em;
-            letter-spacing: 3px;
-            margin-bottom: 25px;
-        }
+        .modal h2 { text-align: center; color: #c9a961; font-size: 1.5em; letter-spacing: 5px; text-transform: uppercase; margin-bottom: 8px; }
+        .modal .subtitle { text-align: center; color: rgba(201,169,97,0.5); font-size: 0.85em; letter-spacing: 3px; margin-bottom: 25px; }
         .modal .form-group { margin-bottom: 18px; }
-        .modal label {
-            display: block;
-            font-size: 0.75em;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            color: rgba(201,169,97,0.5);
-            margin-bottom: 6px;
-        }
-        .modal input {
-            width: 100%;
-            padding: 12px 16px;
-            background: rgba(0,0,0,0.4);
-            border: 1px solid rgba(201,169,97,0.2);
-            border-radius: 8px;
-            color: #f4e4d4;
-            font-family: inherit;
-            font-size: 1em;
-            outline: none;
-            transition: all 0.3s;
-        }
-        .modal input:focus {
-            border-color: #c9a961;
-            box-shadow: 0 0 15px rgba(201,169,97,0.15);
-        }
+        .modal label { display: block; font-size: 0.75em; letter-spacing: 2px; text-transform: uppercase; color: rgba(201,169,97,0.5); margin-bottom: 6px; }
+        .modal input { width: 100%; padding: 12px 16px; background: rgba(0,0,0,0.4); border: 1px solid rgba(201,169,97,0.2); border-radius: 8px; color: #f4e4d4; font-family: inherit; font-size: 1em; outline: none; transition: all 0.3s; }
+        .modal input:focus { border-color: #c9a961; box-shadow: 0 0 15px rgba(201,169,97,0.15); }
         .modal-btn {
-            width: 100%;
-            padding: 14px;
-            background: linear-gradient(135deg, #c9a961, #8a7a4a);
-            color: #0a0a0a;
-            border: none;
-            border-radius: 10px;
-            font-family: inherit;
-            font-size: 1em;
-            font-weight: bold;
-            letter-spacing: 4px;
-            text-transform: uppercase;
-            cursor: pointer;
-            transition: all 0.3s;
-            box-shadow: 0 6px 20px rgba(201,169,97,0.3);
-            margin-top: 10px;
+            width: 100%; padding: 14px; background: linear-gradient(135deg, #c9a961, #8a7a4a); color: #0a0a0a;
+            border: none; border-radius: 10px; font-family: inherit; font-size: 1em; font-weight: bold;
+            letter-spacing: 4px; text-transform: uppercase; cursor: pointer; transition: all 0.3s;
+            box-shadow: 0 6px 20px rgba(201,169,97,0.3); margin-top: 10px;
         }
-        .modal-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 30px rgba(201,169,97,0.5);
-        }
-        .modal-switch {
-            text-align: center;
-            margin-top: 20px;
-            font-size: 0.85em;
-            color: rgba(201,169,97,0.5);
-        }
-        .modal-switch a {
-            color: #c9a961;
-            cursor: pointer;
-            text-decoration: underline;
-        }
+        .modal-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(201,169,97,0.5); }
+        .modal-switch { text-align: center; margin-top: 20px; font-size: 0.85em; color: rgba(201,169,97,0.5); }
+        .modal-switch a { color: #c9a961; cursor: pointer; text-decoration: underline; }
 
-        /* ===== ОКНО ДЛЯ ФОТО 800x450 ===== */
+        /* ===== ОКНО ДЛЯ ФОТО ===== */
         .photo-frame {
-            width: 800px;
-            height: 450px;
-            max-width: 100%;
-            margin: 0 auto 15px;
-            position: relative;
-            border: 3px solid #c9a961;
-            border-radius: 10px;
-            padding: 10px;
+            width: 800px; height: 450px; max-width: 100%; margin: 0 auto 15px; position: relative;
+            border: 3px solid #c9a961; border-radius: 10px; padding: 10px;
             background: linear-gradient(135deg, rgba(201,169,97,0.1) 0%, rgba(0,0,0,0.6) 100%);
-            box-shadow: 
-                0 0 25px rgba(201,169,97,0.5),
-                inset 0 0 20px rgba(201,169,97,0.2),
-                0 15px 40px rgba(0,0,0,0.8);
+            box-shadow: 0 0 25px rgba(201,169,97,0.5), inset 0 0 20px rgba(201,169,97,0.2), 0 15px 40px rgba(0,0,0,0.8);
             overflow: hidden;
         }
         .photo-frame::before {
-            content: '';
-            position: absolute;
-            top: 5px; left: 5px; right: 5px; bottom: 5px;
-            border: 1px solid rgba(201,169,97,0.4);
-            border-radius: 6px;
-            pointer-events: none;
+            content: ''; position: absolute; top: 5px; left: 5px; right: 5px; bottom: 5px;
+            border: 1px solid rgba(201,169,97,0.4); border-radius: 6px; pointer-events: none;
         }
-        .photo-frame img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: block;
-            border-radius: 4px;
-            filter: sepia(0.15) contrast(1.1);
-        }
-        .photo-caption {
-            text-align: center;
-            color: #c9a961;
-            font-size: 1em;
-            letter-spacing: 5px;
-            text-transform: uppercase;
-            margin-bottom: 20px;
-            text-shadow: 0 0 10px rgba(201,169,97,0.6);
-        }
+        .photo-frame img { width: 100%; height: 100%; object-fit: cover; display: block; border-radius: 4px; filter: sepia(0.15) contrast(1.1); }
+        .photo-caption { text-align: center; color: #c9a961; font-size: 1em; letter-spacing: 5px; text-transform: uppercase; margin-bottom: 20px; text-shadow: 0 0 10px rgba(201,169,97,0.6); }
 
         /* ===== УВЕДОМЛЕНИЯ ===== */
         .notification {
-            position: fixed;
-            top: 85px;
-            right: 20px;
-            padding: 14px 22px;
-            background: rgba(201,169,97,0.95);
-            color: #0a0a0a;
-            border-radius: 12px;
-            box-shadow: 0 5px 30px rgba(0,0,0,0.6);
-            z-index: 2000;
-            max-width: 350px;
-            animation: slideIn 0.4s cubic-bezier(0.25,0.46,0.45,0.94);
-            font-weight: bold;
-            letter-spacing: 1px;
+            position: fixed; top: 85px; right: 20px; padding: 14px 22px;
+            background: rgba(201,169,97,0.95); color: #0a0a0a; border-radius: 12px;
+            box-shadow: 0 5px 30px rgba(0,0,0,0.6); z-index: 2000; max-width: 350px;
+            animation: slideIn 0.4s cubic-bezier(0.25,0.46,0.45,0.94); font-weight: bold; letter-spacing: 1px;
         }
-        @keyframes slideIn {
-            from { transform: translateX(400px); opacity: 0; }
-            to { transform: translateX(0); opacity: 1; }
-        }
+        @keyframes slideIn { from { transform: translateX(400px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
 
         /* ===== АДАПТИВ ===== */
-        @media (max-width: 1100px) {
-            .sidebar-right { display: none; }
-        }
+        @media (max-width: 1100px) { .sidebar-right { display: none; } }
         @media (max-width: 768px) {
             .sidebar-left { display: none; }
             .top-header .title { display: none; }
@@ -724,128 +302,102 @@
             .chat-header .channel-desc { display: none; }
             .messages-area { padding: 15px; }
             .input-area { padding: 10px 15px; }
-            
             .modal-wide { padding: 15px; }
-            .photo-frame { 
-                width: 95vw; 
-                height: auto; 
-                aspect-ratio: 16 / 9;
-                margin-bottom: 10px;
-            }
+            .photo-frame { width: 95vw; height: auto; aspect-ratio: 16 / 9; margin-bottom: 10px; }
             .photo-caption { font-size: 0.8em; letter-spacing: 3px; }
-            .back-projects-btn {
-                width: 90%;
-                font-size: 0.9em;
-                letter-spacing: 3px;
-                padding: 15px 20px;
-            }
+            .back-projects-btn { width: 90%; font-size: 0.9em; letter-spacing: 3px; padding: 15px 20px; }
         }
-
-        /* ===== СИСТЕМНЫЕ СООБЩЕНИЯ ===== */
-        .system-message {
-            text-align: center;
-            color: rgba(201,169,97,0.5);
-            font-size: 0.85em;
-            font-style: italic;
-            padding: 10px;
-            letter-spacing: 2px;
-        }
-        .system-message .highlight { color: #c9a961; font-weight: bold; }
     </style>
 </head>
 <body>
 
+    <!-- ===== 3D GLASS LANGUAGE TOGGLE - RU/EN ===== -->
+    <div class="lang-toggle">
+        <button class="lang-btn" id="langBtn" type="button" aria-label="Switch language">
+            <span class="lang-text" id="langText">
+                <span class="lang-active">EN</span><span class="lang-separator"></span><span>RU</span>
+            </span>
+        </button>
+    </div>
+
     <!-- ===== МОДАЛЬНОЕ ОКНО ВХОДА ===== -->
     <div class="modal-overlay" id="authModal">
         <div class="modal modal-wide">
-            
-            <!-- ОКНО ДЛЯ ФОТО 800x450 -->
             <div class="photo-frame">
-                <img src="rks-portrait.jpg" alt="Герб РКС">
+                <img src="rks-portrait.jpg" alt="RCS Emblem">
             </div>
-            <div class="photo-caption">Республика Когнитивного Суверенитета</div>
-
-            <h2 id="modalTitle">Вход в Диалог</h2>
-            <div class="subtitle">Платформа общения граждан РКС</div>
-            
+            <div class="photo-caption" data-ru="Республика Когнитивного Суверенитета" data-en="Republic of Cognitive Sovereignty">Republic of Cognitive Sovereignty</div>
+            <h2 id="modalTitle">Login to Dialogue</h2>
+            <div class="subtitle" data-ru="Платформа общения граждан РКС" data-en="Communication platform for RCS citizens">Communication platform for RCS citizens</div>
             <div id="loginForm">
                 <div class="form-group">
-                    <label>Имя гражданина</label>
-                    <input type="text" id="loginName" placeholder="Иванов Иван" maxlength="30">
+                    <label data-ru="Имя гражданина" data-en="Citizen Name">Citizen Name</label>
+                    <input type="text" id="loginName" data-placeholder-ru="Иванов Иван" data-placeholder-en="Ivan Ivan" placeholder="Ivan Ivan" maxlength="30">
                 </div>
                 <div class="form-group">
-                    <label>Пароль</label>
-                    <input type="password" id="loginPassword" placeholder="••••••••" maxlength="30">
+                    <label data-ru="Пароль" data-en="Password">Password</label>
+                    <input type="password" id="loginPassword" data-placeholder-ru="......" data-placeholder-en="......" placeholder="......" maxlength="30">
                 </div>
-                <button class="modal-btn" onclick="login()">Войти</button>
+                <button class="modal-btn" data-ru="Войти" data-en="Login" onclick="login()">Login</button>
                 <div class="modal-switch">
-                    Нет аккаунта? <a onclick="showRegister()">Зарегистрироваться</a>
+                    <span data-ru="Нет аккаунта?" data-en="No account?">No account?</span> <a onclick="showRegister()" data-ru="Зарегистрироваться" data-en="Register">Register</a>
                 </div>
-                
-                <!-- ===== КНОПКА ВЕРНУТЬСЯ К ПРОЕКТАМ ===== -->
-                <a href="../index.html" class="back-projects-btn">← Вернуться к проектам</a>
+                <a href="../index.html" class="back-projects-btn" data-ru="Вернуться к проектам" data-en="Back to Projects">Back to Projects</a>
             </div>
-
             <div id="registerForm" style="display:none;">
                 <div class="form-group">
-                    <label>Имя гражданина</label>
-                    <input type="text" id="regName" placeholder="Иванов Иван" maxlength="30">
+                    <label data-ru="Имя гражданина" data-en="Citizen Name">Citizen Name</label>
+                    <input type="text" id="regName" data-placeholder-ru="Иванов Иван" data-placeholder-en="Ivan Ivan" placeholder="Ivan Ivan" maxlength="30">
                 </div>
                 <div class="form-group">
-                    <label>ID РКС (например: РКС-001)</label>
-                    <input type="text" id="regId" placeholder="РКС-001" maxlength="20">
+                    <label data-ru="ID РКС (например: РКС-001)" data-en="RCS ID (e.g., RCS-001)">RCS ID (e.g., RCS-001)</label>
+                    <input type="text" id="regId" data-placeholder-ru="РКС-001" data-placeholder-en="RCS-001" placeholder="RCS-001" maxlength="20">
                 </div>
                 <div class="form-group">
-                    <label>Пароль</label>
-                    <input type="password" id="regPassword" placeholder="••••••••" maxlength="30">
+                    <label data-ru="Пароль" data-en="Password">Password</label>
+                    <input type="password" id="regPassword" data-placeholder-ru="......" data-placeholder-en="......" placeholder="......" maxlength="30">
                 </div>
-                <button class="modal-btn" onclick="register()">✨ Создать аккаунт</button>
+                <button class="modal-btn" data-ru="Создать аккаунт" data-en="Create Account" onclick="register()">Create Account</button>
                 <div class="modal-switch">
-                    Уже есть аккаунт? <a onclick="showLogin()">Войти</a>
+                    <span data-ru="Уже есть аккаунт?" data-en="Already have an account?">Already have an account?</span> <a onclick="showLogin()" data-ru="Войти" data-en="Login">Login</a>
                 </div>
-                
-                <!-- ===== КНОПКА ВЕРНУТЬСЯ К ПРОЕКТАМ ===== -->
-                <a href="../index.html" class="back-projects-btn">← Вернуться к проектам</a>
+                <a href="../index.html" class="back-projects-btn" data-ru="Вернуться к проектам" data-en="Back to Projects">Back to Projects</a>
             </div>
         </div>
     </div>
 
     <!-- ===== ШАПКА ===== -->
     <header class="top-header">
-        <a href="../index.html" class="back-to-main" title="Вернуться на главную">🏠</a>
-        
+        <a href="../index.html" class="back-to-main" data-ru-title="Вернуться на главную" data-en-title="Back to main" title="Back to main">🏠</a>
         <div class="logo-mini">
             <div class="logo-mini-frame"></div>
-            <img src="favicon.ico" alt="РКС">
+            <img src="favicon.ico" alt="RCS">
         </div>
-        <div class="title">Диалог РКС</div>
+        <div class="title" data-ru="Диалог РКС" data-en="RCS Dialogue">RCS Dialogue</div>
         <div class="search-box">
-            <input type="text" id="searchInput" placeholder="Поиск по сообщениям..." oninput="searchMessages()">
+            <input type="text" id="searchInput" data-placeholder-ru="Поиск по сообщениям..." data-placeholder-en="Search messages..." placeholder="Search messages..." oninput="searchMessages()">
         </div>
         <div class="user-badge" id="userBadge" style="display:none;">
-            <div class="user-avatar" id="userAvatar"></div>
+            <div class="user-avatar" id="userAvatar">👤</div>
             <div class="user-name" id="userName"></div>
-            <button class="logout-btn" onclick="logout()" title="Выйти"></button>
+            <button class="logout-btn" onclick="logout()" data-ru-title="Выйти" data-en-title="Logout" title="Logout">🚪</button>
         </div>
     </header>
 
-    <!-- ===== ОСНОВНОЙ LAYOUT ===== -->
+    <!-- ===== ОСНОВНОЙ ЛАЙОТ ===== -->
     <div class="main-layout">
-        
-        <!-- ЛЕВАЯ ПАНЕЛЬ: КАНАЛЫ -->
         <aside class="sidebar-left">
-            <div class="sidebar-header"> Каналы</div>
+            <div class="sidebar-header" data-ru="Каналы" data-en="Channels">Channels</div>
             <div class="channels-list" id="channelsList"></div>
         </aside>
 
-        <!-- ЦЕНТР: ЧАТ -->
         <main class="chat-main">
             <div class="chat-header">
                 <div>
-                    <div class="channel-title" id="currentChannelTitle">🏛️ Общие обсуждения</div>
-                    <div class="channel-desc" id="currentChannelDesc">Свободное общение граждан РКС</div>
+                    <div class="channel-title" id="currentChannelTitle">💬 General Discussion</div>
+                    <div class="channel-desc" id="currentChannelDesc">Free communication of RCS citizens</div>
                 </div>
-                <div class="members-count" id="membersCount">👥 0 участников</div>
+                <div class="members-count" id="membersCount">👥 0 members</div>
             </div>
 
             <div class="messages-area" id="messagesArea"></div>
@@ -853,40 +405,141 @@
             <div class="input-area" style="position:relative;">
                 <div class="emoji-panel" id="emojiPanel"></div>
                 <div class="input-wrapper">
-                    <button class="emoji-btn" onclick="toggleEmojiPanel()" title="Эмодзи">😊</button>
-                    <textarea id="messageInput" placeholder="Напишите сообщение..." rows="1" onkeydown="handleKeyDown(event)" oninput="autoResize(this)"></textarea>
-                    <button class="send-btn" onclick="sendMessage()">Отправить</button>
+                    <button class="emoji-btn" onclick="toggleEmojiPanel()" data-ru-title="Эмодзи" data-en-title="Emoji" title="Emoji">😊</button>
+                    <textarea id="messageInput" data-placeholder-ru="Напишите сообщение..." data-placeholder-en="Type a message..." placeholder="Type a message..." rows="1" onkeydown="handleKeyDown(event)" oninput="autoResize(this)"></textarea>
+                    <button class="send-btn" data-ru="Отправить" data-en="Send" onclick="sendMessage()">Send</button>
                 </div>
             </div>
 
-            <!-- ===== КНОПКА ВОЗВРАТА К ПРОЕКТАМ ВНИЗУ ===== -->
-            <a href="../index.html" class="back-projects-btn">← Вернуться к проектам</a>
+            <a href="../index.html" class="back-projects-btn" data-ru="← Вернуться к проектам" data-en="← Back to Projects">← Back to Projects</a>
         </main>
 
-        <!-- ПРАВАЯ ПАНЕЛЬ: УЧАСТНИКИ -->
         <aside class="sidebar-right">
-            <div class="members-header"> Участники</div>
+            <div class="members-header" data-ru="Участники" data-en="Members">Members</div>
             <div class="members-list" id="membersList"></div>
         </aside>
-
     </div>
 
     <script>
-        // ===== ДАННЫЕ =====
-        const CHANNELS = [
-            { id: 'general', icon: '🏛️', name: 'Общие обсуждения', desc: 'Свободное общение граждан РКС' },
-            { id: 'tech', icon: '💻', name: 'Технологии', desc: 'Разработка, код, цифровая инфраструктура' },
-            { id: 'art', icon: '🎨', name: 'Искусство', desc: 'Творчество, музыка, живопись, литература' },
-            { id: 'education', icon: '📚', name: 'Образование', desc: 'Знания, обучение, наука' },
-            { id: 'economy', icon: '💼', name: 'Экономика', desc: 'Трудочасы, вклады, финансы РКС' },
-            { id: 'ai', icon: '🤖', name: 'Искусственный интеллект', desc: 'AI, нейросети, машинное обучение' },
-            { id: 'games', icon: '🎮', name: 'Игры', desc: 'Развлечения, киберспорт, настолки' },
-            { id: 'news', icon: '📢', name: 'Объявления', desc: 'Официальные новости Республики' }
-        ];
+        // ============================================================
+        // 1. ПЕРЕВОДЫ
+        // ============================================================
+        const TRANSLATIONS = {
+            en: {
+                modalTitleLogin: 'Login to Dialogue',
+                modalTitleRegister: 'Registration',
+                subtitle: 'Communication platform for RCS citizens',
+                citizenName: 'Citizen Name',
+                password: 'Password',
+                rcsId: 'RCS ID (e.g., RCS-001)',
+                loginBtn: 'Login',
+                registerBtn: 'Create Account',
+                noAccount: 'No account?',
+                registerLink: 'Register',
+                hasAccount: 'Already have an account?',
+                loginLink: 'Login',
+                backToProjects: 'Back to Projects',
+                searchPlaceholder: 'Search messages...',
+                channelsHeader: 'Channels',
+                membersHeader: 'Members',
+                typeMessage: 'Type a message...',
+                sendBtn: 'Send',
+                emojiTitle: 'Emoji',
+                fillAll: 'Fill in all fields',
+                shortPass: 'Password is too short',
+                idExists: 'This ID is already registered',
+                welcome: 'Welcome to RCS, ',
+                joined: ' joined RCS Dialogue',
+                backWelcome: 'Welcome back, ',
+                logoutConfirm: 'Logout from RCS Dialogue?',
+                firstMsg: 'No messages yet',
+                firstMsgSub: 'Be the first to write in this channel!',
+                notFound: 'Nothing found for query "',
+                loginFirst: 'Please log in first',
+                generalName: 'General Discussion',
+                generalDesc: 'Free communication of RCS citizens',
+                techName: 'Technology',
+                techDesc: 'Development, code, digital infrastructure',
+                artName: 'Art',
+                artDesc: 'Creativity, music, painting, literature',
+                eduName: 'Education',
+                eduDesc: 'Knowledge, learning, science',
+                econName: 'Economy',
+                econDesc: 'Labor hours, deposits, RCS finances',
+                aiName: 'Artificial Intelligence',
+                aiDesc: 'AI, neural networks, machine learning',
+                gamesName: 'Games',
+                gamesDesc: 'Entertainment, esports, board games',
+                newsName: 'Announcements',
+                newsDesc: 'Official news of the Republic'
+            },
+            ru: {
+                modalTitleLogin: 'Вход в Диалог',
+                modalTitleRegister: 'Регистрация',
+                subtitle: 'Платформа общения граждан РКС',
+                citizenName: 'Имя гражданина',
+                password: 'Пароль',
+                rcsId: 'ID РКС (например: РКС-001)',
+                loginBtn: 'Войти',
+                registerBtn: 'Создать аккаунт',
+                noAccount: 'Нет аккаунта?',
+                registerLink: 'Зарегистрироваться',
+                hasAccount: 'Уже есть аккаунт?',
+                loginLink: 'Войти',
+                backToProjects: 'Вернуться к проектам',
+                searchPlaceholder: 'Поиск по сообщениям...',
+                channelsHeader: 'Каналы',
+                membersHeader: 'Участники',
+                typeMessage: 'Напишите сообщение...',
+                sendBtn: 'Отправить',
+                emojiTitle: 'Эмодзи',
+                fillAll: 'Заполните все поля',
+                shortPass: 'Пароль слишком короткий',
+                idExists: 'Такой ID уже зарегистрирован',
+                welcome: 'Добро пожаловать в РКС, ',
+                joined: ' присоединился к Диалогу РКС',
+                backWelcome: 'С возвращением, ',
+                logoutConfirm: 'Выйти из Диалога РКС?',
+                firstMsg: 'Пока нет сообщений',
+                firstMsgSub: 'Станьте первым, кто напишет в этот канал!',
+                notFound: 'Ничего не найдено по запросу "',
+                loginFirst: 'Сначала войдите в систему',
+                generalName: 'Общие обсуждения',
+                generalDesc: 'Свободное общение граждан РКС',
+                techName: 'Технологии',
+                techDesc: 'Разработка, код, цифровая инфраструктура',
+                artName: 'Искусство',
+                artDesc: 'Творчество, музыка, живопись, литература',
+                eduName: 'Образование',
+                eduDesc: 'Знания, обучение, наука',
+                econName: 'Экономика',
+                econDesc: 'Трудочасы, вклады, финансы РКС',
+                aiName: 'Искусственный интеллект',
+                aiDesc: 'AI, нейросети, машинное обучение',
+                gamesName: 'Игры',
+                gamesDesc: 'Развлечения, киберспорт, настолки',
+                newsName: 'Объявления',
+                newsDesc: 'Официальные новости Республики'
+            }
+        };
 
-        const EMOJIS = ['😊','😂','❤️','👍','🎉','','💡','🚀','✨','','😎','🙏','💪','🌟','⭐','💎','','💯','👋','🙌','💫','🌈','☀️','🌙','⚡','🔒','🔓','✅','❌','⚠️','📍','🔔'];
+        function t(key) { return TRANSLATIONS[currentLang][key] || key; }
+
+        // ============================================================
+        // 2. ДАННЫЕ
+        // ============================================================
+        const EMOJIS = ['😀','😁','😂','🤣','😃','😄','😅','😆','😉','😊','😋','😎','😍','🥰','😘','😗','😙','😚','🙂','🤗','🤩','🤔','🤨','😐','😑','😶','🙄','😏','😣','😥','😮','🤐','😯','😪','😫','😴','😌','😛','😜','😝','🤤','😒','😓','😔','😕','🙃','🤑','😲','☹️','🙁','😖','😞','😟','😤','😢','😭','😦','😧','😨','😩','🤯','😬','😰','😱','🥵','🥶','😳','🤪','😵','😡','😠','🤬'];
 
         const DEMO_USERS = [
+            { name: 'Petrov P.P.', id: 'RCS-002', online: true },
+            { name: 'Sidorova S.S.', id: 'RCS-003', online: true },
+            { name: 'Volkov V.V.', id: 'RCS-004', online: false },
+            { name: 'Smirnov S.S.', id: 'RCS-005', online: true },
+            { name: 'Kozlova A.I.', id: 'RCS-006', online: false },
+            { name: 'Novikov D.M.', id: 'RCS-007', online: true }
+        ];
+
+        const DEMO_USERS_RU = [
             { name: 'Петров П.П.', id: 'РКС-002', online: true },
             { name: 'Сидорова С.С.', id: 'РКС-003', online: true },
             { name: 'Волков В.В.', id: 'РКС-004', online: false },
@@ -895,41 +548,82 @@
             { name: 'Новиков Д.М.', id: 'РКС-007', online: true }
         ];
 
-        const DEMO_MESSAGES = {
-            general: [
-                { author: 'Петров П.П.', text: 'Добро пожаловать в Диалог РКС, граждане! 🏛️', time: '10:23', reactions: {'❤️': 3, '👍': 2} },
-                { author: 'Сидорова С.С.', text: 'Отличная платформа! Наконец-то своё пространство для общения.', time: '10:25', reactions: {'': 1} },
-                { author: 'Смирнов С.С.', text: 'А как насчёт создания канала для обсуждения новых идей? 💡', time: '10:30', reactions: {} }
-            ],
-            tech: [
-                { author: 'Новиков Д.М.', text: 'Кто-нибудь работал с WebAssembly? Хочу оптимизировать один модуль.', time: '09:15', reactions: {'': 2} }
-            ],
-            art: [
-                { author: 'Козлова А.И.', text: 'Закончила новую цифровую картину. Скоро покажу в разделе "Проекты граждан" 🎨', time: '11:40', reactions: {'✨': 4, '❤️': 2} }
-            ],
-            economy: [
-                { author: 'Петров П.П.', text: 'Напоминаю: курс Трудочаса обновлён. Зерно — 100 ТЧ/кг.', time: '08:00', reactions: {'📈': 3} }
-            ]
-        };
+        function getChannels() {
+            return [
+                { id: 'general', icon: '💬', name: t('generalName'), desc: t('generalDesc') },
+                { id: 'tech', icon: '💻', name: t('techName'), desc: t('techDesc') },
+                { id: 'art', icon: '🎨', name: t('artName'), desc: t('artDesc') },
+                { id: 'education', icon: '📚', name: t('eduName'), desc: t('eduDesc') },
+                { id: 'economy', icon: '💰', name: t('econName'), desc: t('econDesc') },
+                { id: 'ai', icon: '🤖', name: t('aiName'), desc: t('aiDesc') },
+                { id: 'games', icon: '🎮', name: t('gamesName'), desc: t('gamesDesc') },
+                { id: 'news', icon: '📢', name: t('newsName'), desc: t('newsDesc') }
+            ];
+        }
 
-        // ===== СОСТОЯНИЕ =====
+        function getDemoMessages() {
+            const now = new Date();
+            const time = now.toTimeString().slice(0, 5);
+            return {
+                general: [
+                    { author: 'Ivanov I.I.', text: 'Welcome to RCS Dialogue!', time: time, reactions: {} },
+                    { author: 'Petrov P.P.', text: 'Great to see everyone here!', time: time, reactions: {} }
+                ],
+                tech: [
+                    { author: 'Volkov V.V.', text: 'Anyone working on AI projects?', time: time, reactions: {} }
+                ],
+                art: [
+                    { author: 'Sidorova S.S.', text: 'I just finished a new painting!', time: time, reactions: {} }
+                ],
+                education: [
+                    { author: 'Smirnov S.S.', text: 'Free course on cognitive science available.', time: time, reactions: {} }
+                ],
+                economy: [
+                    { author: 'Kozlova A.I.', text: 'Labor Hour rate updated. Grain — 100 LH/kg.', time: time, reactions: {} }
+                ],
+                ai: [
+                    { author: 'Novikov D.M.', text: 'New AI model released for image generation.', time: time, reactions: {} }
+                ],
+                games: [
+                    { author: 'Ivanov I.I.', text: 'Anyone up for a chess game?', time: time, reactions: {} }
+                ],
+                news: [
+                    { author: 'RCS_Official', text: 'Announcement: New ministry positions open!', time: time, reactions: {} }
+                ]
+            };
+        }
+
+        // ============================================================
+        // 3. СОСТОЯНИЕ
+        // ============================================================
         let currentUser = null;
         let currentChannel = 'general';
         let messages = {};
         let unreadCounters = {};
+        let currentLang = 'en';
 
-        // ===== ИНИЦИАЛИЗАЦИЯ =====
+        // ============================================================
+        // 4. ИНИЦИАЛИЗАЦИЯ
+        // ============================================================
         function init() {
             loadUser();
             loadMessages();
-            renderChannels();
             renderEmojis();
-            renderMembers();
-            selectChannel('general');
+
+            try {
+                const savedLang = localStorage.getItem('rks-lang');
+                if (savedLang === 'ru' || savedLang === 'en') {
+                    currentLang = savedLang;
+                }
+            } catch (e) {}
+
+            applyLang(currentLang);
             checkAuth();
         }
 
-        // ===== АВТОРИЗАЦИЯ =====
+        // ============================================================
+        // 5. АВТОРИЗАЦИЯ
+        // ============================================================
         function loadUser() {
             const saved = localStorage.getItem('rks_chat_user');
             if (saved) {
@@ -943,6 +637,9 @@
                 document.getElementById('userBadge').style.display = 'flex';
                 document.getElementById('userName').textContent = currentUser.name;
                 document.getElementById('userAvatar').textContent = getInitials(currentUser.name);
+                renderChannels();
+                renderMessages();
+                renderMembers();
             } else {
                 document.getElementById('authModal').classList.remove('hidden');
                 document.getElementById('userBadge').style.display = 'none';
@@ -952,13 +649,13 @@
         function showRegister() {
             document.getElementById('loginForm').style.display = 'none';
             document.getElementById('registerForm').style.display = 'block';
-            document.getElementById('modalTitle').textContent = 'Регистрация';
+            document.getElementById('modalTitle').textContent = t('modalTitleRegister');
         }
 
         function showLogin() {
             document.getElementById('loginForm').style.display = 'block';
             document.getElementById('registerForm').style.display = 'none';
-            document.getElementById('modalTitle').textContent = 'Вход в Диалог';
+            document.getElementById('modalTitle').textContent = t('modalTitleLogin');
         }
 
         function register() {
@@ -967,29 +664,29 @@
             const password = document.getElementById('regPassword').value;
 
             if (!name || !id || !password) {
-                showNotification('❌ Заполните все поля');
+                showNotification(t('fillAll'));
                 return;
             }
             if (password.length < 4) {
-                showNotification('❌ Пароль слишком короткий');
+                showNotification(t('shortPass'));
                 return;
             }
 
             const users = JSON.parse(localStorage.getItem('rks_chat_users') || '{}');
             if (users[id]) {
-                showNotification('️ Такой ID уже зарегистрирован');
+                showNotification(t('idExists'));
                 return;
             }
 
             users[id] = { name, id, password };
             localStorage.setItem('rks_chat_users', JSON.stringify(users));
-            
+
             currentUser = { name, id };
             localStorage.setItem('rks_chat_user', JSON.stringify(currentUser));
-            
-            showNotification('✅ Добро пожаловать в РКС, ' + name + '!');
+
+            showNotification(t('welcome') + name + '!');
             checkAuth();
-            addSystemMessage('general', `${name} присоединился к Диалогу РКС`);
+            addSystemMessage('general', name + t('joined'));
         }
 
         function login() {
@@ -997,53 +694,64 @@
             const password = document.getElementById('loginPassword').value;
 
             if (!name || !password) {
-                showNotification('❌ Заполните все поля');
+                showNotification(t('fillAll'));
                 return;
             }
 
             const users = JSON.parse(localStorage.getItem('rks_chat_users') || '{}');
             const user = Object.values(users).find(u => u.name === name && u.password === password);
-            
+
             if (!user) {
-                showNotification('❌ Неверное имя или пароль');
+                showNotification('✖ ' + (currentLang === 'ru' ? 'Неверное имя или пароль' : 'Invalid name or password'));
                 return;
             }
 
             currentUser = { name: user.name, id: user.id };
             localStorage.setItem('rks_chat_user', JSON.stringify(currentUser));
-            
-            showNotification('✅ С возвращением, ' + user.name + '!');
+
+            showNotification(t('backWelcome') + user.name + '!');
             checkAuth();
         }
 
         function logout() {
-            if (!confirm('Выйти из Диалога РКС?')) return;
+            if (!confirm(t('logoutConfirm'))) return;
             localStorage.removeItem('rks_chat_user');
             currentUser = null;
             location.reload();
         }
 
-        // ===== СООБЩЕНИЯ =====
+        // ============================================================
+        // 6. СООБЩЕНИЯ
+        // ============================================================
         function loadMessages() {
             const saved = localStorage.getItem('rks_chat_messages');
             if (saved) {
-                try { messages = JSON.parse(saved); } catch(e) { messages = {}; }
+                try {
+                    messages = JSON.parse(saved);
+                } catch(e) { messages = {}; }
+            } else {
+                messages = {};
             }
-            CHANNELS.forEach(ch => {
-                if (!messages[ch.id]) {
-                    messages[ch.id] = DEMO_MESSAGES[ch.id] || [];
+
+            // Убедимся, что для всех каналов есть сообщения
+            const demo = getDemoMessages();
+            getChannels().forEach(ch => {
+                if (!messages[ch.id] || messages[ch.id].length === 0) {
+                    messages[ch.id] = demo[ch.id] || [];
                 }
             });
             saveMessages();
         }
 
         function saveMessages() {
-            localStorage.setItem('rks_chat_messages', JSON.stringify(messages));
+            try {
+                localStorage.setItem('rks_chat_messages', JSON.stringify(messages));
+            } catch(e) {}
         }
 
         function sendMessage() {
             if (!currentUser) {
-                showNotification('❌ Сначала войдите в систему');
+                showNotification(t('loginFirst'));
                 return;
             }
             const input = document.getElementById('messageInput');
@@ -1052,7 +760,7 @@
 
             const now = new Date();
             const time = now.toTimeString().slice(0, 5);
-            
+
             if (!messages[currentChannel]) messages[currentChannel] = [];
             messages[currentChannel].push({
                 author: currentUser.name,
@@ -1061,7 +769,7 @@
                 reactions: {}
             });
             saveMessages();
-            
+
             input.value = '';
             autoResize(input);
             renderMessages();
@@ -1088,10 +796,13 @@
             renderMessages();
         }
 
-        // ===== РЕНДЕРИНГ =====
+        // ============================================================
+        // 7. РЕНДЕРИНГ
+        // ============================================================
         function renderChannels() {
             const list = document.getElementById('channelsList');
-            list.innerHTML = CHANNELS.map(ch => `
+            const channels = getChannels();
+            list.innerHTML = channels.map(ch => `
                 <div class="channel-item ${ch.id === currentChannel ? 'active' : ''}" onclick="selectChannel('${ch.id}')">
                     <span class="channel-icon">${ch.icon}</span>
                     <span class="channel-name">${ch.name}</span>
@@ -1103,13 +814,13 @@
         function renderMessages() {
             const area = document.getElementById('messagesArea');
             const channelMessages = messages[currentChannel] || [];
-            
+
             if (channelMessages.length === 0) {
                 area.innerHTML = `
                     <div style="text-align:center; padding:60px 20px; color:rgba(201,169,97,0.4);">
                         <div style="font-size:3em; margin-bottom:15px;">💬</div>
-                        <div style="font-size:1.1em; letter-spacing:2px;">Пока нет сообщений</div>
-                        <div style="font-size:0.85em; margin-top:8px;">Станьте первым, кто напишет в этот канал!</div>
+                        <div style="font-size:1.1em; letter-spacing:2px;">${t('firstMsg')}</div>
+                        <div style="font-size:0.85em; margin-top:8px;">${t('firstMsgSub')}</div>
                     </div>
                 `;
                 return;
@@ -1117,15 +828,12 @@
 
             area.innerHTML = channelMessages.map((msg, idx) => {
                 if (msg.system) {
-                    return `<div class="system-message">— <span class="highlight">${msg.text}</span> · ${msg.time} —</div>`;
+                    return `<div class="system-message">— <span class="highlight">${msg.text}</span> — ${msg.time}</div>`;
                 }
-                const reactionsHtml = Object.entries(msg.reactions || {}).map(([emoji, count]) => `
-                    <div class="reaction" onclick="addReaction(${idx}, '${emoji}')">
-                        <span>${emoji}</span>
-                        <span class="reaction-count">${count}</span>
-                    </div>
-                `).join('');
-                
+                const reactionsHtml = Object.entries(msg.reactions || {}).map(([emoji, count]) =>
+                    `<div class="reaction" onclick="addReaction(${idx}, '${emoji}')"><span>${emoji}</span><span class="reaction-count">${count}</span></div>`
+                ).join('');
+
                 return `
                     <div class="message">
                         <div class="message-avatar">${getInitials(msg.author)}</div>
@@ -1137,7 +845,7 @@
                             <div class="message-text">${escapeHtml(msg.text)}</div>
                             <div class="message-reactions">
                                 ${reactionsHtml}
-                                <div class="reaction" onclick="showReactionPicker(${idx})">+</div>
+                                <div class="reaction" onclick="showReactionPicker(${idx})">➕</div>
                             </div>
                         </div>
                     </div>
@@ -1147,10 +855,11 @@
 
         function renderMembers() {
             const list = document.getElementById('membersList');
-            const allMembers = currentUser 
-                ? [{ name: currentUser.name, id: currentUser.id, online: true }, ...DEMO_USERS]
-                : DEMO_USERS;
-            
+            const demoUsers = currentLang === 'ru' ? DEMO_USERS_RU : DEMO_USERS;
+            const allMembers = currentUser ?
+                [{ name: currentUser.name, id: currentUser.id, online: true }, ...demoUsers] :
+                demoUsers;
+
             list.innerHTML = allMembers.map(m => `
                 <div class="member-item">
                     <div class="member-avatar ${m.online ? '' : 'offline'}">${getInitials(m.name)}</div>
@@ -1160,28 +869,30 @@
                     </div>
                 </div>
             `).join('');
-            
-            document.getElementById('membersCount').textContent = `👥 ${allMembers.length} участников`;
+
+            document.getElementById('membersCount').textContent = `👥 ${allMembers.length} ${currentLang === 'ru' ? 'участников' : 'members'}`;
         }
 
         function renderEmojis() {
             const panel = document.getElementById('emojiPanel');
-            panel.innerHTML = EMOJIS.map(e => `
-                <div class="emoji-option" onclick="insertEmoji('${e}')">${e}</div>
-            `).join('');
+            panel.innerHTML = EMOJIS.map(e =>
+                `<div class="emoji-option" onclick="insertEmoji('${e}')">${e}</div>`
+            ).join('');
         }
 
-        // ===== НАВИГАЦИЯ =====
+        // ============================================================
+        // 8. НАВИГАЦИЯ
+        // ============================================================
         function selectChannel(channelId) {
             currentChannel = channelId;
-            const channel = CHANNELS.find(c => c.id === channelId);
+            const channels = getChannels();
+            const channel = channels.find(c => c.id === channelId);
             document.getElementById('currentChannelTitle').textContent = `${channel.icon} ${channel.name}`;
             document.getElementById('currentChannelDesc').textContent = channel.desc;
-            
+
             if (unreadCounters[channelId]) {
                 delete unreadCounters[channelId];
             }
-            
             renderChannels();
             renderMessages();
             scrollToBottom();
@@ -1192,7 +903,9 @@
             setTimeout(() => { area.scrollTop = area.scrollHeight; }, 50);
         }
 
-        // ===== ЭМОДЗИ =====
+        // ============================================================
+        // 9. ЭМОДЗИ
+        // ============================================================
         function toggleEmojiPanel() {
             document.getElementById('emojiPanel').classList.toggle('active');
         }
@@ -1205,22 +918,26 @@
         }
 
         function showReactionPicker(msgIndex) {
-            const emoji = prompt('Введите эмодзи для реакции:', '👍');
+            const emoji = prompt(currentLang === 'ru' ? 'Введите эмодзи для реакции:' : 'Enter emoji for reaction:', '😀');
             if (emoji && emoji.length <= 4) {
                 addReaction(msgIndex, emoji);
             }
         }
 
-        // ===== ПОИСК =====
+        // ============================================================
+        // 10. ПОИСК
+        // ============================================================
         function searchMessages() {
             const query = document.getElementById('searchInput').value.toLowerCase().trim();
             if (!query) {
                 renderMessages();
                 return;
             }
+
             const area = document.getElementById('messagesArea');
             const results = [];
-            CHANNELS.forEach(ch => {
+
+            getChannels().forEach(ch => {
                 (messages[ch.id] || []).forEach((msg, idx) => {
                     if (!msg.system && (msg.text.toLowerCase().includes(query) || msg.author.toLowerCase().includes(query))) {
                         results.push({ ...msg, channel: ch, idx });
@@ -1229,7 +946,7 @@
             });
 
             if (results.length === 0) {
-                area.innerHTML = `<div style="text-align:center; padding:40px; color:rgba(201,169,97,0.5);">Ничего не найдено по запросу «${escapeHtml(query)}»</div>`;
+                area.innerHTML = `<div style="text-align:center; padding:40px; color:rgba(201,169,97,0.5);">${t('notFound')}${escapeHtml(query)}"</div>`;
                 return;
             }
 
@@ -1247,7 +964,9 @@
             `).join('');
         }
 
-        // ===== УТИЛИТЫ =====
+        // ============================================================
+        // 11. УТИЛИТЫ
+        // ============================================================
         function getInitials(name) {
             return name.split(' ').map(w => w[0]).join('').slice(0, 2).toUpperCase();
         }
@@ -1285,6 +1004,54 @@
             }
         });
 
+        // ============================================================
+        // 12. ЯЗЫК
+        // ============================================================
+        function updateLangDisplay() {
+            const langTextEl = document.getElementById('langText');
+            if (currentLang === 'en') {
+                langTextEl.innerHTML = '<span class="lang-active">EN</span><span class="lang-separator"></span><span>RU</span>';
+            } else {
+                langTextEl.innerHTML = '<span>EN</span><span class="lang-separator"></span><span class="lang-active">RU</span>';
+            }
+        }
+
+        function applyLang(lang) {
+            currentLang = lang;
+            document.documentElement.setAttribute('lang', lang);
+
+            document.querySelectorAll('[data-ru][data-en]').forEach(el => {
+                el.textContent = el.getAttribute('data-' + lang);
+            });
+            document.querySelectorAll('[data-placeholder-ru][data-placeholder-en]').forEach(el => {
+                el.placeholder = el.getAttribute('data-placeholder-' + lang);
+            });
+            document.querySelectorAll('[data-ru-title][data-en-title]').forEach(el => {
+                el.title = el.getAttribute('data-' + lang + '-title');
+            });
+
+            const titleEl = document.querySelector('title');
+            if (titleEl) {
+                titleEl.textContent = lang === 'ru' ? 'РКС — Диалог' : 'RCS — Dialogue';
+            }
+
+            document.getElementById('modalTitle').textContent = t('modalTitleLogin');
+
+            renderChannels();
+            renderMessages();
+            renderMembers();
+            updateLangDisplay();
+
+            try { localStorage.setItem('rks-lang', lang); } catch (e) {}
+        }
+
+        document.getElementById('langBtn').addEventListener('click', () => {
+            applyLang(currentLang === 'en' ? 'ru' : 'en');
+        });
+
+        // ============================================================
+        // 13. ЗАПУСК
+        // ============================================================
         init();
     </script>
 </body>
