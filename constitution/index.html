@@ -1,10 +1,10 @@
 
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>РКС — Конституция</title>
+    <title>RCS — Constitution</title>
     <link rel="icon" href="favicon.ico" type="image/x-icon">
     <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
     <style>
@@ -278,119 +278,242 @@
             .article { border-left: 2px solid #000; background: none; }
             .article-text, .chapter-title, .constitution-header h1 { color: #000; }
         }
+
+        /* ===== 3D GLASS LANGUAGE TOGGLE BUTTON - RU/EN FORMAT ===== */
+        .lang-toggle {
+            position: fixed;
+            top: 25px;
+            right: 25px;
+            z-index: 1000;
+            perspective: 800px;
+        }
+
+        .lang-btn {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 12px 24px;
+            min-width: 120px;
+            height: 52px;
+            border: none;
+            border-radius: 16px;
+            cursor: pointer;
+            font-family: 'Times New Roman', serif;
+            font-size: 1em;
+            font-weight: bold;
+            letter-spacing: 2px;
+            color: #f5e6a8;
+            text-shadow: 0 0 8px rgba(201, 169, 97, 0.9);
+
+            background: linear-gradient(135deg,
+                rgba(255, 255, 255, 0.15) 0%,
+                rgba(201, 169, 97, 0.10) 40%,
+                rgba(255, 255, 255, 0.05) 100%);
+            backdrop-filter: blur(14px) saturate(180%);
+            -webkit-backdrop-filter: blur(14px) saturate(180%);
+
+            border-top: 1px solid rgba(255, 255, 255, 0.4);
+            border-left: 1px solid rgba(255, 255, 255, 0.25);
+            border-right: 1px solid rgba(0, 0, 0, 0.35);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.5);
+
+            box-shadow:
+                0 10px 25px rgba(0, 0, 0, 0.55),
+                0 0 25px rgba(201, 169, 97, 0.35),
+                inset 0 1px 0 rgba(255, 255, 255, 0.35),
+                inset 0 -2px 6px rgba(0, 0, 0, 0.25);
+
+            transform: rotateX(12deg) rotateY(-6deg) translateZ(0);
+            transform-style: preserve-3d;
+            transition: transform 0.35s ease, box-shadow 0.35s ease, filter 0.35s ease;
+
+            animation: glassGlow 3.5s ease-in-out infinite;
+        }
+
+        @keyframes glassGlow {
+            0%, 100% {
+                box-shadow:
+                    0 10px 25px rgba(0, 0, 0, 0.55),
+                    0 0 25px rgba(201, 169, 97, 0.35),
+                    inset 0 1px 0 rgba(255, 255, 255, 0.35),
+                    inset 0 -2px 6px rgba(0, 0, 0, 0.25);
+            }
+            50% {
+                box-shadow:
+                    0 10px 25px rgba(0, 0, 0, 0.55),
+                    0 0 45px rgba(201, 169, 97, 0.75),
+                    0 0 80px rgba(201, 169, 97, 0.25),
+                    inset 0 1px 0 rgba(255, 255, 255, 0.45),
+                    inset 0 -2px 6px rgba(0, 0, 0, 0.25);
+            }
+        }
+
+        .lang-btn::before {
+            content: '';
+            position: absolute;
+            top: 3px;
+            left: 8%;
+            right: 8%;
+            height: 35%;
+            background: linear-gradient(180deg,
+                rgba(255, 255, 255, 0.55) 0%,
+                rgba(255, 255, 255, 0) 100%);
+            border-radius: 14px 14px 50% 50%;
+            pointer-events: none;
+        }
+
+        .lang-btn:hover {
+            transform: rotateX(6deg) rotateY(-3deg) translateZ(10px) scale(1.05);
+            filter: brightness(1.15);
+        }
+
+        .lang-btn:active {
+            transform: rotateX(14deg) rotateY(-8deg) translateZ(-5px) scale(0.98);
+            box-shadow:
+                0 5px 15px rgba(0, 0, 0, 0.6),
+                0 0 20px rgba(201, 169, 97, 0.4),
+                inset 0 1px 0 rgba(255, 255, 255, 0.25),
+                inset 0 -2px 6px rgba(0, 0, 0, 0.35);
+        }
+
+        .lang-text {
+            font-weight: 900;
+            letter-spacing: 3px;
+        }
+
+        .lang-active {
+            color: #ffd700;
+            text-shadow: 0 0 12px rgba(255, 215, 0, 0.9);
+        }
+
+        .lang-separator {
+            color: rgba(201, 169, 97, 0.5);
+            font-weight: 300;
+        }
     </style>
 </head>
 <body>
+
+    <!-- ===== 3D GLASS LANGUAGE TOGGLE - RU/EN ===== -->
+    <div class="lang-toggle">
+        <button class="lang-btn" id="langBtn" type="button" aria-label="Switch language">
+            <span class="lang-text" id="langText">
+                <span class="lang-active">EN</span><span class="lang-separator">/</span><span>RU</span>
+            </span>
+        </button>
+    </div>
 
     <div class="container">
         <!-- ЛОГОТИП И НАЗВАНИЕ -->
         <div class="logo-center">
             <div class="logo-wrapper">
                 <div class="logo-frame"></div>
-                <img src="favicon.ico" alt="РКС">
+                <img src="favicon.ico" alt="RCS">
             </div>
-            <div class="logo-title">РКС</div>
-            <div class="logo-sub">Республика Когнитивного Суверенитета</div>
+            <div class="logo-title">RCS</div>
+            <div class="logo-sub" data-ru="Республика Когнитивного Суверенитета" data-en="Republic of Cognitive Sovereignty">Republic of Cognitive Sovereignty</div>
         </div>
 
         <!-- ОКНО ДЛЯ ФОТО 800x450 -->
         <div class="photo-frame">
-            <img src="rks-portrait.jpg" alt="Эмблема РКС">
+            <img src="rks-portrait.jpg" alt="State Emblem of RCS">
         </div>
-        <div class="photo-caption">Государственная Эмблема РКС</div>
+        <div class="photo-caption" data-ru="Государственная Эмблема РКС" data-en="State Emblem of RCS">State Emblem of RCS</div>
 
         <!-- ЗАГОЛОВОК КОНСТИТУЦИИ -->
         <div class="constitution-header">
-            <h1>Конституция</h1>
-            <div class="subtitle">Основной закон Республики Когнитивного Суверенитета</div>
+            <h1 data-ru="Конституция" data-en="Constitution">Constitution</h1>
+            <div class="subtitle" data-ru="Основной закон Республики Когнитивного Суверенитета" data-en="The Fundamental Law of the Republic of Cognitive Sovereignty">The Fundamental Law of the Republic of Cognitive Sovereignty</div>
         </div>
 
         <!-- ПРЕАМБУЛА -->
-        <div class="preamble">
-            Мы, граждане Республики Когнитивного Суверенитета, объединённые стремлением к защите разума, развитию таланта и справедливому вознаграждению за труд, принимая эту Конституцию, утверждаем незыблемость права каждого человека на интеллектуальную свободу, когнитивную безопасность и достойную жизнь, где ценность личности измеряется её вкладом в общее благо.
+        <div class="preamble" data-ru="Мы, граждане Республики Когнитивного Суверенитета, объединённые стремлением к защите разума, развитию таланта и справедливому вознаграждению за труд, принимая эту Конституцию, утверждаем незыблемость права каждого человека на интеллектуальную свободу, когнитивную безопасность и достойную жизнь, где ценность личности измеряется её вкладом в общее благо." data-en="We, the citizens of the Republic of Cognitive Sovereignty, united by the desire to protect the mind, develop talent, and ensure fair compensation for labor, adopting this Constitution, affirm the inviolability of every person's right to intellectual freedom, cognitive security, and a dignified life, where a person's value is measured by their contribution to the common good.">
+            We, the citizens of the Republic of Cognitive Sovereignty, united by the desire to protect the mind, develop talent, and ensure fair compensation for labor, adopting this Constitution, affirm the inviolability of every person's right to intellectual freedom, cognitive security, and a dignified life, where a person's value is measured by their contribution to the common good.
         </div>
 
         <!-- ГЛАВА 1 -->
         <div class="chapter">
-            <div class="chapter-title">Глава 1. Основы когнитивного суверенитета</div>
+            <div class="chapter-title" data-ru="Глава 1. Основы когнитивного суверенитета" data-en="Chapter 1. Foundations of Cognitive Sovereignty">Chapter 1. Foundations of Cognitive Sovereignty</div>
             <div class="article">
-                <div class="article-num">Статья 1</div>
-                <div class="article-text">
-                    Республика Когнитивного Суверенитета (РКС) является суверенным цифровым и интеллектуальным государством. Высшей ценностью РКС является <span class="highlight">человеческий интеллект, творческий потенциал и свобода мысли</span>.
+                <div class="article-num" data-ru="Статья 1" data-en="Article 1">Article 1</div>
+                <div class="article-text" data-ru="Республика Когнитивного Суверенитета (РКС) является суверенным цифровым и интеллектуальным государством. Высшей ценностью РКС является <span class='highlight'>человеческий интеллект, творческий потенциал и свобода мысли</span>." data-en="The Republic of Cognitive Sovereignty (RCS) is a sovereign digital and intellectual state. The highest value of the RCS is <span class='highlight'>human intelligence, creative potential, and freedom of thought</span>.">
+                    The Republic of Cognitive Sovereignty (RCS) is a sovereign digital and intellectual state. The highest value of the RCS is <span class="highlight">human intelligence, creative potential, and freedom of thought</span>.
                 </div>
             </div>
             <div class="article">
-                <div class="article-num">Статья 2</div>
-                <div class="article-text">
-                    Носителем суверенитета и единственным источником власти в РКС является её многонациональный народ, реализующий свою волю через прямое цифровое участие, систему гильдий и верифицированные инициативы.
+                <div class="article-num" data-ru="Статья 2" data-en="Article 2">Article 2</div>
+                <div class="article-text" data-ru="Носителем суверенитета и единственным источником власти в РКС является её многонациональный народ, реализующий свою волю через прямое цифровое участие, систему гильдий и верифицированные инициативы." data-en="The bearer of sovereignty and the sole source of power in the RCS is its multinational people, realizing their will through direct digital participation, the guild system, and verified initiatives.">
+                    The bearer of sovereignty and the sole source of power in the RCS is its multinational people, realizing their will through direct digital participation, the guild system, and verified initiatives.
                 </div>
             </div>
         </div>
 
         <!-- ГЛАВА 2 -->
         <div class="chapter">
-            <div class="chapter-title">Глава 2. Права и обязанности гражданина</div>
+            <div class="chapter-title" data-ru="Глава 2. Права и обязанности гражданина" data-en="Chapter 2. Rights and Duties of a Citizen">Chapter 2. Rights and Duties of a Citizen</div>
             <div class="article">
-                <div class="article-num">Статья 3</div>
-                <div class="article-text">
-                    Каждый гражданин РКС имеет неотъемлемое право на <span class="highlight">когнитивную безопасность</span>: защиту от информационных манипуляций, глубоких подделок (deepfakes) и алгоритмического принуждения.
+                <div class="article-num" data-ru="Статья 3" data-en="Article 3">Article 3</div>
+                <div class="article-text" data-ru="Каждый гражданин РКС имеет неотъемлемое право на <span class='highlight'>когнитивную безопасность</span>: защиту от информационных манипуляций, глубоких подделок (deepfakes) и алгоритмического принуждения." data-en="Every citizen of the RCS has an inalienable right to <span class='highlight'>cognitive security</span>: protection from information manipulation, deepfakes, and algorithmic coercion.">
+                    Every citizen of the RCS has an inalienable right to <span class="highlight">cognitive security</span>: protection from information manipulation, deepfakes, and algorithmic coercion.
                 </div>
             </div>
             <div class="article">
-                <div class="article-num">Статья 4</div>
-                <div class="article-text">
-                    Труд, талант и знания являются основой благосостояния. Каждый гражданин имеет право на гарантированное вознаграждение в <span class="highlight">Трудочасах (ТЧ)</span> за любой полезный для общества вклад: от написания кода до создания произведений искусства.
+                <div class="article-num" data-ru="Статья 4" data-en="Article 4">Article 4</div>
+                <div class="article-text" data-ru="Труд, талант и знания являются основой благосостояния. Каждый гражданин имеет право на гарантированное вознаграждение в <span class='highlight'>Трудочасах (ТЧ)</span> за любой полезный для общества вклад: от написания кода до создания произведений искусства." data-en="Labor, talent, and knowledge are the foundation of well-being. Every citizen has the right to guaranteed compensation in <span class='highlight'>Labor Hours (LH)</span> for any contribution useful to society: from writing code to creating works of art.">
+                    Labor, talent, and knowledge are the foundation of well-being. Every citizen has the right to guaranteed compensation in <span class="highlight">Labor Hours (LH)</span> for any contribution useful to society: from writing code to creating works of art.
                 </div>
             </div>
             <div class="article">
-                <div class="article-num">Статья 5</div>
-                <div class="article-text">
-                    Гражданин обязан соблюдать законы РКС, уважать когнитивные права других лиц и способствовать развитию цифрового суверенитета Республики.
+                <div class="article-num" data-ru="Статья 5" data-en="Article 5">Article 5</div>
+                <div class="article-text" data-ru="Гражданин обязан соблюдать законы РКС, уважать когнитивные права других лиц и способствовать развитию цифрового суверенитета Республики." data-en="A citizen is obliged to abide by the laws of the RCS, respect the cognitive rights of others, and contribute to the development of the Republic's digital sovereignty.">
+                    A citizen is obliged to abide by the laws of the RCS, respect the cognitive rights of others, and contribute to the development of the Republic's digital sovereignty.
                 </div>
             </div>
         </div>
 
         <!-- ГЛАВА 3 -->
         <div class="chapter">
-            <div class="chapter-title">Глава 3. Экономика и Трудочас</div>
+            <div class="chapter-title" data-ru="Глава 3. Экономика и Трудочас" data-en="Chapter 3. Economy and the Labor Hour">Chapter 3. Economy and the Labor Hour</div>
             <div class="article">
-                <div class="article-num">Статья 6</div>
-                <div class="article-text">
-                    Денежной единицей РКС является <span class="highlight">Трудочас (ТЧ)</span>. Эмиссия Трудочасов производится исключительно Государственным банком РКС и строго обеспечена реальными достижениями, знаниями и трудом граждан.
+                <div class="article-num" data-ru="Статья 6" data-en="Article 6">Article 6</div>
+                <div class="article-text" data-ru="Денежной единицей РКС является <span class='highlight'>Трудочас (ТЧ)</span>. Эмиссия Трудочасов производится исключительно Государственным банком РКС и строго обеспечена реальными достижениями, знаниями и трудом граждан." data-en="The monetary unit of the RCS is the <span class='highlight'>Labor Hour (LH)</span>. The issuance of Labor Hours is carried out exclusively by the State Bank of the RCS and is strictly backed by the real achievements, knowledge, and labor of citizens.">
+                    The monetary unit of the RCS is the <span class="highlight">Labor Hour (LH)</span>. The issuance of Labor Hours is carried out exclusively by the State Bank of the RCS and is strictly backed by the real achievements, knowledge, and labor of citizens.
                 </div>
             </div>
             <div class="article">
-                <div class="article-num">Статья 7</div>
-                <div class="article-text">
-                    Инфляция в РКС исключена фундаментальным механизмом: новые деньги создаются только под подтверждённый полезный результат, а не под долговые обязательства.
+                <div class="article-num" data-ru="Статья 7" data-en="Article 7">Article 7</div>
+                <div class="article-text" data-ru="Инфляция в РКС исключена фундаментальным механизмом: новые деньги создаются только под подтверждённый полезный результат, а не под долговые обязательства." data-en="Inflation in the RCS is excluded by a fundamental mechanism: new money is created only under confirmed useful results, not under debt obligations.">
+                    Inflation in the RCS is excluded by a fundamental mechanism: new money is created only under confirmed useful results, not under debt obligations.
                 </div>
             </div>
         </div>
 
         <!-- ГЛАВА 4 -->
         <div class="chapter">
-            <div class="chapter-title">Глава 4. Государственное устройство</div>
+            <div class="chapter-title" data-ru="Глава 4. Государственное устройство" data-en="Chapter 4. State Structure">Chapter 4. State Structure</div>
             <div class="article">
-                <div class="article-num">Статья 8</div>
-                <div class="article-text">
-                    Управление ключевыми направлениями развития государства осуществляется гражданами, доказавшими свою состоятельность и компетентность через систему когнитивного рейтинга и накопленный социальный капитал.
+                <div class="article-num" data-ru="Статья 8" data-en="Article 8">Article 8</div>
+                <div class="article-text" data-ru="Управление ключевыми направлениями развития государства осуществляется гражданами, доказавшими свою состоятельность и компетентность через систему когнитивного рейтинга и накопленный социальный капитал." data-en="The management of key areas of state development is carried out by citizens who have proven their competence and capability through the cognitive rating system and accumulated social capital.">
+                    The management of key areas of state development is carried out by citizens who have proven their competence and capability through the cognitive rating system and accumulated social capital.
                 </div>
             </div>
             <div class="article">
-                <div class="article-num">Статья 9</div>
-                <div class="article-text">
-                    Высшим органом контроля за соблюдением Конституции является <span class="highlight">Совет Гильдий</span>, обеспечивающий баланс между технологическим прогрессом и этикой.
+                <div class="article-num" data-ru="Статья 9" data-en="Article 9">Article 9</div>
+                <div class="article-text" data-ru="Высшим органом контроля за соблюдением Конституции является <span class='highlight'>Совет Гильдий</span>, обеспечивающий баланс между технологическим прогрессом и этикой." data-en="The highest body for monitoring compliance with the Constitution is the <span class='highlight'>Council of Guilds</span>, ensuring a balance between technological progress and ethics.">
+                    The highest body for monitoring compliance with the Constitution is the <span class="highlight">Council of Guilds</span>, ensuring a balance between technological progress and ethics.
                 </div>
             </div>
         </div>
 
         <!-- ===== УНИВЕРСАЛЬНЫЕ КНОПКИ (РАБОТАЮТ ВСЕГДА) ===== -->
         <div class="actions">
-            <button class="btn-3d" onclick="window.print()">🖨️ Распечатать Конституцию</button>
+            <button class="btn-3d" onclick="window.print()" data-ru="🖨️ Распечатать Конституцию" data-en="🖨️ Print Constitution">🖨️ Print Constitution</button>
             
             <!-- УНИВЕРСАЛЬНАЯ КНОПКА ВОЗВРАТА (РАБОТАЕТ ВСЕГДА) -->
-            <button class="btn-3d secondary" onclick="goToMainPage()">
-                ← Вернуться к проектам
+            <button class="btn-3d secondary" onclick="goToMainPage()" data-ru="← Вернуться к проектам" data-en="← Back to Projects">
+                ← Back to Projects
             </button>
         </div>
 
@@ -411,7 +534,7 @@
             
             // Проверяем, не является ли последняя часть папкой "constitution", "passport" и т.д.
             var lastPart = pathParts[pathParts.length - 1];
-            var subfolders = ['constitution', 'passport', 'bank', 'money', 'projects'];
+            var subfolders = ['constitution', 'passport', 'bank', 'money', 'projects', 'chat'];
             
             // Если мы в одной из подпапок, поднимаемся ещё на уровень выше
             if (subfolders.includes(lastPart)) {
@@ -432,6 +555,66 @@
         // Просто переходим на ../index.html
         function goToMainPageSimple() {
             window.location.href = '../index.html';
+        }
+
+        // ===== LANGUAGE TOGGLE LOGIC - RU/EN FORMAT =====
+        let currentLang = 'en';
+        const langBtn = document.getElementById('langBtn');
+        const langTextEl = document.getElementById('langText');
+        const htmlEl = document.documentElement;
+
+        const langTranslations = {
+            en: { label: 'Переключить на русский' },
+            ru: { label: 'Switch to English' }
+        };
+
+        function updateLangDisplay() {
+            if (currentLang === 'en') {
+                langTextEl.innerHTML = '<span class="lang-active">EN</span><span class="lang-separator">/</span><span>RU</span>';
+            } else {
+                langTextEl.innerHTML = '<span>EN</span><span class="lang-separator">/</span><span class="lang-active">RU</span>';
+            }
+        }
+
+        function applyLang(lang) {
+            currentLang = lang;
+            htmlEl.setAttribute('lang', lang);
+
+            document.querySelectorAll('[data-ru][data-en]').forEach(el => {
+                if (el.children.length === 0) {
+                    el.textContent = el.getAttribute('data-' + lang);
+                } else {
+                    el.innerHTML = el.getAttribute('data-' + lang);
+                }
+            });
+
+            const titleEl = document.querySelector('title');
+            if (titleEl) {
+                titleEl.textContent = lang === 'ru' ? 'РКС — Конституция' : 'RCS — Constitution';
+            }
+
+            const next = langTranslations[lang];
+            langBtn.setAttribute('aria-label', next.label);
+
+            updateLangDisplay();
+
+            try { localStorage.setItem('rks-lang', lang); } catch (e) {}
+        }
+
+        langBtn.addEventListener('click', () => {
+            applyLang(currentLang === 'en' ? 'ru' : 'en');
+        });
+
+        // Initialize language
+        try {
+            const saved = localStorage.getItem('rks-lang');
+            if (saved === 'ru' || saved === 'en') {
+                applyLang(saved);
+            } else {
+                applyLang('en');
+            }
+        } catch (e) {
+            applyLang('en');
         }
     </script>
 
