@@ -109,15 +109,24 @@
             width: 70px; height: 70px; margin: 0 auto 15px; position: relative; display: inline-block;
         }
         .logo-frame img { width: 100%; height: 100%; object-fit: contain; filter: drop-shadow(0 0 20px rgba(201, 169, 97, 0.6)); }
+        
+        /* ===== ИСПРАВЛЕННАЯ ВРАЩАЮЩАЯСЯ РАМКА ===== */
         .rotating-border {
             position: absolute; top: -10px; left: -10px; right: -10px; bottom: -10px;
-            border: 3px solid transparent; border-radius: 50%; animation: rotateRainbow 6s linear infinite;
+            border: 3px solid transparent; 
+            border-radius: 18px; /* <-- ИСПРАВЛЕНО: был 50% (круг не видно как крутится), стал 18px (скругленный квадрат, вращение видно отлично) */
+            animation: rotateFrame 8s linear infinite, rainbowGlow 4s ease-in-out infinite;
         }
-        @keyframes rotateRainbow {
-            0% { transform: rotate(0deg); border-color: #ff0000; }
-            20% { border-color: #ffff00; } 40% { border-color: #00ff00; }
-            60% { border-color: #00ffff; } 80% { border-color: #ff00ff; }
-            100% { transform: rotate(360deg); border-color: #ff0000; }
+        @keyframes rotateFrame { 
+            0% { transform: rotate(0deg); } 
+            100% { transform: rotate(360deg); } 
+        }
+        @keyframes rainbowGlow {
+            0%, 100% { border-color: #ff0000; box-shadow: 0 0 25px rgba(255,0,0,0.6), 0 0 50px rgba(255,0,0,0.2); }
+            20% { border-color: #ffff00; box-shadow: 0 0 25px rgba(255,255,0,0.6), 0 0 50px rgba(255,255,0,0.2); }
+            40% { border-color: #00ff00; box-shadow: 0 0 25px rgba(0,255,0,0.6), 0 0 50px rgba(0,255,0,0.2); }
+            60% { border-color: #00ffff; box-shadow: 0 0 25px rgba(0,255,255,0.6), 0 0 50px rgba(0,255,255,0.2); }
+            80% { border-color: #ff00ff; box-shadow: 0 0 25px rgba(255,0,255,0.6), 0 0 50px rgba(255,0,255,0.2); }
         }
 
         /* ===== PORTRAIT ===== */
