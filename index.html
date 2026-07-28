@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -41,15 +42,15 @@
             position: absolute;
             top: -10px; left: -10px; right: -10px; bottom: -10px;
             border: 3px solid transparent;
-            border-radius: 18px; /* <-- ИСПРАВЛЕНО: был 50% (круг не видно как крутится), стал 18px (скругленный квадрат, вращение видно отлично) */
+            border-radius: 18px; /* ИСПРАВЛЕНО: был 50% (круг не видно как крутится), стал 18px */
             animation: rotateFrame 8s linear infinite, rainbowGlow 4s ease-in-out infinite;
         }
 
-        @keyframes rotateFrame {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+        @keyframes rotateFrame { 
+            0% { transform: rotate(0deg); } 
+            100% { transform: rotate(360deg); } 
         }
-
+        
         @keyframes rainbowGlow {
             0%, 100% { border-color: #ff0000; box-shadow: 0 0 25px rgba(255,0,0,0.6), 0 0 50px rgba(255,0,0,0.2); }
             20% { border-color: #ffff00; box-shadow: 0 0 25px rgba(255,255,0,0.6), 0 0 50px rgba(255,255,0,0.2); }
@@ -301,6 +302,11 @@
             <a href="passport/index.html" class="nav-item" data-ru="🪪 Паспорт" data-en="🪪 Passport">🪪 Passport</a>
             <a href="bank/index.html" class="nav-item" data-ru="🏦 Банк" data-en="🏦 Bank">🏦 Bank</a>
             <a href="money/index.html" class="nav-item" data-ru="💰 Денежные Знаки" data-en="💰 Currency">💰 Currency</a>
+            
+            <!-- ===== НОВЫЕ ПРОЕКТЫ: КАЗИНО И КАРТЫ ===== -->
+            <a href="casino/index.html" class="nav-item" data-ru="🎰 Казино" data-en="🎰 Casino">🎰 Casino</a>
+            <a href="cards/index.html" class="nav-item" data-ru="🃏 Игральные карты" data-en="🃏 Card Games">🃏 Card Games</a>
+            
             <!-- ===== ПРОЕКТ РКС — БИРЖА ===== -->
             <a href="exchange/index.html" class="nav-item" data-ru="📈 Фондовая биржа" data-en="📈 Stock Exchange">📈 Stock Exchange</a>
             <a href="#" class="nav-item" id="projectsLink" data-ru="💡 Проекты Граждан" data-en="💡 Citizens' Projects">💡 Citizens' Projects</a>
