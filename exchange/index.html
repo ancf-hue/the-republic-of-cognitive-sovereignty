@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
-    <title>РКС — Биржа Акции</title>
+    <title>РКС — Фондовая Биржа</title>
     <link rel="icon" href="favicon.ico" type="image/x-icon" />
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -110,11 +110,10 @@
         }
         .logo-frame img { width: 100%; height: 100%; object-fit: contain; filter: drop-shadow(0 0 20px rgba(201, 169, 97, 0.6)); }
         
-        /* ===== ИСПРАВЛЕННАЯ ВРАЩАЮЩАЯСЯ РАМКА ===== */
         .rotating-border {
             position: absolute; top: -10px; left: -10px; right: -10px; bottom: -10px;
             border: 3px solid transparent; 
-            border-radius: 18px; /* <-- ИСПРАВЛЕНО: был 50% (круг не видно как крутится), стал 18px (скругленный квадрат, вращение видно отлично) */
+            border-radius: 18px;
             animation: rotateFrame 8s linear infinite, rainbowGlow 4s ease-in-out infinite;
         }
         @keyframes rotateFrame { 
@@ -163,7 +162,7 @@
         }
         .balance-item { text-align: center; }
         .balance-item .label { font-size: 0.8em; color: rgba(201,169,97,0.6); letter-spacing: 2px; text-transform: uppercase; }
-        .balance-item .value { font-size: 1.8em; font-weight: bold; color: #c9a961; font-family: 'Courier New', monospace; }
+        .balance-item .value { font-size: 1.8em; font-weight: bold; color: #c9a961; font-family: 'Courier New', monospace; transition: color 0.3s; }
         .balance-item .value.positive { color: #28a745; }
         .balance-item .value.negative { color: #dc3545; }
 
@@ -218,7 +217,7 @@
         .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 25px; }
         .grid-3 { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 20px; margin-bottom: 25px; }
 
-        /* ===== TRADING GRID - УВЕЛИЧЕННЫЙ ГРАФИК ===== */
+        /* ===== TRADING GRID ===== */
         .trading-grid { 
             display: grid; 
             grid-template-columns: 2fr 1fr; 
@@ -245,9 +244,7 @@
             flex-direction: column; 
             gap: 20px;
         }
-        .trading-panel .card {
-            flex: 1;
-        }
+        .trading-panel .card { flex: 1; }
 
         /* ===== BUTTONS ===== */
         .btn-3d {
@@ -305,14 +302,13 @@
         .order-row {
             display: flex; justify-content: space-between; padding: 5px 10px;
             border-radius: 4px; margin-bottom: 4px; font-size: 0.85em;
-            font-family: 'Courier New', monospace; position: relative;
+            font-family: 'Courier New', monospace; position: relative; overflow: hidden;
         }
         .order-row .volume-bar {
-            position: absolute; top: 0; right: 0; bottom: 0; border-radius: 4px;
-            opacity: 0.15; z-index: 1;
+            position: absolute; top: 0; bottom: 0; border-radius: 4px; opacity: 0.15; z-index: 1;
         }
-        .order-side.bids .volume-bar { background: #28a745; }
-        .order-side.asks .volume-bar { background: #dc3545; }
+        .order-side.bids .volume-bar { left: 0; background: #28a745; }
+        .order-side.asks .volume-bar { right: 0; background: #dc3545; }
         .order-row .price { font-weight: bold; position: relative; z-index: 2; }
         .order-row .volume { color: rgba(201,169,97,0.7); position: relative; z-index: 2; }
 
@@ -320,9 +316,7 @@
         .chart-wrapper {
             background: rgba(0, 0, 0, 0.4); border: 2px solid rgba(201, 169, 97, 0.2);
             border-radius: 16px; padding: 20px;
-            display: flex;
-            flex-direction: column;
-            height: 100%;
+            display: flex; flex-direction: column; height: 100%;
         }
         .chart-header {
             display: flex; justify-content: space-between; align-items: center;
@@ -332,7 +326,7 @@
         .chart-title { font-size: 1.4em; letter-spacing: 3px; text-transform: uppercase; color: #c9a961; }
         .chart-subtitle { font-size: 0.9em; color: rgba(201,169,97,0.6); margin-top: 5px; }
         .chart-price-info { text-align: right; }
-        .chart-current-price { font-size: 2em; font-weight: bold; font-family: 'Courier New', monospace; color: #c9a961; }
+        .chart-current-price { font-size: 2em; font-weight: bold; font-family: 'Courier New', monospace; color: #c9a961; transition: color 0.3s; }
         .chart-change { font-size: 1.1em; margin-left: 15px; }
         .chart-change.positive { color: #28a745; }
         .chart-change.negative { color: #dc3545; }
@@ -348,17 +342,13 @@
         .period-btn.active { background: rgba(201,169,97,0.3); color: #c9a961; border-color: #c9a961; }
 
         .chart-container {
-            flex: 1;
-            min-height: 500px;
-            background: rgba(0, 0, 0, 0.3);
-            border-radius: 12px;
-            overflow: hidden;
+            flex: 1; min-height: 500px; background: rgba(0, 0, 0, 0.3);
+            border-radius: 12px; overflow: hidden; position: relative;
         }
         #candleChart { width: 100%; height: 100%; }
 
         .stats-24h {
-            display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; margin-top: 20px;
-            flex-shrink: 0;
+            display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; margin-top: 20px; flex-shrink: 0;
         }
         .stat-box {
             background: rgba(0,0,0,0.3); padding: 15px; border-radius: 10px; text-align: center;
@@ -396,6 +386,8 @@
         .portfolio-item .pnl { font-size: 0.85em; }
         .portfolio-item .pnl.positive { color: #28a745; }
         .portfolio-item .pnl.negative { color: #dc3545; }
+        .alloc-bar-container { width: 100%; height: 6px; background: rgba(0,0,0,0.5); border-radius: 3px; margin-top: 8px; overflow: hidden; }
+        .alloc-bar { height: 100%; background: linear-gradient(90deg, #c9a961, #f4e4d4); border-radius: 3px; transition: width 0.5s ease; }
 
         /* ===== ANALYTICS ===== */
         .analytics-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
@@ -408,6 +400,8 @@
         .stat-card .stat-value { font-size: 1.8em; font-weight: bold; color: #f4e4d4; font-family: 'Courier New', monospace; }
         .stat-card .stat-value.positive { color: #28a745; }
         .stat-card .stat-value.negative { color: #dc3545; }
+        #pnlChartContainer { background: rgba(0,0,0,0.3); border-radius: 10px; padding: 15px; border: 1px solid rgba(201,169,97,0.1); }
+        #pnlChart { width: 100%; height: 200px; }
 
         /* ===== ORDER TOTAL ===== */
         .order-total { background: rgba(0,0,0,0.3); border-radius: 8px; padding: 12px; margin-bottom: 15px; font-size: 0.9em; }
@@ -480,7 +474,7 @@
 </head>
 <body>
 
-    <!-- ===== LOGIN SCREEN (Скрыт по умолчанию для предотвращения мерцания) ===== -->
+    <!-- ===== LOGIN SCREEN ===== -->
     <div id="loginScreen" class="login-container" style="display: none;">
         <div class="login-box">
             <div class="logo-frame">
@@ -585,7 +579,7 @@
             <!-- TRADING TAB -->
             <div class="tab-content active" id="tab-trading">
                 <div class="trading-grid">
-                    <!-- CHART SECTION - УВЕЛИЧЕННЫЙ -->
+                    <!-- CHART SECTION -->
                     <div class="chart-section">
                         <div class="chart-wrapper">
                             <div class="chart-header">
@@ -738,7 +732,9 @@
                     </div>
                     <div class="card">
                         <h2 data-i18n="pnl_chart">📈 P&L за неделю</h2>
-                        <canvas id="pnlChart" height="200"></canvas>
+                        <div id="pnlChartContainer">
+                            <canvas id="pnlChart"></canvas>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -957,9 +953,7 @@
         }
     };
 
-    function t(key) {
-        return translations[currentLang]?.[key] || key;
-    }
+    function t(key) { return translations[currentLang]?.[key] || key; }
 
     function applyLanguage(lang) {
         currentLang = lang;
@@ -1035,7 +1029,8 @@
         balance: 1,
         portfolio: {},
         trades: [],
-        selectedStock: 'ANCF'
+        selectedStock: 'ANCF',
+        capitalHistory: [1]
     };
 
     function loadState() {
@@ -1047,6 +1042,7 @@
                 state.portfolio = parsed.portfolio || {};
                 state.trades = parsed.trades || [];
                 state.selectedStock = parsed.selectedStock || 'ANCF';
+                state.capitalHistory = parsed.capitalHistory || [1];
             }
         } catch (e) {}
     }
@@ -1057,7 +1053,8 @@
                 balance: state.balance,
                 portfolio: state.portfolio,
                 trades: state.trades,
-                selectedStock: state.selectedStock
+                selectedStock: state.selectedStock,
+                capitalHistory: state.capitalHistory
             }));
         } catch (e) {}
     }
@@ -1160,6 +1157,15 @@
             commission: commission
         });
 
+        // Update capital history for P&L chart
+        let totalPortfolio = 0;
+        Object.entries(state.portfolio).forEach(([ticker, data]) => {
+            const s = getStock(ticker);
+            if (s) totalPortfolio += s.price * data.shares;
+        });
+        state.capitalHistory.push(state.balance + totalPortfolio);
+        if (state.capitalHistory.length > 50) state.capitalHistory.shift();
+
         saveState();
         updateAll();
         showNotification(t('notif_success'), 
@@ -1201,7 +1207,7 @@
         document.getElementById('portfolioValue').textContent = totalPortfolio.toFixed(2) + ' ' + suffix;
         document.getElementById('totalCapital').textContent = (state.balance + totalPortfolio).toFixed(2) + ' ' + suffix;
         
-        const dailyPnl = state.balance - 1;
+        const dailyPnl = (state.balance + totalPortfolio) - 1;
         const pnlEl = document.getElementById('dailyPnl');
         pnlEl.textContent = `${dailyPnl >= 0 ? '+' : ''}${dailyPnl.toFixed(2)} ${suffix}`;
         pnlEl.className = `value ${dailyPnl >= 0 ? 'positive' : 'negative'}`;
@@ -1240,20 +1246,34 @@
             return;
         }
 
+        let totalValue = 0;
+        entries.forEach(([ticker, data]) => {
+            const stock = getStock(ticker);
+            if (stock) totalValue += stock.price * data.shares;
+        });
+
         container.innerHTML = entries.map(([ticker, data]) => {
             const stock = getStock(ticker);
             const price = stock?.price || 0;
             const currentValue = price * data.shares;
             const pnl = currentValue - (data.avgPrice * data.shares);
             const pnlPercent = data.avgPrice > 0 ? ((price - data.avgPrice) / data.avgPrice) * 100 : 0;
+            const allocPercent = totalValue > 0 ? (currentValue / totalValue) * 100 : 0;
 
             return `<div class="portfolio-item">
-                <div class="ticker">${ticker}</div>
-                <div class="shares">${data.shares} ${t('shares')}</div>
-                <div class="avg-price">${t('avg_price')} ${data.avgPrice.toFixed(2)}</div>
-                <div class="value">${currentValue.toFixed(2)}</div>
-                <div class="pnl ${pnl >= 0 ? 'positive' : 'negative'}">
-                    ${pnl >= 0 ? '+' : ''}${pnl.toFixed(2)} (${pnlPercent.toFixed(2)}%)
+                <div style="width:100%">
+                    <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
+                        <div class="ticker">${ticker}</div>
+                        <div class="shares">${data.shares} ${t('shares')}</div>
+                        <div class="avg-price">${t('avg_price')} ${data.avgPrice.toFixed(2)}</div>
+                        <div class="value">${currentValue.toFixed(2)}</div>
+                        <div class="pnl ${pnl >= 0 ? 'positive' : 'negative'}">
+                            ${pnl >= 0 ? '+' : ''}${pnl.toFixed(2)} (${pnlPercent.toFixed(2)}%)
+                        </div>
+                    </div>
+                    <div class="alloc-bar-container">
+                        <div class="alloc-bar" style="width: ${allocPercent}%"></div>
+                    </div>
                 </div>
             </div>`;
         }).join('');
@@ -1325,6 +1345,7 @@
         }
 
         renderChart(stock.history);
+        renderPnlChart();
     }
 
     function renderChart(data) {
@@ -1404,12 +1425,14 @@
             ctx.fillStyle = isGreen ? '#28a745' : '#dc3545';
             ctx.strokeStyle = isGreen ? '#28a745' : '#dc3545';
 
+            // Wick
             ctx.beginPath();
             ctx.moveTo(x + candleWidth / 2, yHigh);
             ctx.lineTo(x + candleWidth / 2, yLow);
             ctx.lineWidth = 1.5;
             ctx.stroke();
 
+            // Body
             const bodyHeight = Math.max(Math.abs(yClose - yOpen), 1);
             ctx.fillRect(x, Math.min(yOpen, yClose), candleWidth, bodyHeight);
         });
@@ -1417,13 +1440,60 @@
         // Current price line
         const currentPrice = filtered[filtered.length - 1].close;
         const currentY = padding.top + ((currentPrice - minPrice) / priceRange) * mainChartHeight;
-        ctx.strokeStyle = 'rgba(201,169,97,0.5)';
+        ctx.strokeStyle = 'rgba(201,169,97,0.8)';
         ctx.setLineDash([5, 5]);
+        ctx.lineWidth = 1;
         ctx.beginPath();
         ctx.moveTo(padding.left, currentY);
         ctx.lineTo(padding.left + chartWidth, currentY);
         ctx.stroke();
         ctx.setLineDash([]);
+    }
+
+    function renderPnlChart() {
+        const canvas = document.getElementById('pnlChart');
+        if (!canvas) return;
+        const ctx = canvas.getContext('2d');
+        const rect = canvas.parentElement.getBoundingClientRect();
+        canvas.width = rect.width - 30;
+        canvas.height = 200;
+
+        const width = canvas.width;
+        const height = canvas.height;
+        ctx.clearRect(0, 0, width, height);
+
+        const data = state.capitalHistory;
+        if (data.length < 2) return;
+
+        const minVal = Math.min(...data);
+        const maxVal = Math.max(...data);
+        const range = maxVal - minVal || 1;
+
+        const padding = { top: 10, right: 10, bottom: 20, left: 10 };
+        const chartWidth = width - padding.left - padding.right;
+        const chartHeight = height - padding.top - padding.bottom;
+
+        ctx.strokeStyle = '#c9a961';
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+
+        data.forEach((val, i) => {
+            const x = padding.left + (i / (data.length - 1)) * chartWidth;
+            const y = padding.top + chartHeight - ((val - minVal) / range) * chartHeight;
+            if (i === 0) ctx.moveTo(x, y);
+            else ctx.lineTo(x, y);
+        });
+        ctx.stroke();
+
+        // Fill area
+        ctx.lineTo(padding.left + chartWidth, padding.top + chartHeight);
+        ctx.lineTo(padding.left, padding.top + chartHeight);
+        ctx.closePath();
+        const gradient = ctx.createLinearGradient(0, padding.top, 0, height);
+        gradient.addColorStop(0, 'rgba(201, 169, 97, 0.2)');
+        gradient.addColorStop(1, 'rgba(201, 169, 97, 0)');
+        ctx.fillStyle = gradient;
+        ctx.fill();
     }
 
     // ============================================================
@@ -1605,6 +1675,7 @@
             state.balance = 1;
             state.portfolio = {};
             state.trades = [];
+            state.capitalHistory = [1];
             saveState();
             updateAll();
             showNotification('🔄 Сброшено', 'Все данные сброшены до начального состояния', 'success');
@@ -1643,6 +1714,13 @@
             stock.price = newPrice;
             const firstPrice = stock.history[0]?.open || stock.price;
             stock.change = ((stock.price - firstPrice) / firstPrice) * 100;
+            
+            // Flash effect for live price
+            const priceEl = document.getElementById('chartPrice');
+            if (priceEl && stock.ticker === state.selectedStock) {
+                priceEl.style.color = change >= 0 ? '#28a745' : '#dc3545';
+                setTimeout(() => { priceEl.style.color = '#c9a961'; }, 500);
+            }
         });
 
         updateAll();
@@ -1682,7 +1760,6 @@
     // 18. ИНИЦИАЛИЗАЦИЯ
     // ============================================================
     function initApp() {
-        // Setup event listeners
         document.getElementById('orderType').addEventListener('change', function() {
             document.getElementById('limitPriceGroup').style.display = this.value === 'limit' ? 'block' : 'none';
             updateOrderTotal();
@@ -1695,7 +1772,6 @@
         document.getElementById('orderQuantity').addEventListener('input', updateOrderTotal);
         document.getElementById('limitPrice').addEventListener('input', updateOrderTotal);
 
-        // Tab switching
         document.querySelectorAll('.tab-btn').forEach(btn => {
             btn.addEventListener('click', function() {
                 document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
@@ -1711,7 +1787,6 @@
             });
         });
 
-        // Chart period buttons
         document.querySelectorAll('.period-btn').forEach(btn => {
             btn.addEventListener('click', function() {
                 document.querySelectorAll('.period-btn').forEach(b => b.classList.remove('active'));
@@ -1721,23 +1796,19 @@
             });
         });
 
-        // ===== PORTRAIT IMAGE - ИСПРАВЛЕНО! =====
         const img = document.getElementById('portraitImg');
         const placeholder = document.getElementById('portraitPlaceholder');
         
-        // Если фото загрузилось — показываем его, скрываем плейсхолдер
         img.onload = function() {
             this.style.display = 'block';
             placeholder.style.display = 'none';
         };
         
-        // Если фото не загрузилось — скрываем фото, показываем плейсхолдер
         img.onerror = function() {
             this.style.display = 'none';
             placeholder.style.display = 'flex';
         };
         
-        // Проверяем, загрузилось ли фото уже (если в кеше)
         if (img.complete) {
             if (img.naturalHeight === 0) {
                 img.style.display = 'none';
@@ -1748,21 +1819,18 @@
             }
         }
 
-        // Start simulation
         setInterval(simulatePrices, 2000);
         startSessionTimer();
 
-        // Initial render
         updateAll();
 
-        // Handle resize
         let resizeTimer;
         window.addEventListener('resize', () => {
             clearTimeout(resizeTimer);
             resizeTimer = setTimeout(() => updateChart(), 250);
         });
 
-        console.log('🏦 РКС Биржа Профессиональная v4.0 Final');
+        console.log('🏦 РКС Биржа Профессиональная v5.0 Ultimate');
         console.log('💰 Баланс:', state.balance, 'ТЧ');
         console.log('📈 Акций:', STOCK_DATA.length);
         console.log('🌐 Язык:', currentLang);
@@ -1793,7 +1861,7 @@
     window.exportData = exportData;
     window.resetData = resetData;
 
-    console.log('🏦 РКС Биржа Профессиональная v4.0 Final');
+    console.log('🏦 РКС Биржа Профессиональная v5.0 Ultimate');
     console.log('✅ Полная версия загружена без мерцания!');
     </script>
 </body>
