@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -33,47 +32,25 @@
             border-radius: 24px 24px 0 0;
         }
 
-        /* ===== ОКНО ДЛЯ ФОТО 800x450 ===== */
         .photo-frame {
-            width: 800px;
-            height: 450px;
-            max-width: 100%;
-            margin: 25px auto 15px;
-            position: relative;
-            border: 3px solid #c9a961;
-            border-radius: 10px;
-            padding: 10px;
+            width: 800px; height: 450px; max-width: 100%;
+            margin: 25px auto 15px; position: relative;
+            border: 3px solid #c9a961; border-radius: 10px; padding: 10px;
             background: linear-gradient(135deg, rgba(201,169,97,0.1) 0%, rgba(0,0,0,0.6) 100%);
-            box-shadow: 
-                0 0 25px rgba(201,169,97,0.5),
-                inset 0 0 20px rgba(201,169,97,0.2),
-                0 15px 40px rgba(0,0,0,0.8);
+            box-shadow: 0 0 25px rgba(201,169,97,0.5), inset 0 0 20px rgba(201,169,97,0.2), 0 15px 40px rgba(0,0,0,0.8);
             overflow: hidden;
         }
         .photo-frame::before {
-            content: '';
-            position: absolute;
-            top: 5px; left: 5px; right: 5px; bottom: 5px;
-            border: 1px solid rgba(201,169,97,0.4);
-            border-radius: 6px;
-            pointer-events: none;
+            content: ''; position: absolute; top: 5px; left: 5px; right: 5px; bottom: 5px;
+            border: 1px solid rgba(201,169,97,0.4); border-radius: 6px; pointer-events: none;
         }
         .photo-frame img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: block;
-            border-radius: 4px;
-            filter: sepia(0.2) contrast(1.1);
+            width: 100%; height: 100%; object-fit: cover; display: block;
+            border-radius: 4px; filter: sepia(0.2) contrast(1.1);
         }
         .photo-caption {
-            text-align: center;
-            color: #c9a961;
-            font-size: 0.9em;
-            letter-spacing: 4px;
-            text-transform: uppercase;
-            margin-bottom: 25px;
-            text-shadow: 0 0 10px rgba(201,169,97,0.6);
+            text-align: center; color: #c9a961; font-size: 0.9em; letter-spacing: 4px;
+            text-transform: uppercase; margin-bottom: 25px; text-shadow: 0 0 10px rgba(201,169,97,0.6);
         }
 
         .logo-center { text-align: center; margin-bottom: 10px; }
@@ -133,12 +110,7 @@
         .info-section h3:first-of-type { margin-top: 0; }
         .info-section p { color: rgba(201,169,97,0.6); line-height: 1.7; font-size: 0.9em; margin-bottom: 10px; }
         .info-section .highlight { color: #c9a961; font-weight: bold; }
-        .info-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px 20px;
-            margin: 10px 0;
-        }
+        .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px 20px; margin: 10px 0; }
         .info-grid .item .label { font-size: 0.55em; text-transform: uppercase; color: rgba(201,169,97,0.2); letter-spacing: 3px; }
         .info-grid .item .value { font-size: 0.9em; color: #f4e4d4; padding: 3px 0; border-bottom: 1px solid rgba(201,169,97,0.04); }
         .badge-demo {
@@ -147,10 +119,7 @@
         }
 
         .form-group { margin-bottom: 14px; }
-        .form-group label {
-            display: block; font-size: 0.7em; letter-spacing: 2px; text-transform: uppercase;
-            color: rgba(201,169,97,0.3); margin-bottom: 4px;
-        }
+        .form-group label { display: block; font-size: 0.7em; letter-spacing: 2px; text-transform: uppercase; color: rgba(201,169,97,0.3); margin-bottom: 4px; }
         .form-group input {
             width: 100%; padding: 10px 14px; background: rgba(0,0,0,0.4);
             border: 2px solid rgba(201,169,97,0.1); border-radius: 8px; color: #f4e4d4;
@@ -164,11 +133,21 @@
         .video-container {
             background: rgba(0,0,0,0.5); border: 2px solid rgba(201,169,97,0.12);
             border-radius: 14px; padding: 16px; text-align: center; margin-bottom: 18px;
-            min-height: 200px; display: flex; align-items: center; justify-content: center; position: relative;
+            min-height: 200px; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden;
         }
         .video-container video { width: 100%; max-height: 350px; border-radius: 10px; background: #000; display: none; }
         .video-container .placeholder { color: rgba(201,169,97,0.1); font-size: 0.9em; letter-spacing: 3px; padding: 30px 20px; }
         .video-container .placeholder .icon { font-size: 3.5em; display: block; margin-bottom: 10px; opacity: 0.3; }
+        
+        .scan-line {
+            position: absolute; top: 0; left: 0; width: 100%; height: 3px;
+            background: linear-gradient(90deg, transparent, #c9a961, transparent);
+            box-shadow: 0 0 15px #c9a961;
+            animation: scan 2s linear infinite;
+            display: none;
+            z-index: 10;
+        }
+        @keyframes scan { 0% { top: 0; } 100% { top: 100%; } }
 
         .task-display {
             text-align: center; padding: 14px 18px; background: rgba(201,169,97,0.03);
@@ -204,16 +183,26 @@
         .status-box.loading { border-color: #ffc107; color: #ffc107; background: rgba(255,193,7,0.04); }
 
         .passport-card {
-            background: rgba(201,169,97,0.02); border: 1px solid rgba(201,169,97,0.15);
+            background: linear-gradient(145deg, rgba(201,169,97,0.05), rgba(10,10,42,0.4));
+            border: 1px solid rgba(201,169,97,0.25);
             border-radius: 16px; padding: 25px 25px 20px; position: relative;
+            overflow: hidden;
         }
+        .passport-card::before {
+            content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
+            background: linear-gradient(45deg, transparent 40%, rgba(255,255,255,0.05) 45%, rgba(255,255,255,0.1) 50%, rgba(255,255,255,0.05) 55%, transparent 60%);
+            transform: rotate(30deg); pointer-events: none; animation: hologram 6s linear infinite;
+        }
+        @keyframes hologram { 0% { transform: translateY(-100%) rotate(30deg); } 100% { transform: translateY(100%) rotate(30deg); } }
+
         .passport-card .card-top {
             display: flex; justify-content: space-between; align-items: center;
             margin-bottom: 18px; padding-bottom: 12px; border-bottom: 1px solid rgba(201,169,97,0.08);
         }
         .passport-card .card-top .title { font-size: 1.1em; letter-spacing: 5px; text-transform: uppercase; color: #c9a961; }
         .passport-card .card-top .chip {
-            width: 42px; height: 30px; background: linear-gradient(145deg, #c9a961, #8a7a4a);
+            width: 42px; height: 30px; 
+            background: linear-gradient(135deg, #c9a961 0%, #f4e4d4 50%, #8a7a4a 100%);
             border-radius: 6px; box-shadow: 0 0 20px rgba(201,169,97,0.2); position: relative;
         }
         .passport-card .card-top .chip::after {
@@ -221,9 +210,7 @@
             border: 1px solid rgba(255,255,255,0.3); border-radius: 3px;
         }
 
-        .passport-photo {
-            display: flex; gap: 18px; align-items: center; margin-bottom: 18px;
-        }
+        .passport-photo { display: flex; gap: 18px; align-items: center; margin-bottom: 18px; }
         .passport-photo .photo {
             width: 100px; height: 133px; background: rgba(0,0,0,0.5);
             border: 2px solid rgba(201,169,97,0.2); border-radius: 8px;
@@ -239,18 +226,12 @@
         .passport-photo .info .id { font-size: 0.8em; color: rgba(201,169,97,0.4); font-family: 'Courier New', monospace; letter-spacing: 3px; margin-top: 2px; }
         .passport-photo .info .status-row { margin-top: 6px; display: flex; gap: 8px; flex-wrap: wrap; }
         .status-badge {
-            display: inline-block; padding: 3px 14px; border-radius: 30px; font-size: 0.65em;
-            letter-spacing: 2px;
+            display: inline-block; padding: 3px 14px; border-radius: 30px; font-size: 0.65em; letter-spacing: 2px;
         }
         .status-badge.verified { background: rgba(40,167,69,0.2); border: 1px solid #28a745; color: #28a745; }
         .status-badge.unverified { background: rgba(220,53,69,0.15); border: 1px solid #dc3545; color: #dc3545; }
 
-        .passport-fields {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 8px 20px;
-            margin: 14px 0 18px;
-        }
+        .passport-fields { display: grid; grid-template-columns: 1fr 1fr; gap: 8px 20px; margin: 14px 0 18px; }
         .passport-fields .field .label { font-size: 0.5em; text-transform: uppercase; color: rgba(201,169,97,0.2); letter-spacing: 3px; }
         .passport-fields .field .value { font-size: 0.95em; color: #f4e4d4; padding: 3px 0; border-bottom: 1px solid rgba(201,169,97,0.04); }
 
@@ -258,17 +239,16 @@
             display: flex; align-items: center; gap: 16px; padding-top: 14px;
             border-top: 1px solid rgba(201,169,97,0.06); flex-wrap: wrap;
         }
+        /* ИЗМЕНЕНИЕ: Теперь это img, а не div */
         .qr-code {
-            width: 72px; height: 72px; background: rgba(0,0,0,0.5);
+            width: 72px; height: 72px; background: #ffffff;
             border: 1px solid rgba(201,169,97,0.15); border-radius: 6px;
-            display: grid; grid-template-columns: repeat(9, 1fr); grid-template-rows: repeat(9, 1fr);
-            gap: 1px; padding: 3px; flex-shrink: 0;
+            display: none; /* Скрыт по умолчанию, покажется JS-ом */
+            flex-shrink: 0; padding: 4px;
         }
-        .qr-code .dot { background: rgba(201,169,97,0.06); border-radius: 1px; }
-        .qr-code .dot.dark { background: #c9a961; }
         .qr-text { font-size: 0.55em; color: rgba(201,169,97,0.2); letter-spacing: 2px; }
         .qr-text .bold { color: rgba(201,169,97,0.4); font-weight: bold; }
-
+        
         .passport-actions {
             display: flex; gap: 10px; flex-wrap: wrap; margin-top: 18px;
             padding-top: 16px; border-top: 1px solid rgba(201,169,97,0.05);
@@ -322,12 +302,7 @@
         .notification p { font-size: 0.85em; }
 
         .center-text { text-align: center; margin-top: 14px; }
-        .back-home {
-            margin-top: 40px;
-            padding-top: 30px;
-            border-top: 2px solid rgba(201,169,97,0.1);
-            text-align: center;
-        }
+        .back-home { margin-top: 40px; padding-top: 30px; border-top: 2px solid rgba(201,169,97,0.1); text-align: center; }
 
         @media (max-width: 650px) {
             .container { padding: 25px 16px 20px; border-radius: 18px; }
@@ -351,124 +326,52 @@
             .photo-frame { width: 95vw; height: auto; aspect-ratio: 16 / 9; }
         }
 
-        /* ===== 3D GLASS LANGUAGE TOGGLE BUTTON - RU/EN FORMAT ===== */
-        .lang-toggle {
-            position: fixed;
-            top: 25px;
-            right: 25px;
-            z-index: 1000;
-            perspective: 800px;
+        @media print {
+            body { background: white; color: black; padding: 0; display: block; }
+            .container { box-shadow: none; border: 2px solid #000; max-width: 100%; }
+            .tabs, .btn-group, .passport-actions, .back-home, .lang-toggle, .photo-frame, .photo-caption { display: none !important; }
+            .passport-card { background: white; color: black; border: 1px solid #000; }
+            .passport-card .card-top .title { color: #000; }
+            .passport-fields .field .value { color: #000; border-bottom: 1px solid #ccc; }
+            .qr-code { background: white; border: 1px solid #000; }
         }
 
+        .lang-toggle { position: fixed; top: 25px; right: 25px; z-index: 1000; perspective: 800px; }
         .lang-btn {
-            position: relative;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            padding: 12px 24px;
-            min-width: 120px;
-            height: 52px;
-            border: none;
-            border-radius: 16px;
-            cursor: pointer;
-            font-family: 'Times New Roman', serif;
-            font-size: 1em;
-            font-weight: bold;
-            letter-spacing: 2px;
-            color: #f5e6a8;
-            text-shadow: 0 0 8px rgba(201, 169, 97, 0.9);
-
-            background: linear-gradient(135deg,
-                rgba(255, 255, 255, 0.15) 0%,
-                rgba(201, 169, 97, 0.10) 40%,
-                rgba(255, 255, 255, 0.05) 100%);
-            backdrop-filter: blur(14px) saturate(180%);
-            -webkit-backdrop-filter: blur(14px) saturate(180%);
-
-            border-top: 1px solid rgba(255, 255, 255, 0.4);
-            border-left: 1px solid rgba(255, 255, 255, 0.25);
-            border-right: 1px solid rgba(0, 0, 0, 0.35);
-            border-bottom: 1px solid rgba(0, 0, 0, 0.5);
-
-            box-shadow:
-                0 10px 25px rgba(0, 0, 0, 0.55),
-                0 0 25px rgba(201, 169, 97, 0.35),
-                inset 0 1px 0 rgba(255, 255, 255, 0.35),
-                inset 0 -2px 6px rgba(0, 0, 0, 0.25);
-
-            transform: rotateX(12deg) rotateY(-6deg) translateZ(0);
-            transform-style: preserve-3d;
+            position: relative; display: flex; align-items: center; justify-content: center; gap: 10px;
+            padding: 12px 24px; min-width: 120px; height: 52px; border: none; border-radius: 16px; cursor: pointer;
+            font-family: 'Times New Roman', serif; font-size: 1em; font-weight: bold; letter-spacing: 2px;
+            color: #f5e6a8; text-shadow: 0 0 8px rgba(201, 169, 97, 0.9);
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.15) 0%, rgba(201, 169, 97, 0.10) 40%, rgba(255, 255, 255, 0.05) 100%);
+            backdrop-filter: blur(14px) saturate(180%); -webkit-backdrop-filter: blur(14px) saturate(180%);
+            border-top: 1px solid rgba(255, 255, 255, 0.4); border-left: 1px solid rgba(255, 255, 255, 0.25);
+            border-right: 1px solid rgba(0, 0, 0, 0.35); border-bottom: 1px solid rgba(0, 0, 0, 0.5);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.55), 0 0 25px rgba(201, 169, 97, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.35), inset 0 -2px 6px rgba(0, 0, 0, 0.25);
+            transform: rotateX(12deg) rotateY(-6deg) translateZ(0); transform-style: preserve-3d;
             transition: transform 0.35s ease, box-shadow 0.35s ease, filter 0.35s ease;
-
             animation: glassGlow 3.5s ease-in-out infinite;
         }
-
         @keyframes glassGlow {
-            0%, 100% {
-                box-shadow:
-                    0 10px 25px rgba(0, 0, 0, 0.55),
-                    0 0 25px rgba(201, 169, 97, 0.35),
-                    inset 0 1px 0 rgba(255, 255, 255, 0.35),
-                    inset 0 -2px 6px rgba(0, 0, 0, 0.25);
-            }
-            50% {
-                box-shadow:
-                    0 10px 25px rgba(0, 0, 0, 0.55),
-                    0 0 45px rgba(201, 169, 97, 0.75),
-                    0 0 80px rgba(201, 169, 97, 0.25),
-                    inset 0 1px 0 rgba(255, 255, 255, 0.45),
-                    inset 0 -2px 6px rgba(0, 0, 0, 0.25);
-            }
+            0%, 100% { box-shadow: 0 10px 25px rgba(0, 0, 0, 0.55), 0 0 25px rgba(201, 169, 97, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.35), inset 0 -2px 6px rgba(0, 0, 0, 0.25); }
+            50% { box-shadow: 0 10px 25px rgba(0, 0, 0, 0.55), 0 0 45px rgba(201, 169, 97, 0.75), 0 0 80px rgba(201, 169, 97, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.45), inset 0 -2px 6px rgba(0, 0, 0, 0.25); }
         }
-
         .lang-btn::before {
-            content: '';
-            position: absolute;
-            top: 3px;
-            left: 8%;
-            right: 8%;
-            height: 35%;
-            background: linear-gradient(180deg,
-                rgba(255, 255, 255, 0.55) 0%,
-                rgba(255, 255, 255, 0) 100%);
-            border-radius: 14px 14px 50% 50%;
-            pointer-events: none;
+            content: ''; position: absolute; top: 3px; left: 8%; right: 8%; height: 35%;
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.55) 0%, rgba(255, 255, 255, 0) 100%);
+            border-radius: 14px 14px 50% 50%; pointer-events: none;
         }
-
-        .lang-btn:hover {
-            transform: rotateX(6deg) rotateY(-3deg) translateZ(10px) scale(1.05);
-            filter: brightness(1.15);
-        }
-
+        .lang-btn:hover { transform: rotateX(6deg) rotateY(-3deg) translateZ(10px) scale(1.05); filter: brightness(1.15); }
         .lang-btn:active {
             transform: rotateX(14deg) rotateY(-8deg) translateZ(-5px) scale(0.98);
-            box-shadow:
-                0 5px 15px rgba(0, 0, 0, 0.6),
-                0 0 20px rgba(201, 169, 97, 0.4),
-                inset 0 1px 0 rgba(255, 255, 255, 0.25),
-                inset 0 -2px 6px rgba(0, 0, 0, 0.35);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.6), 0 0 20px rgba(201, 169, 97, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.25), inset 0 -2px 6px rgba(0, 0, 0, 0.35);
         }
-
-        .lang-text {
-            font-weight: 900;
-            letter-spacing: 3px;
-        }
-
-        .lang-active {
-            color: #ffd700;
-            text-shadow: 0 0 12px rgba(255, 215, 0, 0.9);
-        }
-
-        .lang-separator {
-            color: rgba(201, 169, 97, 0.5);
-            font-weight: 300;
-        }
+        .lang-text { font-weight: 900; letter-spacing: 3px; }
+        .lang-active { color: #ffd700; text-shadow: 0 0 12px rgba(255, 215, 0, 0.9); }
+        .lang-separator { color: rgba(201, 169, 97, 0.5); font-weight: 300; }
     </style>
 </head>
 <body>
 
-    <!-- ===== 3D GLASS LANGUAGE TOGGLE - RU/EN ===== -->
     <div class="lang-toggle">
         <button class="lang-btn" id="langBtn" type="button" aria-label="Switch language">
             <span class="lang-text" id="langText">
@@ -498,7 +401,6 @@
             <button class="tab-btn locked" data-tab="tab-passport" id="passportTabBtn" data-ru="🪪 Паспорт 🔒" data-en="🪪 Passport 🔒">🪪 Passport 🔒</button>
         </div>
 
-        <!-- ===== ВКЛАДКА: О ПАСПОРТЕ ===== -->
         <div class="tab-content active" id="tab-info">
             <div class="info-section">
                 <h3 data-ru="🪪 Что такое паспорт РКС?" data-en="🪪 What is the RCS Passport?">🪪 What is the RCS Passport?</h3>
@@ -527,7 +429,6 @@
             </div>
         </div>
 
-        <!-- ===== ВКЛАДКА: ВЕРИФИКАЦИЯ ===== -->
         <div class="tab-content" id="tab-verify">
             <div style="margin-bottom: 18px; padding: 16px 18px; background: rgba(201,169,97,0.03); border: 1px solid rgba(201,169,97,0.06); border-radius: 12px;">
                 <div style="font-size: 0.8em; letter-spacing: 3px; color: rgba(201,169,97,0.2); margin-bottom: 12px; text-transform: uppercase; text-align: center;" data-ru="Введите ваши данные" data-en="Enter your data">Enter your data</div>
@@ -544,6 +445,7 @@
             </div>
 
             <div class="video-container">
+                <div class="scan-line" id="scanLine"></div>
                 <video id="videoPreview" controls preload="auto" playsinline></video>
                 <div id="videoPlaceholder" class="placeholder">
                     <span class="icon">🎥</span>
@@ -579,7 +481,6 @@
             </div>
         </div>
 
-        <!-- ===== ВКЛАДКА: ПАСПОРТ ===== -->
         <div class="tab-content" id="tab-passport">
             <div class="passport-card">
                 <div class="card-top">
@@ -611,11 +512,12 @@
                     <div class="field"><div class="label" data-ru="Место рождения" data-en="Place of Birth">Place of Birth</div><div class="value" data-ru="Цифровой Город РКС" data-en="Digital City of RCS">Digital City of RCS</div></div>
                     <div class="field"><div class="label" data-ru="Орган выдачи" data-en="Issuing Authority">Issuing Authority</div><div class="value" data-ru="Госбанк РКС" data-en="State Bank of RCS">State Bank of RCS</div></div>
                     <div class="field"><div class="label" data-ru="Баланс" data-en="Balance">Balance</div><div class="value" id="pBalance">0 LH</div></div>
-                    <div class="field"><div class="label" data-ru="Когнитивный рейтинг" data-en="Cognitive Rating">Cognitive Rating</div><div class="value" id="pCognitive">782 / 1000</div></div>
+                    <div class="field"><div class="label" data-ru="Когнитивный рейтинг" data-en="Cognitive Rating">Cognitive Rating</div><div class="value" id="pCognitive">— / 1000</div></div>
                 </div>
 
                 <div class="qr-section">
-                    <div class="qr-code" id="qrCode"></div>
+                    <!-- ИЗМЕНЕНИЕ: Теперь это img, а не div -->
+                    <img class="qr-code" id="qrCodeImg" alt="QR Code" />
                     <div class="qr-text">
                         <div class="bold" id="qrIdText">ID: <span data-ru="Не выдан" data-en="Not issued">Not issued</span></div>
                         <div data-ru="Паспорт действителен" data-en="Passport is valid">Passport is valid</div>
@@ -623,7 +525,7 @@
                     </div>
                     <div style="margin-left:auto; text-align:right; font-size:0.65em; color:rgba(201,169,97,0.15);">
                         <div data-ru="Когнитивный рейтинг" data-en="Cognitive Rating">Cognitive Rating</div>
-                        <div style="font-size:1.8em; color:#c9a961;" id="pCognitiveBig">782</div>
+                        <div style="font-size:1.8em; color:#c9a961;" id="pCognitiveBig">—</div>
                         <div style="font-size:0.5em;" data-ru="из 1000" data-en="out of 1000">out of 1000</div>
                     </div>
                 </div>
@@ -636,7 +538,6 @@
             </div>
         </div>
 
-        <!-- ===== КНОПКА ВОЗВРАТА ===== -->
         <div class="back-home">
             <button class="btn-3d" onclick="goToMainPage()" style="width: auto; padding: 14px 40px;" data-ru="← Вернуться к проектам" data-en="← Back to Projects">
                 ← Back to Projects
@@ -646,9 +547,6 @@
     </div>
 
     <script>
-        // ============================================================
-        // 1. ПЕРЕВОДЫ
-        // ============================================================
         const i18n = {
             en: {
                 lockedTitle: '🔒 Locked', lockedMsg: 'Please complete identity verification first',
@@ -684,20 +582,14 @@
             }
         };
 
-        // ============================================================
-        // 2. СОСТОЯНИЕ
-        // ============================================================
         let currentLang = 'en';
         let citizen = {
             id: null, fullName: 'Ivanov Ivan Ivanovich', birthDate: '15.05.1990',
             issueDate: null, expiryDate: null, balance: 0,
-            cognitiveScore: 782, verified: false, photoDataURL: null
+            cognitiveScore: null, verified: false, photoDataURL: null
         };
         let videoLoaded = false;
 
-        // ============================================================
-        // 3. ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ
-        // ============================================================
         function t(key) { return i18n[currentLang][key] || key; }
 
         function showNotification(title, message) {
@@ -738,24 +630,20 @@
             window.location.href = pathParts.join('/');
         }
 
-        // ============================================================
-        // 4. ГЕНЕРАЦИЯ ДАННЫХ ПАСПОРТА
-        // ============================================================
         function generatePassportData() {
             const now = new Date();
             const expiry = new Date();
             expiry.setFullYear(now.getFullYear() + 10);
             const fmt = (d) => d.toLocaleDateString(currentLang === 'ru' ? 'ru-RU' : 'en-US', { day: '2-digit', month: '2-digit', year: 'numeric' });
+            const cognitiveScore = Math.floor(Math.random() * (980 - 750 + 1)) + 750;
             return {
                 id: `RCS-${Math.floor(100 + Math.random() * 900)}-${now.getFullYear()}`,
                 issueDate: fmt(now),
-                expiryDate: fmt(expiry)
+                expiryDate: fmt(expiry),
+                cognitiveScore: cognitiveScore
             };
         }
 
-        // ============================================================
-        // 5. РЕНДЕРИНГ ПАСПОРТА
-        // ============================================================
         function renderPassport() {
             document.getElementById('pFullName').textContent = citizen.fullName;
             document.getElementById('pId').textContent = citizen.id || (currentLang === 'ru' ? 'Не выдан' : 'Not issued');
@@ -764,8 +652,10 @@
             document.getElementById('pIssue').textContent = citizen.issueDate || '—';
             document.getElementById('pExpiry').textContent = citizen.expiryDate || '—';
             document.getElementById('pBalance').textContent = citizen.balance.toLocaleString() + (currentLang === 'ru' ? ' ТЧ' : ' LH');
-            document.getElementById('pCognitive').textContent = citizen.cognitiveScore + ' / 1000';
-            document.getElementById('pCognitiveBig').textContent = citizen.cognitiveScore;
+            
+            const scoreText = citizen.cognitiveScore ? `${citizen.cognitiveScore} / 1000` : (currentLang === 'ru' ? '— / 1000' : '— / 1000');
+            document.getElementById('pCognitive').textContent = scoreText;
+            document.getElementById('pCognitiveBig').textContent = citizen.cognitiveScore || '—';
 
             if (citizen.photoDataURL) {
                 document.getElementById('photoPreview').src = citizen.photoDataURL;
@@ -791,30 +681,16 @@
             generateQR();
         }
 
-        // ============================================================
-        // 6. QR-КОД
-        // ============================================================
+        // ИЗМЕНЕНИЕ: Генерация QR через изображение API, чтобы избежать блокировки JS в file://
         function generateQR() {
-            const c = document.getElementById('qrCode');
-            c.innerHTML = '';
-            const p = [
-                [1,1,1,1,1,1,1,1,1],[1,0,0,0,0,0,0,0,1],[1,0,1,1,1,1,1,0,1],
-                [1,0,1,0,0,0,1,0,1],[1,0,1,0,1,0,1,0,1],[1,0,1,0,0,0,1,0,1],
-                [1,0,1,1,1,1,1,0,1],[1,0,0,0,0,0,0,0,1],[1,1,1,1,1,1,1,1,1]
-            ];
-            for (let r = 0; r < 9; r++) {
-                for (let col = 0; col < 9; col++) {
-                    const dot = document.createElement('div');
-                    dot.className = 'dot';
-                    if (p[r][col] === 1) dot.classList.add('dark');
-                    c.appendChild(dot);
-                }
-            }
+            const qrImg = document.getElementById('qrCodeImg');
+            const qrText = citizen.id ? `RCS PASSPORT\nID: ${citizen.id}\nName: ${citizen.fullName}` : "NOT ISSUED";
+            const encodedText = encodeURIComponent(qrText);
+            // Используем надежный публичный API для генерации QR-кода
+            qrImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodedText}`;
+            qrImg.style.display = 'block';
         }
 
-        // ============================================================
-        // 7. ЗАГРУЗКА ВИДЕО
-        // ============================================================
         function loadVideo(event) {
             const file = event.target.files[0];
             if (!file) return;
@@ -841,9 +717,6 @@
             showNotification(t('vidLoadedTitle'), `${t('vidLoadedMsg')} ${file.name}`);
         }
 
-        // ============================================================
-        // 8. ЗАХВАТ КАДРА
-        // ============================================================
         function captureFrameFromVideo() {
             return new Promise((resolve) => {
                 const video = document.getElementById('videoPreview');
@@ -851,25 +724,20 @@
                 const ctx = canvas.getContext('2d');
                 canvas.width = 180;
                 canvas.height = 240;
-
                 try {
-                    // Пытаемся найти хороший кадр
-                    const seekTo = Math.min(0.3, (video.duration || 1) * 0.2);
+                    const seekTo = Math.min(0.5, (video.duration || 1) * 0.3);
                     video.currentTime = seekTo;
                     setTimeout(() => {
                         ctx.drawImage(video, 0, 0, 180, 240);
-                        resolve(canvas.toDataURL('image/jpeg', 0.85));
+                        resolve(canvas.toDataURL('image/jpeg',0.85));
                     }, 300);
                 } catch (e) {
                     ctx.drawImage(video, 0, 0, 180, 240);
-                    resolve(canvas.toDataURL('image/jpeg', 0.85));
+                    resolve(canvas.toDataURL('image/jpeg',0.85));
                 }
             });
         }
 
-        // ============================================================
-        // 9. АНАЛИЗ ВИДЕО
-        // ============================================================
         async function analyzeVideo() {
             if (!videoLoaded) {
                 showNotification(t('errTitle'), currentLang === 'ru' ? 'Сначала загрузите видео' : 'Please upload a video first');
@@ -879,6 +747,8 @@
             const analyzeBtn = document.getElementById('analyzeBtn');
             analyzeBtn.disabled = true;
             analyzeBtn.textContent = currentLang === 'ru' ? '⏳ Анализ...' : '⏳ Analyzing...';
+
+            document.getElementById('scanLine').style.display = 'block';
 
             const statusBox = document.getElementById('statusBox');
             statusBox.className = 'status-box loading';
@@ -894,7 +764,7 @@
                 step.innerHTML = `<span class="check">○</span> <span class="step-text">${tasks[i-1]}</span>`;
             }
 
-            const delays = [700, 1300, 1900, 2500, 3100];
+            const delays = [800, 1500, 2200, 2900, 3600];
             let allSuccess = true;
 
             for (let i = 0; i < 5; i++) {
@@ -911,6 +781,7 @@
                 }
             }
 
+            document.getElementById('scanLine').style.display = 'none';
             await new Promise(r => setTimeout(r, 400));
 
             if (allSuccess) {
@@ -919,6 +790,7 @@
                     citizen.id = nd.id;
                     citizen.issueDate = nd.issueDate;
                     citizen.expiryDate = nd.expiryDate;
+                    citizen.cognitiveScore = nd.cognitiveScore;
                 }
 
                 citizen.photoDataURL = await captureFrameFromVideo();
@@ -958,9 +830,6 @@
             analyzeBtn.textContent = currentLang === 'ru' ? '🔍 Анализировать' : '🔍 Analyze';
         }
 
-        // ============================================================
-        // 10. РАЗБЛОКИРОВКА ПАСПОРТА
-        // ============================================================
         function unlockPassport() {
             if (!citizen.verified) {
                 showNotification(t('errTitle'), currentLang === 'ru' ? 'Сначала пройдите верификацию' : 'Please complete verification first');
@@ -973,9 +842,6 @@
             showNotification(t('unlockTitle'), t('unlockMsg'));
         }
 
-        // ============================================================
-        // 11. СБРОС ВЕРИФИКАЦИИ
-        // ============================================================
         function resetVerification() {
             const video = document.getElementById('videoPreview');
             video.pause();
@@ -990,6 +856,7 @@
             document.getElementById('statusBox').innerHTML = `<span class="big">⏳</span> ${currentLang === 'ru' ? 'Ожидание загрузки видео...' : 'Waiting for video upload...'}`;
             document.getElementById('videoInput').value = '';
             document.getElementById('gotoPassportBtn').classList.add('hidden');
+            document.getElementById('scanLine').style.display = 'none';
 
             citizen.verified = false;
             citizen.photoDataURL = null;
@@ -1001,9 +868,6 @@
             showNotification(t('resetTitle'), t('resetMsg'));
         }
 
-        // ============================================================
-        // 12. ПЕЧАТЬ
-        // ============================================================
         function printPassport() {
             if (!citizen.verified) {
                 showNotification(t('lockedTitle'), t('lockedMsg'));
@@ -1052,9 +916,6 @@
             setTimeout(() => win.print(), 500);
         }
 
-        // ============================================================
-        // 13. ЭКСПОРТ JSON
-        // ============================================================
         function exportPassport() {
             if (!citizen.verified) {
                 showNotification(t('lockedTitle'), t('lockedMsg'));
@@ -1069,9 +930,6 @@
             showNotification(t('exportTitle'), t('exportMsg'));
         }
 
-        // ============================================================
-        // 14. ЯЗЫК
-        // ============================================================
         function updateLangDisplay() {
             const langTextEl = document.getElementById('langText');
             if (currentLang === 'en') {
@@ -1122,9 +980,6 @@
             applyLang(currentLang === 'en' ? 'ru' : 'en');
         });
 
-        // ============================================================
-        // 15. ЗАПУСК
-        // ============================================================
         window.addEventListener('load', function() {
             try {
                 const savedLang = localStorage.getItem('rks-lang');
@@ -1143,10 +998,10 @@
                     const d = JSON.parse(saved);
                     citizen.fullName = d.fullName || citizen.fullName;
                     citizen.birthDate = d.birthDate || citizen.birthDate;
-                    citizen.balance = d.balance || 0;
+                    citizen.balance = d.balance !== undefined ? d.balance : 0;
                     citizen.photoDataURL = d.photoDataURL || null;
                     citizen.verified = d.verified || false;
-                    citizen.cognitiveScore = d.cognitiveScore || 782;
+                    citizen.cognitiveScore = d.cognitiveScore || null;
                     citizen.id = d.id || null;
                     citizen.issueDate = d.issueDate || null;
                     citizen.expiryDate = d.expiryDate || null;
