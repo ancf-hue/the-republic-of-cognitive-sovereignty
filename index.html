@@ -37,12 +37,11 @@
             filter: drop-shadow(0 0 20px rgba(201, 169, 97, 0.6));
         }
 
-        /* ===== ИСПРАВЛЕННАЯ ВРАЩАЮЩАЯСЯ РАМКА ===== */
         .rotating-border {
             position: absolute;
             top: -10px; left: -10px; right: -10px; bottom: -10px;
             border: 3px solid transparent;
-            border-radius: 18px; /* ИСПРАВЛЕНО: был 50% (круг не видно как крутится), стал 18px */
+            border-radius: 18px;
             animation: rotateFrame 8s linear infinite, rainbowGlow 4s ease-in-out infinite;
         }
 
@@ -136,7 +135,6 @@
             min-height: 100vh;
         }
 
-        /* ===== 3D GLASS LANGUAGE TOGGLE BUTTON - RU/EN FORMAT ===== */
         .lang-toggle {
             position: fixed;
             top: 25px;
@@ -274,7 +272,6 @@
 </head>
 <body>
 
-    <!-- ===== 3D GLASS LANGUAGE TOGGLE - RU/EN ===== -->
     <div class="lang-toggle">
         <button class="lang-btn" id="langBtn" type="button" aria-label="Switch language">
             <span class="lang-text" id="langText">
@@ -303,11 +300,12 @@
             <a href="bank/index.html" class="nav-item" data-ru="🏦 Банк" data-en="🏦 Bank">🏦 Bank</a>
             <a href="money/index.html" class="nav-item" data-ru="💰 Денежные Знаки" data-en="💰 Currency">💰 Currency</a>
             
-            <!-- ===== НОВЫЕ ПРОЕКТЫ: КАЗИНО И КАРТЫ ===== -->
+            <!-- ===== НОВЫЙ ПРОЕКТ: КРИПТОВАЛЮТА ===== -->
+            <a href="cryptocurrency/index.html" class="nav-item" data-ru="🪙 Криптовалюта" data-en="🪙 Cryptocurrency">🪙 Cryptocurrency</a>
+            
+            <!-- ===== ДРУГИЕ ПРОЕКТЫ ===== -->
             <a href="casino/index.html" class="nav-item" data-ru="🎰 Казино" data-en="🎰 Casino">🎰 Casino</a>
             <a href="cards/index.html" class="nav-item" data-ru="🃏 Игральные карты" data-en="🃏 Card Games">🃏 Card Games</a>
-            
-            <!-- ===== ПРОЕКТ РКС — БИРЖА ===== -->
             <a href="exchange/index.html" class="nav-item" data-ru="📈 Фондовая биржа" data-en="📈 Stock Exchange">📈 Stock Exchange</a>
             <a href="#" class="nav-item" id="projectsLink" data-ru="💡 Проекты Граждан" data-en="💡 Citizens' Projects">💡 Citizens' Projects</a>
         </div>
@@ -325,9 +323,6 @@
     </main>
 
     <script>
-        // ============================================================
-        // 1. ЯЗЫК
-        // ============================================================
         (function () {
             const btn = document.getElementById('langBtn');
             const langTextEl = document.getElementById('langText');
@@ -385,29 +380,14 @@
                 applyLang(currentLang === 'en' ? 'ru' : 'en');
             });
 
-            // Инициализация
-            try {
-                const saved = localStorage.getItem('rks-lang');
-                if (saved === 'ru' || saved === 'en') {
-                    applyLang(saved);
-                } else {
-                    applyLang('en');
-                }
-            } catch (e) {
-                applyLang('en');
-            }
-
-            // Обновляем доступ к проектам при загрузке страницы
             document.addEventListener('DOMContentLoaded', checkProjectsAccess);
 
-            // Обновляем при изменении localStorage (например, после верификации в паспорте)
             window.addEventListener('storage', (e) => {
                 if (e.key === 'rks_verified') {
                     checkProjectsAccess();
                 }
             });
 
-            // Также проверяем при показе страницы (если пользователь вернулся из паспорта)
             window.addEventListener('pageshow', checkProjectsAccess);
         })();
     </script>
