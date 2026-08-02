@@ -1,0 +1,966 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>РКС — Искусство</title>
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Times New Roman', serif;
+            background: linear-gradient(135deg, #0a0a0a 0%, #0a0a2a 40%, #0f0f3a 100%);
+            color: #c9a961;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 40px 20px;
+        }
+
+        .lang-toggle {
+            position: fixed;
+            top: 25px;
+            right: 25px;
+            z-index: 1000;
+            perspective: 800px;
+        }
+
+        .lang-btn {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 12px 24px;
+            min-width: 120px;
+            height: 52px;
+            border: none;
+            border-radius: 16px;
+            cursor: pointer;
+            font-family: 'Times New Roman', serif;
+            font-size: 1em;
+            font-weight: bold;
+            letter-spacing: 2px;
+            color: #f5e6a8;
+            text-shadow: 0 0 8px rgba(201, 169, 97, 0.9);
+
+            background: linear-gradient(135deg,
+                rgba(255, 255, 255, 0.15) 0%,
+                rgba(201, 169, 97, 0.10) 40%,
+                rgba(255, 255, 255, 0.05) 100%);
+            backdrop-filter: blur(14px) saturate(180%);
+            -webkit-backdrop-filter: blur(14px) saturate(180%);
+
+            border-top: 1px solid rgba(255, 255, 255, 0.4);
+            border-left: 1px solid rgba(255, 255, 255, 0.25);
+            border-right: 1px solid rgba(0, 0, 0, 0.35);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.5);
+
+            box-shadow:
+                0 10px 25px rgba(0, 0, 0, 0.55),
+                0 0 25px rgba(201, 169, 97, 0.35),
+                inset 0 1px 0 rgba(255, 255, 255, 0.35),
+                inset 0 -2px 6px rgba(0, 0, 0, 0.25);
+
+            transform: rotateX(12deg) rotateY(-6deg) translateZ(0);
+            transform-style: preserve-3d;
+            transition: transform 0.35s ease, box-shadow 0.35s ease, filter 0.35s ease;
+
+            animation: glassGlow 3.5s ease-in-out infinite;
+        }
+
+        @keyframes glassGlow {
+            0%, 100% {
+                box-shadow:
+                    0 10px 25px rgba(0, 0, 0, 0.55),
+                    0 0 25px rgba(201, 169, 97, 0.35),
+                    inset 0 1px 0 rgba(255, 255, 255, 0.35),
+                    inset 0 -2px 6px rgba(0, 0, 0, 0.25);
+            }
+            50% {
+                box-shadow:
+                    0 10px 25px rgba(0, 0, 0, 0.55),
+                    0 0 45px rgba(201, 169, 97, 0.75),
+                    0 0 80px rgba(201, 169, 97, 0.25),
+                    inset 0 1px 0 rgba(255, 255, 255, 0.45),
+                    inset 0 -2px 6px rgba(0, 0, 0, 0.25);
+            }
+        }
+
+        .lang-btn::before {
+            content: '';
+            position: absolute;
+            top: 3px;
+            left: 8%;
+            right: 8%;
+            height: 35%;
+            background: linear-gradient(180deg,
+                rgba(255, 255, 255, 0.55) 0%,
+                rgba(255, 255, 255, 0) 100%);
+            border-radius: 14px 14px 50% 50%;
+            pointer-events: none;
+        }
+
+        .lang-btn:hover {
+            transform: rotateX(6deg) rotateY(-3deg) translateZ(10px) scale(1.05);
+            filter: brightness(1.15);
+        }
+
+        .lang-btn:active {
+            transform: rotateX(14deg) rotateY(-8deg) translateZ(-5px) scale(0.98);
+            box-shadow:
+                0 5px 15px rgba(0, 0, 0, 0.6),
+                0 0 20px rgba(201, 169, 97, 0.4),
+                inset 0 1px 0 rgba(255, 255, 255, 0.25),
+                inset 0 -2px 6px rgba(0, 0, 0, 0.35);
+        }
+
+        .lang-text {
+            font-weight: 900;
+            letter-spacing: 3px;
+        }
+
+        .lang-active {
+            color: #ffd700;
+            text-shadow: 0 0 12px rgba(255, 215, 0, 0.9);
+        }
+
+        .lang-separator {
+            color: rgba(201, 169, 97, 0.5);
+            font-weight: 300;
+        }
+
+        .logo-frame {
+            width: 100px;
+            height: 100px;
+            margin: 0 auto 30px;
+            position: relative;
+        }
+
+        .logo-frame img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            filter: drop-shadow(0 0 20px rgba(201, 169, 97, 0.6));
+        }
+
+        .rotating-border {
+            position: absolute;
+            top: -10px; left: -10px; right: -10px; bottom: -10px;
+            border: 3px solid transparent;
+            border-radius: 18px;
+            animation: rotateFrame 8s linear infinite, rainbowGlow 4s ease-in-out infinite;
+        }
+
+        @keyframes rotateFrame { 
+            0% { transform: rotate(0deg); } 
+            100% { transform: rotate(360deg); } 
+        }
+        
+        @keyframes rainbowGlow {
+            0%, 100% { border-color: #ff0000; box-shadow: 0 0 25px rgba(255,0,0,0.6), 0 0 50px rgba(255,0,0,0.2); }
+            20% { border-color: #ffff00; box-shadow: 0 0 25px rgba(255,255,0,0.6), 0 0 50px rgba(255,255,0,0.2); }
+            40% { border-color: #00ff00; box-shadow: 0 0 25px rgba(0,255,0,0.6), 0 0 50px rgba(0,255,0,0.2); }
+            60% { border-color: #00ffff; box-shadow: 0 0 25px rgba(0,255,255,0.6), 0 0 50px rgba(0,255,255,0.2); }
+            80% { border-color: #ff00ff; box-shadow: 0 0 25px rgba(255,0,255,0.6), 0 0 50px rgba(255,0,255,0.2); }
+        }
+
+        .page-title {
+            font-size: 3em;
+            letter-spacing: 10px;
+            text-transform: uppercase;
+            text-shadow: 0 0 30px rgba(201, 169, 97, 0.5);
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .hero-image-frame {
+            width: 800px;
+            max-width: 95vw;
+            height: 450px;
+            border: 3px solid rgba(201, 169, 97, 0.4);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5), 0 0 40px rgba(201, 169, 97, 0.2);
+            margin-bottom: 40px;
+            background: rgba(0, 0, 0, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .hero-image-frame img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .hero-placeholder {
+            color: rgba(201, 169, 97, 0.4);
+            font-size: 1.2em;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+        }
+
+        .upload-container {
+            margin-bottom: 50px;
+            text-align: center;
+        }
+
+        .upload-btn {
+            position: relative;
+            display: inline-block;
+            padding: 18px 50px;
+            background: linear-gradient(135deg, rgba(201, 169, 97, 0.2), rgba(201, 169, 97, 0.05));
+            border: 2px solid rgba(201, 169, 97, 0.5);
+            border-radius: 14px;
+            color: #c9a961;
+            font-family: 'Times New Roman', serif;
+            font-size: 1.2em;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.4), 0 0 20px rgba(201, 169, 97, 0.2);
+        }
+
+        .upload-btn:hover {
+            background: linear-gradient(135deg, rgba(201, 169, 97, 0.3), rgba(201, 169, 97, 0.1));
+            border-color: #c9a961;
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.5), 0 0 30px rgba(201, 169, 97, 0.4);
+        }
+
+        .upload-btn:active {
+            transform: translateY(0);
+        }
+
+        .upload-btn input[type="file"] {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+            gap: 30px;
+            width: 100%;
+            max-width: 1400px;
+            margin-bottom: 50px;
+            padding: 0 20px;
+        }
+
+        .art-card {
+            background: rgba(10, 10, 30, 0.8);
+            border: 2px solid rgba(201, 169, 97, 0.3);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.5), 0 0 30px rgba(201, 169, 97, 0.1);
+            transition: all 0.4s ease;
+            animation: cardAppear 0.6s ease-out;
+            position: relative;
+        }
+
+        @keyframes cardAppear {
+            0% {
+                opacity: 0;
+                transform: translateY(40px) scale(0.95);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .art-card:hover {
+            border-color: rgba(201, 169, 97, 0.6);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.6), 0 0 40px rgba(201, 169, 97, 0.25);
+            transform: translateY(-5px);
+        }
+
+        .art-card.saved {
+            border-color: rgba(0, 200, 100, 0.6);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.6), 0 0 40px rgba(0, 200, 100, 0.3);
+        }
+
+        .art-card-image {
+            width: 100%;
+            height: 300px;
+            overflow: hidden;
+            border-bottom: 2px solid rgba(201, 169, 97, 0.2);
+            position: relative;
+        }
+
+        .art-card-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .art-card:hover .art-card-image img {
+            transform: scale(1.05);
+        }
+
+        .art-card-body {
+            padding: 20px;
+        }
+
+        .art-card-title {
+            font-size: 1.3em;
+            letter-spacing: 2px;
+            margin-bottom: 12px;
+            color: #ffd700;
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
+            min-height: 1.5em;
+        }
+
+        .art-card-description {
+            width: 100%;
+            min-height: 80px;
+            padding: 12px;
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(201, 169, 97, 0.2);
+            border-radius: 10px;
+            color: #c9a961;
+            font-family: 'Times New Roman', serif;
+            font-size: 1em;
+            line-height: 1.6;
+            resize: vertical;
+            transition: all 0.3s;
+        }
+
+        .art-card-description:focus {
+            outline: none;
+            border-color: #c9a961;
+            box-shadow: 0 0 15px rgba(201, 169, 97, 0.3);
+            background: rgba(0, 0, 0, 0.6);
+        }
+
+        .art-card-description::placeholder {
+            color: rgba(201, 169, 97, 0.4);
+        }
+
+        .art-card-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            border-top: 1px solid rgba(201, 169, 97, 0.15);
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .art-card-date {
+            font-size: 0.85em;
+            color: rgba(201, 169, 97, 0.5);
+            letter-spacing: 1px;
+        }
+
+        .card-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .save-btn {
+            padding: 8px 20px;
+            background: rgba(0, 180, 80, 0.2);
+            border: 1px solid rgba(0, 180, 80, 0.5);
+            border-radius: 8px;
+            color: #70e090;
+            font-family: 'Times New Roman', serif;
+            font-size: 0.9em;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .save-btn:hover {
+            background: rgba(0, 180, 80, 0.4);
+            border-color: rgba(0, 180, 80, 0.8);
+            color: #90f0b0;
+            box-shadow: 0 0 15px rgba(0, 180, 80, 0.4);
+            transform: translateY(-2px);
+        }
+
+        .save-btn:active {
+            transform: translateY(0);
+        }
+
+        .save-btn.saved {
+            background: rgba(0, 200, 100, 0.4);
+            border-color: rgba(0, 200, 100, 0.8);
+            color: #90f0b0;
+            box-shadow: 0 0 20px rgba(0, 200, 100, 0.5);
+        }
+
+        .delete-btn {
+            padding: 8px 20px;
+            background: rgba(180, 50, 50, 0.2);
+            border: 1px solid rgba(180, 50, 50, 0.4);
+            border-radius: 8px;
+            color: #e07070;
+            font-family: 'Times New Roman', serif;
+            font-size: 0.9em;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .delete-btn:hover {
+            background: rgba(180, 50, 50, 0.4);
+            border-color: rgba(180, 50, 50, 0.7);
+            color: #ff9090;
+            box-shadow: 0 0 15px rgba(180, 50, 50, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .delete-btn:active {
+            transform: translateY(0);
+        }
+
+        .back-btn {
+            display: inline-block;
+            padding: 16px 45px;
+            background: rgba(10, 10, 20, 0.8);
+            border: 2px solid rgba(201, 169, 97, 0.3);
+            border-radius: 14px;
+            color: #c9a961;
+            font-family: 'Times New Roman', serif;
+            font-size: 1.1em;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+            margin-bottom: 30px;
+        }
+
+        .back-btn:hover {
+            background: rgba(201, 169, 97, 0.15);
+            border-color: #c9a961;
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.5), 0 0 25px rgba(201, 169, 97, 0.3);
+        }
+
+        .empty-gallery {
+            text-align: center;
+            padding: 60px 20px;
+            color: rgba(201, 169, 97, 0.4);
+            font-size: 1.3em;
+            letter-spacing: 3px;
+        }
+
+        .empty-gallery-icon {
+            font-size: 3em;
+            margin-bottom: 15px;
+        }
+
+        .save-all-container {
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .save-all-btn {
+            padding: 16px 50px;
+            background: linear-gradient(135deg, rgba(0, 180, 80, 0.25), rgba(0, 180, 80, 0.05));
+            border: 2px solid rgba(0, 180, 80, 0.5);
+            border-radius: 14px;
+            color: #70e090;
+            font-family: 'Times New Roman', serif;
+            font-size: 1.2em;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.4), 0 0 20px rgba(0, 180, 80, 0.2);
+        }
+
+        .save-all-btn:hover {
+            background: linear-gradient(135deg, rgba(0, 180, 80, 0.35), rgba(0, 180, 80, 0.1));
+            border-color: rgba(0, 180, 80, 0.8);
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.5), 0 0 30px rgba(0, 180, 80, 0.4);
+        }
+
+        .save-all-btn:active {
+            transform: translateY(0);
+        }
+
+        .notification {
+            position: fixed;
+            top: 100px;
+            right: 25px;
+            padding: 15px 25px;
+            background: rgba(0, 180, 80, 0.9);
+            border: 2px solid rgba(0, 220, 100, 0.8);
+            border-radius: 12px;
+            color: #fff;
+            font-family: 'Times New Roman', serif;
+            font-size: 1em;
+            letter-spacing: 2px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5), 0 0 30px rgba(0, 180, 80, 0.5);
+            z-index: 2000;
+            opacity: 0;
+            transform: translateX(100px);
+            transition: all 0.4s ease;
+            pointer-events: none;
+        }
+
+        .notification.show {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .notification.error {
+            background: rgba(180, 50, 50, 0.9);
+            border-color: rgba(220, 70, 70, 0.8);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5), 0 0 30px rgba(180, 50, 50, 0.5);
+        }
+
+        @media (max-width: 768px) {
+            .page-title {
+                font-size: 1.8em;
+                letter-spacing: 5px;
+            }
+            .hero-image-frame {
+                height: 280px;
+            }
+            .gallery {
+                grid-template-columns: 1fr;
+            }
+            .art-card-image {
+                height: 220px;
+            }
+            .upload-btn, .back-btn, .save-all-btn {
+                padding: 14px 30px;
+                font-size: 1em;
+            }
+            .card-actions {
+                width: 100%;
+                justify-content: flex-end;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="lang-toggle">
+        <button class="lang-btn" id="langBtn" type="button" aria-label="Switch language">
+            <span class="lang-text" id="langText">
+                <span class="lang-active">RU</span><span class="lang-separator">/</span><span>EN</span>
+            </span>
+        </button>
+    </div>
+
+    <div class="notification" id="notification"></div>
+
+    <div class="logo-frame">
+        <div class="rotating-border"></div>
+        <img src="favicon.ico" alt="RCS Logo">
+    </div>
+
+    <h1 class="page-title" data-ru="РКС — ИСКУССТВО" data-en="RCS — ART">РКС — ИСКУССТВО</h1>
+
+    <div class="hero-image-frame">
+        <img src="rks-portrait.jpg" alt="RKS Portrait" onerror="this.style.display='none'; this.parentElement.innerHTML='<span class=\'hero-placeholder\'>rks-portrait.jpg</span>'">
+    </div>
+
+    <div class="upload-container">
+        <label class="upload-btn">
+            <span data-ru="🎨 Добавить проект искусства" data-en="🎨 Add Art Project">🎨 Добавить проект искусства</span>
+            <input type="file" id="fileInput" accept="image/*" multiple>
+        </label>
+    </div>
+
+    <div class="gallery" id="gallery">
+        <div class="empty-gallery" id="emptyGallery">
+            <div class="empty-gallery-icon">🎨</div>
+            <div data-ru="Галерея пуста. Загрузите первое произведение искусства!" data-en="Gallery is empty. Upload your first artwork!">Галерея пуста. Загрузите первое произведение искусства!</div>
+        </div>
+    </div>
+
+    <div class="save-all-container" id="saveAllContainer" style="display: none;">
+        <button class="save-all-btn" id="saveAllBtn" data-ru="💾 Сохранить все изменения" data-en="💾 Save All Changes">💾 Сохранить все изменения</button>
+    </div>
+
+    <a href="../index.html" class="back-btn" data-ru="← Вернуться к проектам" data-en="← Back to Projects">← Вернуться к проектам</a>
+
+    <script>
+        (function () {
+            const btn = document.getElementById('langBtn');
+            const langTextEl = document.getElementById('langText');
+            const htmlEl = document.documentElement;
+            const fileInput = document.getElementById('fileInput');
+            const gallery = document.getElementById('gallery');
+            const saveAllBtn = document.getElementById('saveAllBtn');
+            const saveAllContainer = document.getElementById('saveAllContainer');
+            const notification = document.getElementById('notification');
+
+            let currentLang = 'ru';
+            let artworks = [];
+            let hasUnsavedChanges = false;
+            let isProcessing = false;
+
+            // ==========================================
+            // IndexedDB вместо localStorage для изображений
+            // ==========================================
+            const DB_NAME = 'RKS_Art_DB';
+            const DB_VERSION = 1;
+            const STORE_NAME = 'artworks';
+
+            function openDB() {
+                return new Promise((resolve, reject) => {
+                    const request = indexedDB.open(DB_NAME, DB_VERSION);
+                    request.onerror = () => reject(request.error);
+                    request.onsuccess = () => resolve(request.result);
+                    request.onupgradeneeded = (event) => {
+                        const db = event.target.result;
+                        if (!db.objectStoreNames.contains(STORE_NAME)) {
+                            db.createObjectStore(STORE_NAME, { keyPath: 'id' });
+                        }
+                    };
+                });
+            }
+
+            async function saveArtworkToDB(artwork) {
+                try {
+                    const db = await openDB();
+                    return new Promise((resolve, reject) => {
+                        const transaction = db.transaction([STORE_NAME], 'readwrite');
+                        const store = transaction.objectStore(STORE_NAME);
+                        const request = store.put(artwork);
+                        request.onsuccess = () => resolve(true);
+                        request.onerror = () => reject(request.error);
+                    });
+                } catch (e) {
+                    console.error('IndexedDB save error:', e);
+                    return false;
+                }
+            }
+
+            async function getAllArtworksFromDB() {
+                try {
+                    const db = await openDB();
+                    return new Promise((resolve, reject) => {
+                        const transaction = db.transaction([STORE_NAME], 'readonly');
+                        const store = transaction.objectStore(STORE_NAME);
+                        const request = store.getAll();
+                        request.onsuccess = () => resolve(request.result || []);
+                        request.onerror = () => reject(request.error);
+                    });
+                } catch (e) {
+                    console.error('IndexedDB load error:', e);
+                    return [];
+                }
+            }
+
+            async function deleteArtworkFromDB(id) {
+                try {
+                    const db = await openDB();
+                    return new Promise((resolve, reject) => {
+                        const transaction = db.transaction([STORE_NAME], 'readwrite');
+                        const store = transaction.objectStore(STORE_NAME);
+                        const request = store.delete(id);
+                        request.onsuccess = () => resolve(true);
+                        request.onerror = () => reject(request.error);
+                    });
+                } catch (e) {
+                    console.error('IndexedDB delete error:', e);
+                    return false;
+                }
+            }
+            // ==========================================
+
+            function showNotification(message, isError = false) {
+                notification.textContent = message;
+                notification.className = 'notification' + (isError ? ' error' : '');
+                notification.classList.add('show');
+                setTimeout(() => notification.classList.remove('show'), 2500);
+            }
+
+            function updateLangDisplay() {
+                if (currentLang === 'ru') {
+                    langTextEl.innerHTML = '<span class="lang-active">RU</span><span class="lang-separator">/</span><span>EN</span>';
+                } else {
+                    langTextEl.innerHTML = '<span>RU</span><span class="lang-separator">/</span><span class="lang-active">EN</span>';
+                }
+            }
+
+            function applyLang(lang) {
+                currentLang = lang;
+                htmlEl.setAttribute('lang', lang);
+                document.querySelectorAll('[data-ru][data-en]').forEach(el => {
+                    el.textContent = el.getAttribute('data-' + lang);
+                });
+                const titleEl = document.querySelector('title');
+                if (titleEl) {
+                    titleEl.textContent = lang === 'ru' ? 'РКС — Искусство' : 'RCS — Art';
+                }
+                btn.setAttribute('aria-label', lang === 'ru' ? 'Switch to English' : 'Переключить на русский');
+                updateLangDisplay();
+                renderGallery();
+                try { localStorage.setItem('rks-lang', lang); } catch (e) {}
+            }
+
+            btn.addEventListener('click', () => {
+                applyLang(currentLang === 'ru' ? 'en' : 'ru');
+            });
+
+            function formatDate(dateStr) {
+                const date = new Date(dateStr);
+                const options = { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' };
+                return date.toLocaleDateString(currentLang === 'ru' ? 'ru-RU' : 'en-US', options);
+            }
+
+            function updateSaveAllButton() {
+                saveAllContainer.style.display = artworks.length > 0 ? 'block' : 'none';
+            }
+
+            function createArtCard(artwork, index) {
+                const card = document.createElement('div');
+                card.className = 'art-card' + (artwork.saved ? ' saved' : '');
+                card.dataset.index = index;
+
+                const titleText = artwork.title || (currentLang === 'ru' ? 'Название произведения' : 'Artwork title');
+                const descPlaceholder = currentLang === 'ru' ? 'Опишите ваше произведение искусства...' : 'Describe your artwork...';
+                const saveText = currentLang === 'ru' ? '💾 Сохранить' : '💾 Save';
+                const deleteText = currentLang === 'ru' ? '🗑 Удалить' : '🗑 Delete';
+
+                card.innerHTML = `
+                    <div class="art-card-image">
+                        <img src="${artwork.image}" alt="Artwork">
+                    </div>
+                    <div class="art-card-body">
+                        <div class="art-card-title" contenteditable="true">${titleText}</div>
+                        <textarea class="art-card-description" placeholder="${descPlaceholder}">${artwork.description || ''}</textarea>
+                    </div>
+                    <div class="art-card-footer">
+                        <span class="art-card-date">${formatDate(artwork.date)}</span>
+                        <div class="card-actions">
+                            <button class="save-btn">${saveText}</button>
+                            <button class="delete-btn">${deleteText}</button>
+                        </div>
+                    </div>
+                `;
+
+                const titleEl = card.querySelector('.art-card-title');
+                const descEl = card.querySelector('.art-card-description');
+                const saveBtn = card.querySelector('.save-btn');
+                const deleteBtn = card.querySelector('.delete-btn');
+
+                if (!artwork.title) titleEl.style.color = 'rgba(201, 169, 97, 0.4)';
+
+                titleEl.addEventListener('input', function() {
+                    this.style.color = this.textContent.trim() ? '#ffd700' : 'rgba(201, 169, 97, 0.4)';
+                    artworks[index].saved = false;
+                    card.classList.remove('saved');
+                    hasUnsavedChanges = true;
+                });
+
+                titleEl.addEventListener('focus', function() {
+                    const placeholder = currentLang === 'ru' ? 'Название произведения' : 'Artwork title';
+                    if (this.textContent === placeholder) {
+                        this.textContent = '';
+                        this.style.color = '#ffd700';
+                    }
+                });
+
+                titleEl.addEventListener('blur', function() {
+                    if (!this.textContent.trim()) {
+                        this.textContent = currentLang === 'ru' ? 'Название произведения' : 'Artwork title';
+                        this.style.color = 'rgba(201, 169, 97, 0.4)';
+                    }
+                });
+
+                descEl.addEventListener('input', function() {
+                    artworks[index].saved = false;
+                    card.classList.remove('saved');
+                    hasUnsavedChanges = true;
+                });
+
+                saveBtn.addEventListener('click', async function() {
+                    const placeholder = currentLang === 'ru' ? 'Название произведения' : 'Artwork title';
+                    const title = titleEl.textContent.trim();
+                    
+                    artworks[index].title = title === placeholder ? '' : title;
+                    artworks[index].description = descEl.value.trim();
+                    artworks[index].saved = true;
+                    artworks[index].lastSaved = new Date().toISOString();
+
+                    card.classList.add('saved');
+                    this.classList.add('saved');
+                    this.innerHTML = currentLang === 'ru' ? '✅ Сохранено' : '✅ Saved';
+
+                    setTimeout(() => {
+                        this.classList.remove('saved');
+                        this.innerHTML = currentLang === 'ru' ? '💾 Сохранить' : '💾 Save';
+                    }, 2000);
+
+                    if (await saveArtworkToDB(artworks[index])) {
+                        showNotification(currentLang === 'ru' ? '✅ Произведение сохранено!' : '✅ Artwork saved!');
+                    } else {
+                        showNotification(currentLang === 'ru' ? '❌ Ошибка сохранения!' : '❌ Save error!', true);
+                    }
+                    hasUnsavedChanges = false;
+                });
+
+                deleteBtn.addEventListener('click', async function() {
+                    if (confirm(currentLang === 'ru' ? 'Удалить это произведение?' : 'Delete this artwork?')) {
+                        const id = artworks[index].id;
+                        if (await deleteArtworkFromDB(id)) {
+                            artworks.splice(index, 1);
+                            renderGallery();
+                            showNotification(currentLang === 'ru' ? '🗑 Произведение удалено' : '🗑 Artwork deleted');
+                        } else {
+                            showNotification(currentLang === 'ru' ? '❌ Ошибка удаления!' : '❌ Delete error!', true);
+                        }
+                    }
+                });
+
+                return card;
+            }
+
+            async function renderGallery() {
+                gallery.innerHTML = '';
+                if (artworks.length === 0) {
+                    const empty = document.createElement('div');
+                    empty.className = 'empty-gallery';
+                    empty.innerHTML = `
+                        <div class="empty-gallery-icon">🎨</div>
+                        <div>${currentLang === 'ru' ? 'Галерея пуста. Загрузите первое произведение искусства!' : 'Gallery is empty. Upload your first artwork!'}</div>
+                    `;
+                    gallery.appendChild(empty);
+                } else {
+                    artworks.forEach((artwork, index) => {
+                        gallery.appendChild(createArtCard(artwork, index));
+                    });
+                }
+                updateSaveAllButton();
+            }
+
+            saveAllBtn.addEventListener('click', async function() {
+                let savedCount = 0;
+                for (let i = 0; i < artworks.length; i++) {
+                    const card = gallery.querySelector(`[data-index="${i}"]`);
+                    if (card) {
+                        const titleEl = card.querySelector('.art-card-title');
+                        const descEl = card.querySelector('.art-card-description');
+                        const placeholder = currentLang === 'ru' ? 'Название произведения' : 'Artwork title';
+                        
+                        artworks[i].title = titleEl.textContent.trim() === placeholder ? '' : titleEl.textContent.trim();
+                        artworks[i].description = descEl.value.trim();
+                        artworks[i].saved = true;
+                        artworks[i].lastSaved = new Date().toISOString();
+                        
+                        await saveArtworkToDB(artworks[i]);
+                        savedCount++;
+                    }
+                }
+                renderGallery();
+                showNotification(currentLang === 'ru' ? `✅ Сохранено произведений: ${savedCount}` : `✅ Artworks saved: ${savedCount}`);
+                hasUnsavedChanges = false;
+            });
+
+            fileInput.addEventListener('change', function(e) {
+                if (isProcessing) return;
+                const files = Array.from(e.target.files);
+                if (files.length === 0) return;
+
+                isProcessing = true;
+                let processedCount = 0;
+                let loadedCount = 0;
+
+                files.forEach(file => {
+                    if (file && file.type.startsWith('image/')) {
+                        processedCount++;
+                        const reader = new FileReader();
+                        reader.onload = async function(event) {
+                            const newArtwork = {
+                                id: Date.now() + Math.random(),
+                                image: event.target.result,
+                                title: '',
+                                description: '',
+                                date: new Date().toISOString(),
+                                saved: false
+                            };
+                            artworks.unshift(newArtwork);
+                            loadedCount++;
+                            
+                            if (loadedCount === processedCount) {
+                                // Сохраняем все новые элементы в IndexedDB
+                                let success = true;
+                                for (let i = 0; i < artworks.length; i++) {
+                                    if (!artworks[i].saved) {
+                                        const ok = await saveArtworkToDB(artworks[i]);
+                                        if (!ok) success = false;
+                                    }
+                                }
+                                
+                                if (success) {
+                                    renderGallery();
+                                    showNotification(currentLang === 'ru' ? `🎨 Загружено файлов: ${loadedCount}` : `🎨 Files loaded: ${loadedCount}`);
+                                } else {
+                                    showNotification(currentLang === 'ru' ? '❌ Ошибка сохранения!' : '❌ Save error!', true);
+                                }
+                                isProcessing = false;
+                                fileInput.value = '';
+                            }
+                        };
+                        reader.onerror = function() {
+                            loadedCount++;
+                            if (loadedCount === processedCount) {
+                                showNotification(currentLang === 'ru' ? '⚠️ Некоторые файлы не загружены' : '⚠️ Some files failed to load', true);
+                                isProcessing = false;
+                                fileInput.value = '';
+                            }
+                        };
+                        reader.readAsDataURL(file);
+                    }
+                });
+
+                if (processedCount === 0) {
+                    isProcessing = false;
+                    fileInput.value = '';
+                }
+            });
+
+            window.addEventListener('beforeunload', function(e) {
+                if (hasUnsavedChanges) {
+                    e.preventDefault();
+                    e.returnValue = '';
+                }
+            });
+
+            // Инициализация
+            (async function init() {
+                try {
+                    const savedLang = localStorage.getItem('rks-lang');
+                    if (savedLang && (savedLang === 'ru' || savedLang === 'en')) {
+                        currentLang = savedLang;
+                    }
+                } catch (e) {}
+                
+                applyLang(currentLang);
+                artworks = await getAllArtworksFromDB();
+                renderGallery();
+            })();
+        })();
+    </script>
+
+</body>
+</html>
