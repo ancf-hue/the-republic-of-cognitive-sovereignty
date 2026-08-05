@@ -272,7 +272,7 @@
                 <button class="btn btn-success" id="miningBtn" onclick="startMining()" data-i18n="btn_mine">Майнить</button>
                 <button class="btn btn-danger" onclick="stopMining()" data-i18n="btn_stop">Стоп</button>
             </div>
-            <div id="miningStatus" class="output-box" data-i18n="mining_ready">Готов к майнингу</div>
+            <div id="miningStatus" class="output-box success" data-state="ready" data-i18n="mining_ready">Готов к майнингу</div>
         </div>
 
         <div class="section">
@@ -282,7 +282,7 @@
                 <div class="node-item"><span class="status online"></span> <span data-i18n="node_2">Узел #2 (подключен)</span></div>
             </div>
             <button class="btn btn-secondary btn-sm" onclick="simulateP2P()" data-i18n="btn_sync">Синхронизировать сеть</button>
-            <div id="networkStatus" class="output-box info" data-i18n="net_active">Сеть активна. Узлов: 2</div>
+            <div id="networkStatus" class="output-box info" data-state="active" data-i18n="net_active">Сеть активна. Узлов: 2</div>
         </div>
     </div>
 
@@ -348,7 +348,6 @@ const i18n = {
         storage_local: "Данные хранятся локально",
         sec_blockchain: "⛓️ Блокчейн",
         btn_back: "← Вернуться к проектам",
-        // Динамические
         mempool_count: "📋 {count} транзакций:",
         mining_search: "⛏️ Поиск... Nonce: {nonce} | Попыток: {attempts}",
         block_found: "✅ Блок #{index} найден!<br>Nonce: {nonce} | Попыток: {attempts} | Время: {time}с<br>Награда майнеру: {reward} токенов",
@@ -363,7 +362,15 @@ const i18n = {
         err_load: "❌ Ошибка загрузки: {err}",
         chain_info: "Блоков: {blocks} | Транзакций: {tx} | Мемпул: {mempool} | Сложность: {diff}",
         block_valid: "✔ Консенсус подтвержден",
-        block_invalid: "✖ Нарушение целостности"
+        block_invalid: "✖ Нарушение целостности",
+        mining_active: "⛏️ Майнинг...",
+        mining_stopped: "⏹️ Майнинг остановлен",
+        insufficient_funds: "Недостаточно средств! Баланс: {balance}",
+        fill_fields: "Заполните все поля",
+        valid_amount: "Введите корректную сумму",
+        confirm_clear: "Удалить все сохраненные данные?",
+        difficulty_adjusted: "⚙️ Сложность скорректирована: {old} → {new}",
+        searching_nonce: "⛏️ Поиск nonce..."
     },
     en: {
         title_main: "RCS — Cryptocurrency",
@@ -396,7 +403,15 @@ const i18n = {
         err_load: "❌ Load error: {err}",
         chain_info: "Blocks: {blocks} | Transactions: {tx} | Mempool: {mempool} | Difficulty: {diff}",
         block_valid: "✔ Consensus confirmed",
-        block_invalid: "✖ Integrity violation"
+        block_invalid: "✖ Integrity violation",
+        mining_active: "⛏️ Mining...",
+        mining_stopped: "⏹️ Mining stopped",
+        insufficient_funds: "Insufficient funds! Balance: {balance}",
+        fill_fields: "Fill all fields",
+        valid_amount: "Enter valid amount",
+        confirm_clear: "Delete all saved data?",
+        difficulty_adjusted: "⚙️ Difficulty adjusted: {old} → {new}",
+        searching_nonce: "⛏️ Searching nonce..."
     }
 };
 
@@ -435,15 +450,15 @@ function updateLanguage() {
     
     updateMempoolDisplay();
     updateStats();
-    renderRegistry(); // Перерисовка блокчейна для перевода статусов
+    renderRegistry();
     
     const miningStatus = document.getElementById('miningStatus');
-    if (miningStatus.textContent.includes('Готов') || miningStatus.textContent.includes('ready')) {
+    if (miningStatus.dataset.state === 'ready') {
         miningStatus.textContent = t('mining_ready');
     }
     
     const netStatus = document.getElementById('networkStatus');
-    if (netStatus.textContent.includes('активна') || netStatus.textContent.includes('active')) {
+    if (netStatus.dataset.state === 'active') {
         const nodes = document.querySelectorAll('.node-item').length;
         const blocks = blockchain.length;
         netStatus.textContent = t('sync_done', { nodes, blocks });
@@ -512,11 +527,20 @@ var mempool = [];
 var blockchain = [];
 var miningActive = false;
 var miningTimeout = null;
-var totalSupply = 1000;
 var blockReward = 50;
 
 function createGenesisBlock() {
-    return { index: 0, timestamp: Date.now(), data: "Genesis Block", prevHash: "0".repeat(64), nonce: 0, difficulty: 2, hash: sha256("0".repeat(64) + "Genesis Block" + 0), transactions: [] };
+    return { 
+        index: 0, 
+        timestamp: Date.now(), 
+        data: "Genesis Block", 
+        prevHash: "0".repeat(64), 
+        nonce: 0, 
+        difficulty: 0, 
+        hash: sha256("0".repeat(64) + "Genesis Block" + 0), 
+        transactions: [],
+        reward: 0
+    };
 }
 
 if (localStorage.getItem('blockchain_data')) { loadFromStorage(); } 
@@ -530,11 +554,11 @@ function addTransaction() {
     var to = document.getElementById('txTo').value.trim();
     var amount = parseFloat(document.getElementById('txAmount').value);
     var fee = parseFloat(document.getElementById('txFee').value) || 0;
-    if (!from || !to) { alert(currentLang === 'ru' ? 'Заполните все поля' : 'Fill all fields'); return; }
-    if (isNaN(amount) || amount <= 0) { alert(currentLang === 'ru' ? 'Введите корректную сумму' : 'Enter valid amount'); return; }
+    if (!from || !to) { alert(t('fill_fields')); return; }
+    if (isNaN(amount) || amount <= 0) { alert(t('valid_amount')); return; }
     var balance = getBalance(from);
     if (balance < amount + fee) {
-        alert((currentLang === 'ru' ? 'Недостаточно средств! Баланс: ' : 'Insufficient funds! Balance: ') + balance.toFixed(4));
+        alert(t('insufficient_funds', {balance: balance.toFixed(4)}));
         return;
     }
     mempool.push({ from, to, amount, fee, timestamp: Date.now(), id: sha256(from + to + amount + fee + Date.now()).substring(0, 16) });
@@ -544,13 +568,16 @@ function addTransaction() {
 }
 
 function getBalance(address) {
-    var balance = (address === '0xSystemNode') ? totalSupply : 0;
+    var balance = (address === '0xSystemNode') ? 1000 : 0;
     blockchain.forEach(function(block) {
         if (block.transactions) {
             block.transactions.forEach(function(tx) {
-                if (tx.from === address) balance -= tx.amount + tx.fee;
+                if (tx.from === address) balance -= tx.amount + (tx.fee || 0);
                 if (tx.to === address) balance += tx.amount;
             });
+        }
+        if (address === '0xMiner' && block.reward && block.index > 0) {
+            balance += block.reward;
         }
     });
     return balance;
@@ -585,17 +612,21 @@ function startMining() {
     if (mempool.length === 0) {
         document.getElementById('miningStatus').textContent = t('no_tx_mining');
         document.getElementById('miningStatus').className = 'output-box danger';
+        document.getElementById('miningStatus').dataset.state = 'error';
         return;
     }
     miningActive = true;
-    document.getElementById('miningBtn').textContent = currentLang === 'ru' ? '⛏️ Майнинг...' : '⛏️ Mining...';
+    var btn = document.getElementById('miningBtn');
+    btn.setAttribute('data-i18n', 'mining_active');
+    btn.textContent = t('mining_active');
     var prevHash = blockchain[blockchain.length - 1].hash;
     var data = document.getElementById('merkleRoot').value;
     var difficulty = parseInt(document.getElementById('networkDifficulty').value);
     var target = '0'.repeat(difficulty);
     var nonce = 0, attempts = 0, startTime = Date.now();
-    document.getElementById('miningStatus').textContent = currentLang === 'ru' ? '⛏️ Поиск nonce...' : '⛏️ Searching nonce...';
+    document.getElementById('miningStatus').textContent = t('searching_nonce');
     document.getElementById('miningStatus').className = 'output-box';
+    document.getElementById('miningStatus').dataset.state = 'mining';
     
     function mineStep() {
         if (!miningActive) return;
@@ -605,14 +636,25 @@ function startMining() {
             if (hash.startsWith(target)) {
                 var elapsed = ((Date.now() - startTime) / 1000).toFixed(2);
                 var totalFees = 0; mempool.forEach(function(tx) { totalFees += tx.fee; });
-                var newBlock = { index: blockchain.length, timestamp: Date.now(), data: data, prevHash: prevHash, nonce: nonce, difficulty: difficulty, hash: hash, transactions: mempool.slice(), reward: blockReward + totalFees };
-                mempool.push({ from: '0xSystemNode', to: '0xMiner', amount: blockReward, fee: 0, timestamp: Date.now(), id: sha256('reward' + Date.now()).substring(0, 16) });
+                var newBlock = { 
+                    index: blockchain.length, 
+                    timestamp: Date.now(), 
+                    data: data, 
+                    prevHash: prevHash, 
+                    nonce: nonce, 
+                    difficulty: difficulty, 
+                    hash: hash, 
+                    transactions: mempool.slice(), 
+                    reward: blockReward + totalFees 
+                };
                 blockchain.push(newBlock);
                 mempool = [];
                 document.getElementById('miningStatus').innerHTML = t('block_found', {index: newBlock.index, nonce: nonce, attempts: attempts, time: elapsed, reward: (blockReward + totalFees).toFixed(2)});
                 document.getElementById('miningStatus').className = 'output-box success';
+                document.getElementById('miningStatus').dataset.state = 'success';
                 miningActive = false;
-                document.getElementById('miningBtn').textContent = t('btn_mine');
+                btn.setAttribute('data-i18n', 'btn_mine');
+                btn.textContent = t('btn_mine');
                 if (blockchain.length % 10 === 0) adjustDifficulty();
                 updateMempoolDisplay(); updateMerkleRoot(); renderRegistry(); calculateBalances(); updateStats(); saveToStorage();
                 return;
@@ -628,9 +670,12 @@ function startMining() {
 function stopMining() {
     miningActive = false;
     if (miningTimeout) { clearTimeout(miningTimeout); miningTimeout = null; }
-    document.getElementById('miningBtn').textContent = t('btn_mine');
-    document.getElementById('miningStatus').textContent = currentLang === 'ru' ? '⏹️ Майнинг остановлен' : '⏹️ Mining stopped';
+    var btn = document.getElementById('miningBtn');
+    btn.setAttribute('data-i18n', 'btn_mine');
+    btn.textContent = t('btn_mine');
+    document.getElementById('miningStatus').textContent = t('mining_stopped');
     document.getElementById('miningStatus').className = 'output-box danger';
+    document.getElementById('miningStatus').dataset.state = 'stopped';
 }
 
 function adjustDifficulty() {
@@ -642,8 +687,9 @@ function adjustDifficulty() {
         if (avgTime < 2) newDifficulty = Math.min(difficulty + 1, 4);
         else if (avgTime > 8) newDifficulty = Math.max(difficulty - 1, 1);
         if (newDifficulty !== difficulty) {
+            var oldDifficulty = difficulty;
             document.getElementById('networkDifficulty').value = newDifficulty;
-            document.getElementById('miningStatus').innerHTML += '<br>' + (currentLang === 'ru' ? '⚙️ Сложность скорректирована: ' : '⚙️ Difficulty adjusted: ') + difficulty + ' → ' + newDifficulty;
+            document.getElementById('miningStatus').innerHTML += '<br>' + t('difficulty_adjusted', {old: oldDifficulty, new: newDifficulty});
         }
     }
 }
@@ -652,6 +698,7 @@ function simulateP2P() {
     var status = document.getElementById('networkStatus');
     status.textContent = t('sync_net');
     status.className = 'output-box info';
+    status.dataset.state = 'syncing';
     setTimeout(function() {
         var nodes = document.querySelectorAll('.node-item');
         nodes.forEach(function(node, i) {
@@ -659,12 +706,13 @@ function simulateP2P() {
         });
         status.innerHTML = t('sync_done', {nodes: nodes.length, blocks: blockchain.length});
         status.className = 'output-box success';
+        status.dataset.state = 'active';
     }, 1500);
 }
 
 function saveToStorage() {
     try {
-        localStorage.setItem('blockchain_data', JSON.stringify({ blockchain, mempool, totalSupply, timestamp: Date.now() }));
+        localStorage.setItem('blockchain_data', JSON.stringify({ blockchain, mempool, timestamp: Date.now() }));
         document.getElementById('storageStatus').textContent = t('saved_ok', {time: new Date().toLocaleTimeString()});
         document.getElementById('storageStatus').className = 'output-box success';
     } catch (e) {
@@ -682,7 +730,7 @@ function loadFromStorage() {
             return false;
         }
         var data = JSON.parse(raw);
-        blockchain = data.blockchain; mempool = data.mempool || []; totalSupply = data.totalSupply || 1000;
+        blockchain = data.blockchain; mempool = data.mempool || [];
         document.getElementById('storageStatus').textContent = t('load_ok', {blocks: blockchain.length, tx: mempool.length});
         document.getElementById('storageStatus').className = 'output-box success';
         renderRegistry(); calculateBalances(); updateMempoolDisplay(); updateMerkleRoot(); updateStats();
@@ -695,7 +743,7 @@ function loadFromStorage() {
 }
 
 function clearStorage() {
-    if (confirm(currentLang === 'ru' ? 'Удалить все сохраненные данные?' : 'Delete all saved data?')) {
+    if (confirm(t('confirm_clear'))) {
         localStorage.removeItem('blockchain_data');
         document.getElementById('storageStatus').textContent = t('cleared');
         document.getElementById('storageStatus').className = 'output-box info';
@@ -708,7 +756,9 @@ function renderRegistry() {
     container.innerHTML = '';
     blockchain.forEach(function(block, idx) {
         var calculatedHash = sha256(block.prevHash + block.data + block.nonce);
-        var isValid = (block.hash === calculatedHash) && (idx === 0 || block.prevHash === blockchain[idx - 1].hash) && block.hash.startsWith('0'.repeat(block.difficulty));
+        var isValid = (block.hash === calculatedHash) && 
+                      (idx === 0 || block.prevHash === blockchain[idx - 1].hash) && 
+                      (block.difficulty === 0 || block.hash.startsWith('0'.repeat(block.difficulty)));
         var unit = document.createElement('div');
         unit.className = 'block-unit ' + (isValid ? 'valid' : 'invalid');
         var txCount = block.transactions ? block.transactions.length : 0;
@@ -725,6 +775,8 @@ function renderRegistry() {
 
 function calculateBalances() {
     var balances = {};
+    balances['0xSystemNode'] = 1000;
+    
     blockchain.forEach(function(block) {
         if (block.transactions) {
             block.transactions.forEach(function(tx) {
@@ -734,9 +786,12 @@ function calculateBalances() {
                 balances[tx.to] += tx.amount;
             });
         }
+        if (block.reward && block.index > 0) {
+            if (!balances['0xMiner']) balances['0xMiner'] = 0;
+            balances['0xMiner'] += block.reward;
+        }
     });
-    if (!balances['0xSystemNode']) balances['0xSystemNode'] = 0;
-    balances['0xSystemNode'] += totalSupply;
+    
     var sorted = Object.keys(balances).sort(function(a, b) { return balances[b] - balances[a]; });
     var container = document.getElementById('balancesView');
     if (sorted.length === 0) { container.innerHTML = '<div class="balance-item">' + t('no_data') + '</div>'; return; }
@@ -755,7 +810,15 @@ function updateStats() {
     document.getElementById('statBlocks').textContent = blockchain.length;
     document.getElementById('statTx').textContent = totalTx;
     document.getElementById('statDifficulty').textContent = document.getElementById('networkDifficulty').value;
-    document.getElementById('statBalance').textContent = totalSupply.toFixed(0);
+    
+    var totalEmission = 1000;
+    blockchain.forEach(function(block) {
+        if (block.reward && block.index > 0) {
+            totalEmission += block.reward;
+        }
+    });
+    document.getElementById('statBalance').textContent = totalEmission.toFixed(0);
+    
     document.getElementById('chainStats').innerHTML = t('chain_info', {blocks: blockchain.length, tx: totalTx, mempool: mempool.length, diff: document.getElementById('networkDifficulty').value});
 }
 
@@ -768,6 +831,7 @@ document.addEventListener('DOMContentLoaded', function() {
     updateLanguage();
     document.getElementById('miningStatus').textContent = t('mining_ready');
     document.getElementById('miningStatus').className = 'output-box success';
+    document.getElementById('miningStatus').dataset.state = 'ready';
 });
 </script>
 </body>
